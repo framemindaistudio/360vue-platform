@@ -26,10 +26,10 @@ export const site = {
   website: (process.env.NEXT_PUBLIC_WEBSITE_URL || process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "production" ? PROD_URL : DEV_URL)).replace(/\/+$/, ""),
   location: process.env.NEXT_PUBLIC_LOCATION || "",
   contact: {
-    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "",
-    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "",
+    email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "framemindaistudio@gmail.com",
+    phone: process.env.NEXT_PUBLIC_CONTACT_PHONE || "+91 78993 04889",
     /** digits only, with country code, e.g. 919800000000 */
-    whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP || "").replace(/\D/g, ""),
+    whatsapp: (process.env.NEXT_PUBLIC_WHATSAPP || "917899304889").replace(/\D/g, ""),
   },
   socials: {
     instagram: process.env.NEXT_PUBLIC_INSTAGRAM || "",
