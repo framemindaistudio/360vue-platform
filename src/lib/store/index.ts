@@ -86,12 +86,14 @@ export function safePath(p: string): string {
 }
 
 /**
- * 360VUE shares founders with other companies (360VUE, JOVE) but never their data. A GITHUB_REPO that names another
+ * 360VUE shares founders with other companies (FrameMind, JOVE) but never their data. A GITHUB_REPO that names another
  * company's data repository is refused
  * outright (HQ stays read-only and reads nothing from it), so a copied environment variable cannot mix the two.
  */
 export function pointsAtOtherCompany(repo = process.env.GITHUB_REPO || "") {
-  return /jove|framemind/i.test(repo);
+  // only the repository's own name counts: 360VUE's repos live under the framemindaistudio account
+  const name = repo.split("/").pop() ?? "";
+  return /jove|framemind/i.test(name);
 }
 
 export function storeMode(): StoreMode {

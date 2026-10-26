@@ -16,7 +16,7 @@ export interface StoreInfo {
   writable: boolean;
   /** true when GITHUB_REPO points at a public repository — HQ then refuses to save. */
   publicRepo?: boolean;
-  /** true when GITHUB_REPO names JOVE's data repository — 360VUE HQ then reads and writes nothing. */
+  /** true when GITHUB_REPO names FrameMind's or JOVE's data repository — 360VUE HQ then reads and writes nothing. */
   otherCompany?: boolean;
   /** true for accounts that may look and print but never save (writable is then false too). */
   viewOnly?: boolean;

@@ -182,7 +182,7 @@ function ShellInner({ children }: { children: React.ReactNode }) {
 
         {store.otherCompany ? (
           <div className="no-print border-b border-bad/40 bg-bad/10 px-6 py-2.5 text-xs text-bad">
-            <strong>HQ is locked: GITHUB_REPO names another company&apos;s data repository.</strong> 360VUE never shares data with 360VUE or JOVE, so this HQ reads and saves nothing there. Point GITHUB_REPO at 360VUE&apos;s own private data repository, then redeploy.
+            <strong>HQ is locked: GITHUB_REPO names another company&apos;s data repository.</strong> 360VUE never shares data with FrameMind or JOVE, so this HQ reads and saves nothing there. Point GITHUB_REPO at 360VUE&apos;s own private data repository, then redeploy.
           </div>
         ) : store.publicRepo ? (
           <div className="no-print border-b border-bad/40 bg-bad/10 px-6 py-2.5 text-xs text-bad">
