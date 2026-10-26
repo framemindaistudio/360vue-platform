@@ -11,7 +11,7 @@
  *
  * Options
  *   --email you@example.com     public contact email shown on the website
- *   --site  https://…           HQ address (where it is deployed) [https://360vue.website]
+ *   --site  https://…           HQ address (where it is deployed) [https://www.360vue.website]
  *   --repo  owner/name          private data repository    [framemindaistudio/360vue-hq-data]
  *   --local                     also add the logins to .env.local, so they work on this computer
  *   --force                     replace existing .env.vercel / .env.hq-logins (this changes the passwords)
@@ -39,7 +39,7 @@ const FOUNDERS = [
   { username: "chinmay", name: "Chinmay R M", role: "founder" },
 ];
 const DEFAULT_REPO = "framemindaistudio/360vue-hq-data";
-const DEFAULT_SITE = "https://360vue.website";
+const DEFAULT_SITE = "https://www.360vue.website";
 
 function stop(message) {
   console.error(`\n${message}\n`);
@@ -82,7 +82,7 @@ const clean = {
     return value === "" || /^[^\s@#$]+@[^\s@#$]+\.[^\s@#$]+$/.test(value) ? value : null;
   },
 };
-const HINT = { site: "a web address such as https://360vue.website", repo: "owner/name, for example framemindaistudio/360vue-hq-data", email: "an email address" };
+const HINT = { site: "a web address such as https://www.360vue.website", repo: "owner/name, for example framemindaistudio/360vue-hq-data", email: "an email address" };
 
 function fromFlag(name, fallback) {
   if (args[name] === undefined) return fallback;

@@ -37,7 +37,7 @@ export default function HomePage() {
 
         <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-4 pb-10 pt-28 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
-            <Eyebrow className="reveal">360° Virtual Tours · Photography · Immersive</Eyebrow>
+            <Eyebrow className="reveal">360° Tours · Photography · Immersive</Eyebrow>
             <h1 className="reveal reveal-d1 mt-6 text-[2.75rem] font-bold leading-[1] tracking-[-0.03em] text-cream sm:text-7xl lg:text-[5.25rem]">
               <span className="text-gold-grad">Real Spaces.</span>
               <br />

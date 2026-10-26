@@ -38,7 +38,7 @@ const LOGINS = file(".env.hq-logins");
 
 const ROLES = ["founder", "admin", "ops", "studio", "media", "viewer"];
 const EDITORS = ["founder", "admin"];
-const SITE = "https://360vue.website";
+const SITE = "https://www.360vue.website";
 
 function stop(message) {
   console.error(`\n${message}\n`);

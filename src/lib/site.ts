@@ -5,7 +5,7 @@
  * and papers sent to sign point here). Contact details come from env vars (NEXT_PUBLIC_CONTACT_EMAIL and friends) so
  * they can change without a code change. Anything left empty is simply not shown: nothing here is guessed.
  */
-const PROD_URL = "https://360vue.website";
+const PROD_URL = "https://www.360vue.website";
 const DEV_URL = "http://localhost:3012";
 
 export const site = {
