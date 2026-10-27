@@ -29,7 +29,6 @@ export interface CompanySettings {
   nextPoNumber: number;
   orderPrefix: string;
   nextOrderNumber: number;
-  certificatePrefix: string;
   financialYear: string;
   signatoryName: string;
   signatoryTitle: string;
@@ -75,7 +74,6 @@ export const defaultSettings: CompanySettings = {
   // order numbers (spare series)
   orderPrefix: "VUE-OR-",
   nextOrderNumber: 1,
-  certificatePrefix: "VUE-26-",
   financialYear: "2026-27",
   signatoryName: "Hrishikesh Kulkarni",
   signatoryTitle: "Founder",

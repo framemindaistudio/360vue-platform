@@ -1,8 +1,7 @@
 /**
- * Small pure helpers shared by the Print Studio, certificates, media and reputation modules.
+ * Small pure helpers shared by the Print Studio, media and reputation modules.
  * No React, no Date-in-render — everything here is safe to call anywhere.
  */
-import { site } from "@/lib/site";
 
 export type Q = Record<string, string>;
 export type SearchParams = Record<string, string | string[] | undefined>;
@@ -129,16 +128,6 @@ export function parseNameLines(text: string | undefined, defaultGrade = ""): Nam
 
 /* ───────────────────────── URLs ───────────────────────── */
 
-/**
- * Base URL certificates point their QR code to. Uses the configured site URL; if that is still the
- * localhost default, falls back to the origin HQ is currently served from. Client-only.
- */
-export function verifyBase() {
-  const configured = site.url.replace(/\/+$/, "");
-  if (typeof window === "undefined") return configured;
-  const local = /^(https?:\/\/)?(localhost|127\.0\.0\.1|\[::1\])(:|\/|$)/i.test(configured);
-  return local ? window.location.origin : configured;
-}
 
 export const initialsOf = (name: string) =>
   name

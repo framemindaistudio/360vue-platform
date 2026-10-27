@@ -1,18 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { Award, ExternalLink, Printer, Search } from "lucide-react";
+import { Printer, Search } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Checkbox, Field, Input, Select, Textarea } from "@/components/ui/form";
 import { Modal } from "@/components/ui/Overlay";
 import { Tabs } from "@/components/ui/Tabs";
-import { CornerMarks } from "@/components/brand/Blueprint";
-import { useCollection, useHq, useRates } from "@/components/hq/data";
+import { useRates } from "@/components/hq/data";
 import { PageHeader } from "@/components/hq/ui";
 import { csv, qs } from "./util";
 import { PrintPreview } from "./PrintPreviews";
+import { usePrintPeople } from "./hooks";
 
 /* ───────────────────────────── generator registry ───────────────────────────── */
 
@@ -63,7 +63,7 @@ const GENERATORS: Gen[] = [
     route: "/hq/print/badges/id-cards",
     sheet: "5 people per A4 · front + back",
     fields: [
-      { k: "ids", label: "Team members", t: "team", help: "Leave everyone unticked to print all active team members." },
+      { k: "ids", label: "Team members", t: "team", help: "Leave everyone unticked to print the founders and every active team member." },
       { k: "valid", label: "Valid until (optional)", t: "text", ph: "e.g. 31 Mar 2027" },
     ],
   },
@@ -75,7 +75,7 @@ const GENERATORS: Gen[] = [
     route: "/hq/print/stationery/visiting-cards",
     sheet: "10 per A4 · per person",
     fields: [
-      { k: "ids", label: "People", t: "team", help: "Leave everyone unticked to print all active team members." },
+      { k: "ids", label: "People", t: "team", help: "Leave everyone unticked to print the founders and every active team member." },
       { k: "back", label: "Sheets", t: "select", options: [["1", "Front and back sheets"], ["0", "Front only"]] },
     ],
     defaults: { back: "1" },
@@ -101,8 +101,7 @@ const GROUPS: { value: Group; label: string; blurb: string }[] = [
 /* ───────────────────────────── modal form ───────────────────────────── */
 
 function TeamPicker({ value, onChange }: { value: string; onChange: (v: string) => void }) {
-  const { records, loading, error } = useCollection("team");
-  const people = records.filter((r) => r.status !== "inactive");
+  const { people, loading, error } = usePrintPeople();
   const picked = new Set(csv(value));
   const toggle = (id: string) => {
     const next = new Set(picked);
@@ -112,7 +111,7 @@ function TeamPicker({ value, onChange }: { value: string; onChange: (v: string) 
   };
   if (loading) return <p className="text-sm text-blueprint">Loading team…</p>;
   if (error) return <p className="text-sm text-bad">Could not load the team list: {error}</p>;
-  if (!people.length) return <p className="text-sm text-blueprint">No team members yet. Add people in HQ → Team &amp; Payroll.</p>;
+  if (!people.length) return <p className="text-sm text-blueprint">No one to list yet. Add people in HQ → Team &amp; Payroll.</p>;
   return (
     <div>
       <div className="mb-2 flex gap-3 text-xs font-medium">
@@ -219,7 +218,6 @@ function GeneratorForm({ gen, values, set }: { gen: Gen; values: Values; set: (k
 /* ───────────────────────────── studio ───────────────────────────── */
 
 export function PrintStudio() {
-  const { store } = useHq();
   const [group, setGroup] = useState<"all" | Group>("all");
   const [search, setSearch] = useState("");
   const [openId, setOpenId] = useState<string | null>(null);
@@ -232,7 +230,6 @@ export function PrintStudio() {
 
   const needle = search.trim().toLowerCase();
   const visible = GENERATORS.filter((g) => (group === "all" || g.group === group) && (!needle || `${g.title} ${g.blurb}`.toLowerCase().includes(needle)));
-  const showCert = group === "all" && (!needle || "certificates certificate qr verify".includes(needle));
 
   function card(g: Gen) {
     return (
@@ -267,7 +264,7 @@ export function PrintStudio() {
         icon="Printer"
         eyebrow="Print Studio"
         title="Printables"
-        description="Everything 360VUE prints, in one place: the rate card for client meetings, team IDs, visiting cards, letterhead and certificates. Pick a template, fill in a few details, and print or save as PDF. All sheets are laid out in millimetres, so they come out as they preview."
+        description="Everything 360VUE prints, in one place: the rate card for client meetings, team IDs, visiting cards and letterhead. Pick a template, fill in a few details, and print or save as PDF. All sheets are laid out in millimetres, so they come out as they preview."
         actions={
           <Button href="/hq/settings" variant="secondary" size="sm">
             Company details &amp; letterhead data
@@ -280,7 +277,7 @@ export function PrintStudio() {
           className="2xl:border-0"
           value={group}
           onChange={setGroup}
-          tabs={[{ value: "all", label: "All printables", count: GENERATORS.length + 1 }, ...GROUPS.map((g) => ({ value: g.value, label: g.label, count: GENERATORS.filter((x) => x.group === g.value).length }))]}
+          tabs={[{ value: "all", label: "All printables", count: GENERATORS.length }, ...GROUPS.map((g) => ({ value: g.value, label: g.label, count: GENERATORS.filter((x) => x.group === g.value).length }))]}
         />
         <div className="relative w-full sm:w-72">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-blueprint" aria-hidden />
@@ -295,45 +292,17 @@ export function PrintStudio() {
       </div>
 
       <ul className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-        {showCert && (
-          <li className="sm:col-span-2 xl:col-span-3">
-            <article className="relative grid gap-0 overflow-hidden rounded-[var(--radius-md)] border border-graphite bg-graphite text-paper shadow-[var(--shadow-lift)] md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-              <div className="bp-grid-dark pointer-events-none absolute inset-0 opacity-70" aria-hidden />
-              <CornerMarks className="text-paper/40" />
-              <div className="relative flex flex-col justify-center gap-4 p-6 sm:p-8">
-                <span className="annot flex items-center gap-2 text-paper/60">
-                  <Award className="size-4" aria-hidden /> Certificates · A4 landscape
-                </span>
-                <h2 className="text-2xl font-bold leading-tight tracking-[-0.03em]">Bulk certificates with QR verification</h2>
-                <p className="max-w-md text-sm leading-relaxed text-paper/75">Paste names, generate unique IDs and print one premium certificate per page. Every QR code opens a public page that confirms the certificate is genuine, or shows it as revoked.</p>
-                <div className="flex flex-wrap gap-2">
-                  <Button href="/hq/certificates" variant="light">
-                    <Award className="size-4" /> {store.writable ? "Issue certificates" : "Open certificates"}
-                  </Button>
-                  <Button href="/hq/print/certificates?sample=1" external variant="outline-light">
-                    <ExternalLink className="size-4" /> Preview design
-                  </Button>
-                </div>
-              </div>
-              <div className="relative hidden min-h-48 items-center justify-center bg-paper/[0.04] p-6 md:flex">
-                <div className="aspect-[160/112] w-full max-w-md text-paper">
-                  <PrintPreview id="certificate" />
-                </div>
-              </div>
-            </article>
-          </li>
-        )}
         {visible.map(card)}
       </ul>
 
-      {!visible.length && !showCert && (
+      {!visible.length && (
         <p className="mt-10 text-center text-sm text-blueprint">
           Nothing matches “{search}”. <button className="underline underline-offset-2" onClick={() => { setSearch(""); setGroup("all"); }}>Clear search</button>
         </p>
       )}
 
       <p className="mt-8 text-xs text-blueprint">
-        Tip: in the print dialog set <strong>Margins: None</strong> and tick <strong>Background graphics</strong>. Brochures are A3: choose <strong>Save as PDF</strong> and take the file to a print shop, or pick an A3 printer and print on both sides (flip on short edge). Looking for invoices, proposals or packing slips? Those open from their own modules.{" "}
+        Tip: in the print dialog set <strong>Margins: None</strong> and tick <strong>Background graphics</strong>. Looking for invoices or quotes? Those open from their own modules.{" "}
         <Link href="/hq/docs" className="underline underline-offset-2">
           Document templates live in the Operations Library
         </Link>

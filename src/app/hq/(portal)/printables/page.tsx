@@ -4,7 +4,7 @@ import { PrintStudio } from "@/components/hq/printables/PrintStudio";
 
 export const metadata: Metadata = { title: "Printables" };
 
-/** /hq/printables — Print Studio hub: certificates, consent & feedback forms, badges, stationery. */
+/** /hq/printables — Print Studio hub: rate card, ID cards, visiting cards, letterhead. */
 export default async function PrintablesPage() {
   await requireUser();
   return <PrintStudio />;

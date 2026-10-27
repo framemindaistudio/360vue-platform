@@ -284,7 +284,7 @@ export function FilesApp() {
             <div>
               <p className="annot mb-1.5 text-blueprint">Keep in the vault</p>
               <ul className="space-y-1 text-charcoal">
-                {["Receipts & bills (scanned or photographed)", "Signed agreements & releases", "Letters from and to clients", "Small photos & certificate scans", "Anything under 4 MB that the team may need later"].map((t) => (
+                {["Receipts & bills (scanned or photographed)", "Signed agreements & releases", "Letters from and to clients", "Small photos & scans", "Anything under 4 MB that the team may need later"].map((t) => (
                   <li key={t} className="flex gap-2">
                     <span className="mt-2 size-1.5 shrink-0 bg-graphite" aria-hidden />
                     {t}

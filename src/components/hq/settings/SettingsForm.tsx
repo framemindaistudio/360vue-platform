@@ -27,7 +27,6 @@ function validate(s: CompanySettings): Errors {
   need("proposalPrefix", "Proposal prefix");
   need("poPrefix", "Purchase order prefix");
   need("orderPrefix", "Order number prefix");
-  need("certificatePrefix", "Certificate prefix");
 
   if (s.pincode && !/^\d{6}$/.test(s.pincode)) e.pincode = "6 digits";
   if (s.stateCode && !/^\d{2}$/.test(s.stateCode)) e.stateCode = "2 digits, e.g. 29";
@@ -255,12 +254,7 @@ export function SettingsForm({ children }: { children?: React.ReactNode }) {
               </div>
             ))}
             <div className="grid gap-x-5 gap-y-3 border-t border-dashed border-graphite/15 pt-5 sm:grid-cols-[1fr_1fr_1fr] sm:items-start">
-              {text("certificatePrefix", "Certificates · prefix", { mono: true, help: "A random 5-character code is added to each certificate." })}
               {text("financialYear", "Financial year", { mono: true, placeholder: "2026-27" })}
-              <div className="sm:pt-7">
-                <p className="annot text-[10px] text-blueprint">Example certificate code</p>
-                <p className="mt-1 break-all font-mono text-sm font-semibold text-graphite">{value.certificatePrefix}7K2MX</p>
-              </div>
             </div>
           </div>
         </SettingsSection>

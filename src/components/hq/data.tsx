@@ -224,13 +224,9 @@ export function useSettings() {
   return { settings, loading, save };
 }
 
-/** Reserve the next document number (invoice / proposal / po / order) or certificate codes. */
+/** Reserve the next document number (invoice / proposal / po / order). */
 export async function nextNumber(kind: "invoice" | "proposal" | "po" | "order"): Promise<string> {
   const j = await api<{ value: string }>("/api/hq/sequence", { method: "POST", body: JSON.stringify({ kind }) });
   settingsCache = null;
   return j.value;
-}
-export async function certificateCodes(count: number): Promise<string[]> {
-  const j = await api<{ values: string[] }>("/api/hq/sequence", { method: "POST", body: JSON.stringify({ kind: "certificate", count }) });
-  return j.values;
 }

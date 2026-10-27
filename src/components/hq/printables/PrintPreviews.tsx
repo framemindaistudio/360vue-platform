@@ -107,22 +107,6 @@ const previews: Record<string, () => React.ReactNode> = {
       <path d="M52 98h26M92 98h16" strokeWidth="0.8" opacity="0.6" />
     </Frame>
   ),
-  certificate: () => (
-    <Frame label="Certificate sketch: framed landscape certificate with seal and QR">
-      <rect x="10" y="14" width="140" height="84" fill="var(--color-paper-50, #fbf9f4)" strokeWidth="1.6" />
-      <rect x="15" y="19" width="130" height="74" strokeWidth="0.6" />
-      <rect x="12.5" y="16.5" width="135" height="79" fill="url(#pv-hatch)" stroke="none" opacity="0.5" />
-      <rect x="15" y="19" width="130" height="74" fill="var(--color-paper-50, #fbf9f4)" strokeWidth="0.6" />
-      <path d="M62 27h36" strokeWidth="2" />
-      <path d="M46 38h68" strokeWidth="1.6" />
-      <path d="M58 52h44" strokeWidth="2.4" />
-      <path d="M44 56h72" strokeWidth="0.8" />
-      <Lines x={52} y={63} w={56} n={2} gap={3.5} />
-      <path d="M26 83h30M104 83h30" />
-      <rect x="71" y="72" width="18" height="18" fill="url(#pv-hatch)" />
-      <rect x="71" y="72" width="18" height="18" />
-    </Frame>
-  ),
 };
 
 export function PrintPreview({ id }: { id: string }) {

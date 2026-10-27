@@ -3,12 +3,13 @@
 import { useMemo } from "react";
 import { PrintShell } from "@/components/print/PrintShell";
 import { CornerMarks } from "@/components/brand/Blueprint";
-import { useCollection, useSettings } from "@/components/hq/data";
+import { useSettings } from "@/components/hq/data";
 import { EmptyState, Loading } from "@/components/hq/ui";
 import type { BaseRecord } from "@/lib/hq/collections";
 import { site } from "@/lib/site";
 import { Mark, Sheet, Tile, Wordmark } from "../PrintBits";
 import { csv, str, type Q } from "../util";
+import { usePrintPeople } from "../hooks";
 
 interface Contact {
   name: string;
@@ -46,7 +47,7 @@ function Front({ c }: { c: Contact }) {
             ))}
         </dl>
       </div>
-      <p className="absolute inset-x-[8mm] bottom-[3mm] text-[4.8pt] uppercase tracking-[0.22em] text-blueprint">Journey of Visionation &amp; Excellence</p>
+      <p className="absolute inset-x-[8mm] bottom-[3mm] text-[4.8pt] uppercase tracking-[0.22em] text-blueprint">See every angle.</p>
     </Tile>
   );
 }
@@ -60,20 +61,20 @@ function Back() {
         <Wordmark white mm={44} />
         <p className="mt-[3mm] text-[5.6pt] font-semibold uppercase tracking-[0.3em] text-paper/80">{site.pillars.join(" · ")}</p>
       </div>
-      <p className="absolute inset-x-[8mm] bottom-[3.2mm] text-center text-[4.8pt] uppercase tracking-[0.22em] text-paper/55">Websites · Brands · Software · Automations · Photo &amp; Video</p>
+      <p className="absolute inset-x-[8mm] bottom-[3.2mm] text-center text-[4.8pt] uppercase tracking-[0.22em] text-paper/55">Virtual Tours · Photography · Video · Google Maps</p>
     </Tile>
   );
 }
 
 export function VisitingCards({ q }: { q: Q }) {
-  const { records, loading, error } = useCollection("team");
+  const { people: everyone, loading, error } = usePrintPeople();
   const { settings } = useSettings();
 
   const people = useMemo(() => {
     const ids = csv(q.ids);
-    const pick: BaseRecord[] = ids.length ? ids.map((id) => records.find((r) => r.id === id)).filter((r): r is BaseRecord => !!r) : records.filter((r) => r.status !== "inactive");
+    const pick: BaseRecord[] = ids.length ? ids.map((id) => everyone.find((r) => r.id === id)).filter((r): r is BaseRecord => !!r) : everyone;
     return pick;
-  }, [records, q.ids]);
+  }, [everyone, q.ids]);
 
   const site0 = settings.website || (/localhost|127\.0\.0\.1/.test(site.url) ? "" : site.url);
   const contacts: Contact[] = people.map((m) => ({
@@ -92,7 +93,7 @@ export function VisitingCards({ q }: { q: Q }) {
       ) : error ? (
         <p className="no-print rounded border border-bad/30 bg-bad/10 px-3 py-2 text-sm text-bad">{error}</p>
       ) : !contacts.length ? (
-        <EmptyState icon="Users" title="No one selected" description="Choose team members in Print Studio. Add people in HQ → Team & Payroll." />
+        <EmptyState icon="Users" title="No one selected" description="Choose people in Print Studio. The founders are always listed; add others in HQ → Team & Payroll." />
       ) : (
         contacts.flatMap((c, i) => [
           <Sheet key={`f${i}`} className="flex items-center justify-center">

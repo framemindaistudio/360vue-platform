@@ -146,7 +146,7 @@ export async function upsertRecord<T extends BaseRecord = BaseRecord>(name: stri
   return saved as unknown as T;
 }
 
-/** Insert/update many records in a single commit (bulk import, certificate batches). */
+/** Insert/update many records in a single commit (bulk import). */
 export async function upsertMany<T extends BaseRecord = BaseRecord>(name: string, inputs: Record<string, unknown>[], author: string) {
   const def = getCollection(name);
   if (!def) throw new Error(`Unknown collection ${name}`);
@@ -243,10 +243,3 @@ export async function nextSequence(kind: "invoice" | "proposal" | "po" | "order"
   throw new StoreConflictError();
 }
 
-/** Readable, unambiguous certificate code: FM-26-7KQ2M */
-export function certificateCode(prefix = "FM-26-") {
-  const alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
-  let s = "";
-  for (let i = 0; i < 5; i++) s += alphabet[Math.floor(Math.random() * alphabet.length)];
-  return prefix + s;
-}

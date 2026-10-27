@@ -2,10 +2,11 @@
 
 import { Fragment, useMemo } from "react";
 import { PrintShell } from "@/components/print/PrintShell";
-import { useCollection, useSettings } from "@/components/hq/data";
+import { useSettings } from "@/components/hq/data";
 import { EmptyState, Loading } from "@/components/hq/ui";
 import { Mark, Sheet, Tile, Wordmark } from "../PrintBits";
 import { chunk, csv, initialsOf, str, type Q } from "../util";
+import { usePrintPeople } from "../hooks";
 import type { BaseRecord } from "@/lib/hq/collections";
 import { site } from "@/lib/site";
 import { memberPhotoHref } from "@/components/hq/team/MemberPhoto";
@@ -14,13 +15,14 @@ import { memberPhotoHref } from "@/components/hq/team/MemberPhoto";
 function cardNo(id: string) {
   let h = 7;
   for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 10000;
-  return `FM-${String(h).padStart(4, "0")}`;
+  return `VUE-${String(h).padStart(4, "0")}`;
 }
 
 function badgeLabel(m: BaseRecord) {
+  if (/co-?founder/i.test(str(m.role))) return "Co-Founder";
   if (/founder/i.test(str(m.role))) return "Founder";
-  if (/intern/i.test(str(m.role)) || str(m.type) === "Intern") return "Studio Intern";
-  return str(m.type) === "Freelance" ? "Studio Freelancer" : "Studio Team";
+  if (/intern/i.test(str(m.role)) || str(m.type) === "Intern") return "Intern";
+  return str(m.type) === "Freelance" ? "Freelancer" : "Team";
 }
 
 function Front({ m, valid }: { m: BaseRecord; valid: string }) {
@@ -40,7 +42,7 @@ function Front({ m, valid }: { m: BaseRecord; valid: string }) {
         <img src={memberPhotoHref(m)} alt={`Photo of ${name}`} className="absolute left-[4mm] top-[12.6mm] border border-graphite/60 object-cover" style={{ width: "21mm", height: "26.5mm" }} />
       ) : (
         <div className="hatch-light absolute left-[4mm] top-[12.6mm] grid place-items-center border border-graphite/60 bg-paper" style={{ width: "21mm", height: "26.5mm" }}>
-          <span className="text-[18pt] font-bold tracking-[-0.03em] text-graphite/80">{initialsOf(name) || "FM"}</span>
+          <span className="text-[18pt] font-bold tracking-[-0.03em] text-graphite/80">{initialsOf(name) || "360"}</span>
           <span className="absolute inset-x-0 bottom-[0.8mm] text-center text-[4.6pt] uppercase tracking-[0.22em] text-blueprint">photo</span>
         </div>
       )}
@@ -61,7 +63,7 @@ function Front({ m, valid }: { m: BaseRecord; valid: string }) {
       </div>
 
       <div className="absolute inset-x-[4mm] bottom-[1.6mm] flex items-center justify-between border-t border-graphite/25 pt-[0.9mm] text-[4.6pt] uppercase tracking-[0.2em] text-blueprint">
-        <span>Design · Software · Media · AI</span>
+        <span>Virtual Tours · Photography · Video</span>
       </div>
     </Tile>
   );
@@ -88,7 +90,7 @@ function Back({ m, phone, email }: { m: BaseRecord; phone: string; email: string
           {[phone, email].filter(Boolean).join(" · ") || site.location}
         </p>
 
-        <p className="mt-[3.4mm] text-[5.8pt] leading-snug text-charcoal">Please show this card on arrival at a client site or shoot location. This card remains the property of 360VUE.</p>
+        <p className="mt-[3.4mm] text-[5.8pt] leading-snug text-charcoal">Please show this card on arrival at a client site or capture location. This card remains the property of 360VUE.</p>
       </div>
       <div className="absolute inset-x-[5mm] bottom-[1.8mm] flex items-center justify-between text-[4.8pt] uppercase tracking-[0.2em] text-blueprint">
         <span>{site.location}</span>
@@ -99,14 +101,14 @@ function Back({ m, phone, email }: { m: BaseRecord; phone: string; email: string
 }
 
 export function IdCards({ q }: { q: Q }) {
-  const { records, loading, error } = useCollection("team");
+  const { people, loading, error } = usePrintPeople();
   const { settings } = useSettings();
 
   const members = useMemo(() => {
     const ids = csv(q.ids);
-    if (ids.length) return ids.map((id) => records.find((r) => r.id === id)).filter((r): r is BaseRecord => !!r);
-    return records.filter((r) => r.status !== "inactive");
-  }, [records, q.ids]);
+    if (ids.length) return ids.map((id) => people.find((r) => r.id === id)).filter((r): r is BaseRecord => !!r);
+    return people;
+  }, [people, q.ids]);
 
   const sheets = chunk(members, 5);
   const phone = settings.phone || site.contact.phone;
@@ -119,7 +121,7 @@ export function IdCards({ q }: { q: Q }) {
       ) : error ? (
         <p className="no-print rounded border border-bad/30 bg-bad/10 px-3 py-2 text-sm text-bad">{error}</p>
       ) : !members.length ? (
-        <EmptyState icon="Users" title="No team members to print" description="Add people in HQ → Team & Payroll, then choose them in Print Studio." />
+        <EmptyState icon="Users" title="No team members to print" description="The founders are always listed; add others in HQ → Team & Payroll, then choose them in Print Studio." />
       ) : (
         sheets.map((group, i) => (
           <Sheet key={i} className="flex flex-col items-center justify-center gap-[2mm]">
