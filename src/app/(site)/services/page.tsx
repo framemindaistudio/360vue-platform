@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Check } from "lucide-react";
 import { Packages } from "@/components/site/Packages";
+import { ParentCompany } from "@/components/site/ParentCompany";
+import { site } from "@/lib/site";
 import { CtaBand, PageHero, SectionHead } from "@/components/site/bits";
 import { DIVISIONS } from "@/lib/site-content";
 import { publicRateCard } from "@/lib/public-rates";
@@ -38,6 +40,15 @@ export default async function ServicesPage() {
                   </li>
                 ))}
               </ul>
+              {d.id === "visuals" && (
+                <p className="reveal mt-6 rounded-2xl border border-sunset/25 bg-sunset/5 px-5 py-4 text-sm leading-relaxed text-cream/70">
+                  Photography, videography and social media are delivered in-house by our parent company,{" "}
+                  <a href={site.parent.url} target="_blank" rel="noreferrer" className="font-semibold text-sunset hover:underline">
+                    {site.parent.name}
+                  </a>
+                  .
+                </p>
+              )}
             </div>
           </div>
         </section>
@@ -91,6 +102,7 @@ export default async function ServicesPage() {
         </div>
       </section>
 
+      <ParentCompany />
       <CtaBand />
     </>
   );

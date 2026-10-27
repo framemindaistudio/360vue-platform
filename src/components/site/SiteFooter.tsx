@@ -66,7 +66,13 @@ export function SiteFooter() {
       </div>
       <div className="relative border-t border-cream/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-6 text-xs text-cream/40 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>© {new Date().getFullYear()} 360VUE · See Every Angle.</p>
+          <p>
+            © {new Date().getFullYear()} 360VUE · A{" "}
+            <a href={site.parent.url} target="_blank" rel="noreferrer" className="text-cream/60 hover:text-sunset">
+              {site.parent.name}
+            </a>{" "}
+            company
+          </p>
           <p>Photographs and demo tours on this site show illustrative spaces, not client work.</p>
         </div>
       </div>

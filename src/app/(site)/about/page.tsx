@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CtaBand, PageHero, SectionHead } from "@/components/site/bits";
 import { ReelCard } from "@/components/site/ReelCard";
+import { ParentCompany } from "@/components/site/ParentCompany";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -17,8 +18,19 @@ const VALUES = [
 ];
 
 export default function AboutPage() {
+  const ld = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "360VUE",
+    alternateName: "Three-Sixty View",
+    url: site.url,
+    slogan: "See Every Angle.",
+    founder: site.founders.map((f) => ({ "@type": "Person", name: f.name, jobTitle: f.role })),
+    parentOrganization: { "@type": "Organization", name: site.parent.name, url: site.parent.url, founder: { "@type": "Person", name: site.parent.founder } },
+  };
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
       <PageHero
         eyebrow="About 360VUE"
         title={<>Pronounced <span className="text-gold-grad">Three-Sixty View.</span></>}
@@ -74,13 +86,15 @@ export default function AboutPage() {
                 <span className="grid size-20 shrink-0 place-items-center rounded-full bg-gold-grad font-display text-2xl font-bold text-midnight">{f.initials}</span>
                 <div>
                   <p className="font-display text-2xl font-semibold text-cream">{f.name}</p>
-                  <p className="mt-1 text-sm font-medium uppercase tracking-[0.2em] text-sunset">{f.role}</p>
+                  <p className="mt-1 text-sm font-medium uppercase tracking-[0.2em] text-sunset">{f.role}, 360VUE</p>
+                  {f.also && <p className="mt-1 text-sm text-cream/55">{f.also}</p>}
                 </div>
               </li>
             ))}
           </ul>
         </div>
       </section>
+      <ParentCompany />
       <CtaBand />
     </>
   );

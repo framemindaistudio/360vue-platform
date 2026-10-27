@@ -41,12 +41,34 @@ export const site = {
     name: "360VUE",
     url: `${PROD_URL}/`,
   },
+  /**
+   * The parent company. Its services (photography, videography, social media, websites, software, automations…) are
+   * delivered in-house by FrameMind AI Studio; its own website is the accurate list, so the site links there.
+   */
+  parent: {
+    name: "FrameMind AI Studio",
+    url: "https://www.framemindaistudio.com",
+    pricingUrl: "https://www.framemindaistudio.com/pricing",
+    founder: "Chinmay R M",
+    services: [
+      { name: "Photography", line: "Brand, product and event shoots" },
+      { name: "Videography", line: "Brand films, reels and event videos" },
+      { name: "Social Media Management", line: "Planning, creatives and publishing" },
+      { name: "Websites", line: "Design, development and launch" },
+      { name: "Brand Identity", line: "Logos, guidelines and assets" },
+      { name: "Custom Software", line: "Dashboards, platforms and tools" },
+      { name: "Automations", line: "Workflows, AI and integrations" },
+      { name: "1:1 AI Coaching", line: "Learn AI one to one, online or offline" },
+    ],
+  },
   /** the founders; the rest of the team lives in HQ → Team & Payroll */
   founders: [
     {
       id: "hrishikesh",
       name: "Hrishikesh Kulkarni",
       role: "Founder",
+      /** another role shown under the name on the website (empty: none) */
+      also: "",
       focus: "",
       bio: "",
       initials: "HK",
@@ -56,6 +78,7 @@ export const site = {
       id: "chinmay",
       name: "Chinmay R M",
       role: "Co-Founder",
+      also: "Founder, FrameMind AI Studio",
       focus: "",
       bio: "",
       initials: "CR",

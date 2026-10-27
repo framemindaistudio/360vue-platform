@@ -85,7 +85,7 @@ export const FEATURES = [
   { icon: "MapPin", title: "Google Maps publishing", text: "Help publishing eligible panoramas to Google Street View, so your listing shows the inside." },
   { icon: "Navigation", title: "Navigation & hotspots", text: "Arrows between viewpoints, room labels, information points and a branded start screen." },
   { icon: "Globe", title: "On your website", text: "An embeddable tour or a shareable link — WhatsApp it, post it, put it on every page." },
-  { icon: "Camera", title: "Photography & video", text: "Interior photography, reels and showcase films from the same visit." },
+  { icon: "Camera", title: "Photography & video", text: "Interior photography, reels and showcase films, delivered in-house by our parent company, FrameMind AI Studio." },
   { icon: "Box", title: "3D & digital twins", text: "Interactive floor plans, virtual showrooms and 3D walkthroughs for larger spaces." },
 ] as const;
 
@@ -108,7 +108,7 @@ export const DIVISIONS = [
   {
     id: "visuals",
     name: "360VUE Visuals",
-    tag: "Photography & video",
+    tag: "With FrameMind AI Studio",
     title: "Photography and video",
     image: "/media/aerial-resort",
     points: [
@@ -130,6 +130,8 @@ export const DIVISIONS = [
 ] as const;
 
 export const FAQS: { q: string; a: string; group: string }[] = [
+  { group: "About 360VUE", q: "Who is behind 360VUE?", a: "360VUE was founded by Hrishikesh Kulkarni (Founder) with Chinmay R M (Co-Founder). 360VUE is a FrameMind AI Studio company: FrameMind AI Studio is our parent company, founded by Chinmay R M." },
+  { group: "About 360VUE", q: "Can you also do our photography, video, social media or website?", a: "Yes — through our parent company, FrameMind AI Studio, which delivers photography, videography, social media management, websites, brand identity, custom software, automations and more in-house. See framemindaistudio.com for its full list of services and prices." },
   { group: "Tours", q: "What exactly is a 360° virtual tour?", a: "A set of 360° photographs taken at chosen points in your space, connected so a visitor can look in every direction and move from one point to the next — on a phone, a laptop or a VR headset — as if walking through." },
   { group: "Tours", q: "How many viewpoints will my space need?", a: "It depends on the size and the number of areas. A small café may need a handful; a hotel or banquet venue many more. We plan the viewpoints with you before the capture, and every quote states exactly how many are included." },
   { group: "Tours", q: "How long does a capture take?", a: "We agree a date and time with you during site preparation. Most of a capture day is careful setup at each viewpoint; we plan around your opening hours so we do not disturb customers." },
