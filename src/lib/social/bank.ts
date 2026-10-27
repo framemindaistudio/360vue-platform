@@ -48,7 +48,7 @@ export function startingPrice(serviceId: string) {
   return s.groups.filter((g) => g.mode === "one").reduce((sum, g) => sum + Math.min(...g.options.map((o) => o.price)), 0);
 }
 const serviceOf = (v: Values) => SERVICES.find((s) => s.id === val(v, "service")) ?? SERVICES[0];
-const SERVICE_SETS: Record<string, PickableSet> = { tours: "tours", photography: "media", video: "media", spatial: "spatial", hosting: "tours" };
+const SERVICE_SETS: Record<string, PickableSet> = { tours: "tours", spatial: "spatial", hosting: "tours" };
 
 const client: FieldSpec = { key: "client", label: "Client", kind: "text", placeholder: "The client's name, as they write it", help: "Name a client only after they have approved the post.", max: 48 };
 const work: FieldSpec = { key: "work", label: "What we made", kind: "text", placeholder: "a 360° tour of the dining hall and terrace", max: 70 };
@@ -119,11 +119,11 @@ export const CAPTION_KINDS: CaptionKind[] = [
   },
   {
     id: "bundle",
-    name: "Tour + photos bundle",
-    when: "A tour booked with photography or video, and the discount for it.",
+    name: "Multi-service bundle",
+    when: "A tour booked with a floor plan, virtual showroom or hosting, and the discount for it.",
     fields: [],
     start: {},
-    hook: () => `Tour, photos, reels: book ${BUNDLE.steps[0].services} or more together and pay up to ${BUNDLE.steps[BUNDLE.steps.length - 1].discountPercent}% less.`,
+    hook: () => `Tour, floor plan, virtual showroom: book ${BUNDLE.steps[0].services} or more together and pay up to ${BUNDLE.steps[BUNDLE.steps.length - 1].discountPercent}% less.`,
     body: () => BUNDLE.steps.map((s, i, all) => `${i === all.length - 1 ? `${s.services}+` : s.services} services: ${s.discountPercent}% off`),
     credit: false,
     cta: "quote",

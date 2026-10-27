@@ -44,7 +44,7 @@ export default function HomePage() {
               <span className="text-gold-grad">Real Experiences.</span>
             </h1>
             <p className="reveal reveal-d2 mt-7 max-w-xl text-lg leading-relaxed text-cream/75">
-              360° virtual tours, professional photography and immersive experiences for your business — so customers can explore your space before they visit.
+              360° virtual tours and immersive experiences for your business — so customers can explore your space before they visit.
             </p>
             <div className="reveal reveal-d3 mt-9 flex flex-wrap gap-3">
               <GoldButton href="/contact">Get a Quote</GoldButton>

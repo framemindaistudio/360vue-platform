@@ -122,11 +122,9 @@ export const CLIENT_STAGES = opts(
   ["nurture", "Nurture later"],
 );
 
-/** Every service 360VUE sells: the five on the rate card. */
+/** Every service 360VUE sells: the ones on its rate card. Photography and video are FrameMind AI Studio's. */
 export const SERVICE_OPTS = opts(
   ["tours", "360° virtual tour"],
-  ["photography", "Photography"],
-  ["video", "Video"],
   ["spatial", "3D / spatial"],
   ["hosting", "Hosting & care"],
   ["other", "Other"],
@@ -170,8 +168,6 @@ export const EXPENSE_CATEGORIES = opts(
 
 export const INCOME_STREAMS = opts(
   "Virtual tours",
-  "Photography",
-  "Video",
   "3D / spatial",
   "Hosting & care",
   "Partner / white-label work",
@@ -371,7 +367,7 @@ export const collections: CollectionDef[] = [
     fields: [
       { key: "title", label: "Capture day", type: "text", required: true, placeholder: "e.g. Café — 360° capture", table: true, width: "full" },
       { key: "projectId", label: "Project", type: "ref", ref: "projects", table: true, width: "half" },
-      { key: "kind", label: "Type", type: "select", options: opts("360° tour", "Tour + photos", "Photo", "Video", "Photo + video", "Drone", "Scoping visit"), default: "360° tour", table: true, width: "half" },
+      { key: "kind", label: "Type", type: "select", options: opts("360° tour", "Scoping visit", "Re-capture", "Floor plan / 3D"), default: "360° tour", table: true, width: "half" },
       { key: "date", label: "Date", type: "date", required: true, table: true, width: "third" },
       { key: "callTime", label: "Crew call time", type: "time", default: "08:00", width: "third" },
       { key: "wrapTime", label: "Wrap by", type: "time", width: "third" },
@@ -411,7 +407,7 @@ export const collections: CollectionDef[] = [
         key: "type",
         label: "Deliverable",
         type: "select",
-        options: opts("Virtual tour", "Panorama set", "Google Street View upload", "Website embed", "Floor plan", "Photo set", "Reel", "Showcase film", "3D walkthrough", "Virtual showroom", "Document", "Other"),
+        options: opts("Virtual tour", "Panorama set", "Google Street View upload", "Website embed", "Floor plan", "3D walkthrough", "Virtual showroom", "Document", "Other"),
         table: true,
         width: "half",
       },

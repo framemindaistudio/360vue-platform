@@ -24,7 +24,7 @@ export function SiteFooter() {
           <div className="text-[22px]">
             <Logo tone="white" tagline />
           </div>
-          <p className="mt-6 max-w-sm text-sm leading-relaxed text-cream/60">360° virtual tours, photography and immersive experiences for businesses whose space is part of the decision.</p>
+          <p className="mt-6 max-w-sm text-sm leading-relaxed text-cream/60">360° virtual tours and immersive experiences for businesses whose space is part of the decision.</p>
         </div>
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sand/70">Explore</p>

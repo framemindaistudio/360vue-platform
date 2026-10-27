@@ -5,7 +5,7 @@
  */
 import { TERMS } from "@/lib/content/catalog";
 import { site } from "@/lib/site";
-import { card, from, range, SERVICE_ICON, startingPrice, THEME } from "./shared";
+import { card, range, SERVICE_ICON, THEME } from "./shared";
 import type { Deck } from "./types";
 
 export const studioDeck: Deck = {
@@ -60,7 +60,7 @@ export const studioDeck: Deck = {
         kind: "cards",
         title: "What we do",
         cards: rc.services.map((s) => ({ icon: SERVICE_ICON[s.id] ?? "Sparkles", title: s.name, text: s.short })),
-        sub: "Tours first; photography, video and spatial work around them",
+        sub: "Photography, video, social media and websites through our parent company, FrameMind AI Studio"
       },
       {
         kind: "steps",
@@ -74,7 +74,7 @@ export const studioDeck: Deck = {
         title: "Tour packages",
         head: ["Package", "Typical scope", "Indicative price"],
         rows: packages.map((p) => [p.label, p.detail ?? "", range(p.price, p.upTo)]),
-        foot: `Proposed launch prices, before GST. Every quote states the viewpoints and areas included. Photography ${from(startingPrice("photography", rc))} · Video ${from(startingPrice("video", rc))}.`,
+        foot: "Proposed launch prices, before GST. Every quote states the viewpoints and areas included. Photography and video are quoted by our parent company, FrameMind AI Studio.",
         notes: "Configure their exact tour in the quote builder after the call. Never promise a number for a space you have not seen.",
       },
       {

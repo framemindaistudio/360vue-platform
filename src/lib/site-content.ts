@@ -67,7 +67,7 @@ export const INDUSTRIES: Industry[] = [
     image: "/media/realestate",
     icon: "Building",
     priority: "High",
-    points: ["Show-flats and furnished rentals online", "Commercial spaces for remote buyers", "Pair with aerial and still photography"],
+    points: ["Show-flats and furnished rentals online", "Commercial spaces for remote buyers", "Pair with photography and video from FrameMind AI Studio"],
   },
   {
     id: "others",
@@ -107,7 +107,7 @@ export const DIVISIONS = [
   },
   {
     id: "visuals",
-    name: "360VUE Visuals",
+    name: "FrameMind Visuals",
     tag: "With FrameMind AI Studio",
     title: "Photography and video",
     image: "/media/aerial-resort",

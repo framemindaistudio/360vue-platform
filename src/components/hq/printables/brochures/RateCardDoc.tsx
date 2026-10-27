@@ -10,7 +10,7 @@ import { Wordmark } from "../PrintBits";
 import { csv, type Q } from "../util";
 
 /**
- * /hq/print/brochures/rate-card?services=tours,photography&for=…
+ * /hq/print/brochures/rate-card?services=tours,spatial&for=…
  * 360VUE's rate card as a printable A4 document, read from the saved Rate Card — the same numbers the quote
  * builder uses. It runs over as many pages as it needs; each option group is kept on one page.
  */
@@ -88,7 +88,7 @@ export function RateCardDoc({ q }: { q: Q }) {
           {services.length > 1 && (
             <section className="mt-[7mm]" style={{ breakInside: "avoid" }}>
               <h2 className="border-b border-ink pb-[1.5mm] text-[12pt] font-bold tracking-[-0.02em]">Several services together</h2>
-              <p className="mt-[2mm] text-[8pt] text-charcoal">Book a tour with photography or video and the one-time work costs less:</p>
+              <p className="mt-[2mm] text-[8pt] text-charcoal">Book several 360VUE services together and the one-time work costs less:</p>
               <p className="mt-[1.5mm] text-[8.5pt] font-semibold">{rates.bundleSteps.map((b, i, all) => `${i === all.length - 1 ? `${b.services}+` : b.services} services: ${b.discountPercent}% off`).join("   ·   ")}</p>
             </section>
           )}

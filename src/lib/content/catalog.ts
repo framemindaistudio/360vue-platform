@@ -3,7 +3,7 @@
  *  360VUE CATALOGUE — WHAT 360VUE SELLS AND THE STARTING PRICES
  * ─────────────────────────────────────────────────────────────────────────────
  *  The three tour packages and their price ranges come from the company profile ("proposed launch prices to
- *  validate with real clients"). Add-on, photography, video, spatial and hosting prices are STARTING DEFAULTS only,
+ *  validate with real clients"). Add-on, spatial and hosting prices are STARTING DEFAULTS only,
  *  for the founders to confirm: change them in HQ → Money → Rate Card, which saves a full copy to the private data
  *  repository (data/ratecard.json). HQ then reads that copy at run time, so to change a price, change it in HQ.
  *
@@ -11,7 +11,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export type ServiceId = "tours" | "photography" | "video" | "spatial" | "hosting";
+export type ServiceId = "tours" | "spatial" | "hosting";
 
 export interface ServiceOption {
   id: string;
@@ -53,7 +53,7 @@ export interface Service {
   /** icon for HQ screens (a lucide-react export name) */
   icon: string;
   /** the division of 360VUE it belongs to */
-  division: "Tours" | "Visuals" | "Spatial";
+  division: "Tours" | "Spatial";
 }
 
 export const SERVICES: Service[] = [
@@ -113,70 +113,6 @@ export const SERVICES: Service[] = [
     ],
   },
   {
-    id: "photography",
-    name: "Interior & Architectural Photography",
-    short: "Interiors · Architecture · Spaces",
-    division: "Visuals",
-    description: "Professional still photography of interiors, facades and amenities, colour-corrected and retouched for websites, listings and social media.",
-    billing: "project",
-    icon: "Camera",
-    included: ["Shot list agreed before the shoot", "Colour-corrected, retouched high-resolution JPEGs", "Web-sized set for website and social use"],
-    groups: [
-      {
-        id: "package",
-        title: "Photography package",
-        mode: "one",
-        options: [
-          { id: "photo-15", label: "Essentials", detail: "Up to 15 edited photographs", price: 6000, base: true },
-          { id: "photo-30", label: "Showcase", detail: "Up to 30 edited photographs", price: 10000, base: true },
-          { id: "photo-day", label: "Full day", detail: "Up to 60 edited photographs, multiple spaces", price: 18000, base: true },
-        ],
-      },
-      {
-        id: "extras",
-        title: "Extras",
-        mode: "any",
-        options: [
-          { id: "twilight", label: "Twilight / exterior set", price: 3000 },
-          { id: "extra-photo", label: "Additional edited photograph", price: 300, unit: "/photo" },
-          { id: "aerial", label: "Aerial photographs", detail: "Only where legally permitted", price: 6000 },
-        ],
-      },
-    ],
-  },
-  {
-    id: "video",
-    name: "Promotional Video",
-    short: "Reels · Showcase films · Walkthroughs",
-    division: "Visuals",
-    description: "Short reels and showcase films of hotels, showrooms, restaurants and properties, edited for the website and social media.",
-    billing: "project",
-    icon: "Clapperboard",
-    included: ["Rough cut for approval, then final delivery", "Licensed background music", "Vertical and landscape exports where agreed"],
-    groups: [
-      {
-        id: "package",
-        title: "Video package",
-        mode: "one",
-        options: [
-          { id: "reel", label: "Social reel", detail: "One 30–60 second vertical reel", price: 6000, base: true },
-          { id: "reel-pack", label: "Reel pack", detail: "Three reels from one shoot", price: 15000, base: true },
-          { id: "showcase", label: "Showcase film", detail: "A 1–2 minute walkthrough film", price: 20000, base: true },
-        ],
-      },
-      {
-        id: "extras",
-        title: "Extras",
-        mode: "any",
-        options: [
-          { id: "aerial-video", label: "Aerial footage", detail: "Only where legally permitted", price: 6000 },
-          { id: "voiceover", label: "Voice-over", price: 3000 },
-          { id: "subtitles", label: "Subtitles", price: 1000, unit: "/language" },
-        ],
-      },
-    ],
-  },
-  {
     id: "spatial",
     name: "Spatial & Immersive",
     short: "3D walkthroughs · Virtual showrooms · Digital twins",
@@ -231,7 +167,8 @@ export const SOCIAL_CONTRACTS: { months: number; label: string; discountPercent:
   { months: 12, label: "12 months", discountPercent: 10, badge: "Best value" },
 ];
 
-/** Buying several services together (for example a tour with photography and a reel). */
+/** Buying several services together (for example a tour with an interactive floor plan or virtual showroom).
+ *  Photography and video are quoted by the parent company, FrameMind AI Studio, not here. */
 export const BUNDLE = {
   /** number of services → discount percent (the last step covers that many or more) */
   steps: [

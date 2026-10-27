@@ -38,7 +38,7 @@ const promoStudio: TemplateDef = {
   ],
   sample: {
     headline: PROMO_HEADLINE,
-    line: "360° virtual tours, interior photography and video for restaurants, hotels, showrooms and properties.",
+    line: "360° virtual tours and immersive experiences for restaurants, hotels, showrooms and properties.",
     points: "Scope and price in writing first\nPrivate areas never captured\nTested on every screen before delivery",
   },
   draw(p, { values: v, pictures, facts }) {
@@ -77,29 +77,29 @@ const bundleLabel = (i: number) => (i === steps.length - 1 ? `${steps[i].service
 
 const bundlePost: TemplateDef = {
   id: "bundle",
-  name: "Tour + photos bundle",
+  name: "Multi-service bundle",
   group: "Promotion",
-  blurb: "The discount for booking a tour with photography or video, read from the rate card.",
+  blurb: "The discount for booking several 360VUE services together, read from the rate card.",
   formats: ALL_SIZES,
   tones: ["paper", "graphite"],
   fields: [
-    { key: "title", label: "Title", kind: "text", placeholder: "Tour + photos", max: 30 },
+    { key: "title", label: "Title", kind: "text", placeholder: "Book together", max: 30 },
     { key: "cta", label: "Call to action", kind: "select", options: [{ value: "quote", label: "Get a price" }, { value: "share", label: "None on the design (caption: send this to a business owner)" }] },
   ],
-  sample: { title: "Tour + photos", cta: "quote" },
+  sample: { title: "Book together", cta: "quote" },
   draw(p, { values: v, facts }) {
     list(p, {
       tag: "Pricing · Together",
       foot: bareSite(facts.website),
       eyebrow: "Book together, pay less",
-      title: val(v, "title") || "Tour + photos",
+      title: val(v, "title") || "Book together",
       items: steps.map((s, i) => ({ title: `${s.discountPercent}% off`, text: bundleLabel(i) })),
       cta: val(v, "cta") === "share" ? undefined : "Get a price",
     });
   },
   caption(v) {
     return caption({
-      hook: `Tour, photos, reels: book ${steps[0].services} or more together and pay up to ${steps[steps.length - 1].discountPercent}% less.`,
+      hook: `Tour, floor plan, virtual showroom: book ${steps[0].services} or more together and pay up to ${steps[steps.length - 1].discountPercent}% less.`,
       body: [...steps.map((s, i) => `· ${bundleLabel(i)}: ${s.discountPercent}% off`), "On the one-time work, ex-GST."],
       cta: val(v, "cta") === "share" ? CTAS.share : CTAS.quote,
       tags: hashtags("tours", "media"),

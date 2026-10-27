@@ -58,7 +58,7 @@ export default function PortfolioPage() {
 
       <section className="border-t border-cream/10 py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead eyebrow="Visuals" title="Photography from the same visit." />
+          <SectionHead eyebrow="Gallery" title="Spaces worth walking through." />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {GALLERY.map((g) => (
               <figure key={g.src} className="reveal group overflow-hidden rounded-2xl border border-cream/10">

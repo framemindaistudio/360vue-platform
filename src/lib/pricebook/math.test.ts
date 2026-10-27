@@ -7,9 +7,9 @@ import type { Service } from "@/lib/content/catalog";
 import { activeGroups, packageChosen, priceService, quoteMoney, type QuoteLine } from "./math.ts";
 
 const video: Service = {
-  id: "video",
+  id: "spatial",
   name: "Promotional Video",
-  division: "Visuals",
+  division: "Spatial",
   short: "",
   description: "",
   billing: "project",

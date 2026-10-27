@@ -7,8 +7,6 @@ import { cn } from "@/lib/utils";
 const TYPES = ["Restaurant / café", "Hotel / resort", "Banquet hall / venue", "Showroom / retail", "Real estate", "Gym / clinic / office", "Other"];
 const SERVICES = [
   { id: "tours", label: "360° virtual tour" },
-  { id: "photography", label: "Photography" },
-  { id: "video", label: "Video / reels" },
   { id: "spatial", label: "3D / virtual showroom" },
 ];
 const PACKAGES: Record<string, string> = { starter: "Starter Tour", business: "Business Tour", premium: "Premium Experience" };
@@ -131,6 +129,13 @@ export function QuoteForm({ pkg }: { pkg?: string }) {
             );
           })}
         </div>
+        <p className="mt-3 text-xs text-cream/45">
+          Photography, video, social media or a website? Those come from our parent company,{" "}
+          <a href="https://www.framemindaistudio.com" target="_blank" rel="noreferrer" className="text-sunset hover:underline">
+            FrameMind AI Studio
+          </a>
+          . Mention it below and we&apos;ll connect you.
+        </p>
       </fieldset>
 
       <label className="mt-6 block">

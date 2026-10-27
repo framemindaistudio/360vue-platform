@@ -13,7 +13,7 @@ import { StoreReadOnlyError } from "@/lib/store";
  * origin (NEXT_PUBLIC_WEBSITE_URL) and this deployment may post.
  */
 const KINDS = ["project", "contact", "careers", "partner"];
-const SERVICES = ["tours", "photography", "video", "spatial", "hosting", "other"];
+const SERVICES = ["tours", "spatial", "hosting", "other"];
 
 function cors(req: Request): Record<string, string> {
   const origin = req.headers.get("origin") ?? "";

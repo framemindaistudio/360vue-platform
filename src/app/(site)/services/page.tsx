@@ -10,7 +10,7 @@ import { formatINR } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Services & packages",
-  description: "360° virtual tours, interior photography, promotional video, Google Street View publishing help and 3D experiences. Starter, Business and Premium tour packages.",
+  description: "360° virtual tours, Google Street View publishing help, interactive floor plans and 3D experiences. Starter, Business and Premium tour packages.",
   alternates: { canonical: "/services" },
 };
 export const revalidate = 600;
@@ -21,7 +21,7 @@ export default async function ServicesPage() {
   const addons = (tours?.groups ?? []).filter((g) => g.id !== "package");
   return (
     <>
-      <PageHero eyebrow="Services" title={<>One visit. <span className="text-gold-grad">Every angle.</span></>} intro="Tours come first. Photography, video and immersive 3D work are built around them, so one capture day can serve your website, your Maps listing and your social media." image="/media/camera.webp" />
+      <PageHero eyebrow="Services" title={<>One visit. <span className="text-gold-grad">Every angle.</span></>} intro="Tours come first, with immersive 3D work built around them. Photography, video and social media come from our parent company, FrameMind AI Studio, so one team can cover your website, your Maps listing and your social media." image="/media/camera.webp" />
 
       {DIVISIONS.map((d, i) => (
         <section key={d.id} id={d.id} className="scroll-mt-20 border-t border-cream/10 py-20 sm:py-28">
@@ -83,7 +83,7 @@ export default async function ServicesPage() {
               ))}
             </div>
           )}
-          <p className="mt-6 text-center text-xs text-cream/40">All prices in Indian rupees, before GST. Photography, video and 3D work are quoted after a short call.</p>
+          <p className="mt-6 text-center text-xs text-cream/40">All prices in Indian rupees, before GST. 3D work is quoted after a short call. Photography and video are quoted by FrameMind AI Studio.</p>
         </div>
       </section>
 

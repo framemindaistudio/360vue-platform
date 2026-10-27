@@ -48,8 +48,6 @@ export const servicesOf = (p: Rec) => {
 
 export const SERVICE_ICON: Record<string, string> = {
   tours: "Rotate3d",
-  photography: "Camera",
-  video: "Clapperboard",
   spatial: "Box",
   hosting: "Server",
   other: "Layers",
@@ -117,27 +115,6 @@ export const CHECKLISTS: Record<string, Tpl> = {
     ["7 · Quality check", "Google publishing requirements checked (if included)"],
     ...HANDOVER,
   ],
-  photography: [
-    ...KICKOFF,
-    ...SITE,
-    ["4 · Capture", "Shot list agreed"],
-    ["4 · Capture", "Shoot done; files backed up twice"],
-    ["5 · Processing", "Selects shared for approval"],
-    ["5 · Processing", "Colour correction and retouching done"],
-    ["7 · Quality check", "Every format and size ordered exported"],
-    ...HANDOVER,
-  ],
-  video: [
-    ...KICKOFF,
-    ...SITE,
-    ["4 · Capture", "Shot list and key messages agreed"],
-    ["4 · Capture", "Shoot done; footage backed up twice"],
-    ["5 · Processing", "Rough cut shared"],
-    ["5 · Processing", "Revisions done (within the rounds included)"],
-    ["5 · Processing", "Colour grade, music and captions"],
-    ["7 · Quality check", "Vertical and landscape versions exported"],
-    ...HANDOVER,
-  ],
   spatial: [
     ...KICKOFF,
     ["3 · Site preparation", "Scoping visit done and platform chosen"],
@@ -193,8 +170,6 @@ export interface ClientInput {
 
 export const CLIENT_INPUTS: Record<string, string[]> = {
   tours: ["Access on the capture date and a contact on site", "Property owner's permission (if the client does not own the space)", "List of restricted or private areas", "Logo for the branded starting screen", "Room and area names for the labels", "Website developer's contact for the embed", "Google Business Profile access (an invite, not a password), if publishing is included"],
-  photography: ["Shot wish-list", "Access on the shoot date", "Products or setup ready on the day", "Consent from anyone who appears"],
-  video: ["Key messages or offers to show", "Access on the shoot date", "Logo and brand assets for titles", "Music preferences", "Consent from anyone who appears"],
   spatial: ["Floor plans or measurements, if available", "Product list for tagging", "Access for the scoping visit"],
   hosting: ["Billing contact", "Where the tour is embedded"],
 };

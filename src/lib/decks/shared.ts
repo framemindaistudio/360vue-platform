@@ -12,8 +12,6 @@ export const THEME: DeckTheme = { accent: "#9A5A31", tint: "#F6EBDD", level: 4, 
 
 export const SERVICE_ICON: Record<string, IconName> = {
   tours: "RotateCw",
-  photography: "Camera",
-  video: "Film",
   spatial: "Box",
   hosting: "Globe",
 };

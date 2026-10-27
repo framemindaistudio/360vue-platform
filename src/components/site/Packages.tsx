@@ -10,7 +10,7 @@ const price = (p: number, upTo?: number) => (upTo && upTo > p ? `${formatINR(p)}
 const SCOPE: Record<string, string[]> = {
   starter: ["Small space", "Basic interactive tour", "Shareable link"],
   business: ["Multiple viewpoints", "Navigation between viewpoints", "Web-ready delivery and embed code"],
-  premium: ["Larger space", "Custom hotspots", "Additional photography or video"],
+  premium: ["Larger space", "Custom hotspots", "Photography or video with FrameMind AI Studio"],
 };
 
 /** The three tour packages, read from HQ's rate card (the founders change prices there). */
