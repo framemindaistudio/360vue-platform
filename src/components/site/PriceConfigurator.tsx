@@ -6,6 +6,7 @@ import { estimateScenes, SQFT_PER_SQM, type Service, type ServiceOption } from "
 import { choiceOf, priceService, type Selections } from "@/lib/pricebook/math";
 import type { PublicRates } from "@/lib/public-rates";
 import { cn } from "@/lib/utils";
+import { track } from "@/lib/analytics";
 import { openQuoteDocument, type QuoteDoc } from "./quoteDocument";
 
 /** VUE-W-261027-K3QZ: the website quote number, also stored on the HQ enquiry. */
@@ -208,6 +209,7 @@ export function PriceConfigurator({ rates }: { rates: PublicRates }) {
       const j = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(j.error || "We could not save your quote. Please try again.");
       openQuoteDocument(doc, win);
+      track("generate_lead", { currency: "INR", value: taxable, lead_source: "price_calculator", plan: plan?.label, scenes });
       setSent(true);
       setAsking(false);
     } catch (err) {

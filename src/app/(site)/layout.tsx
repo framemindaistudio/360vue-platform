@@ -1,6 +1,7 @@
 import { SiteNav } from "@/components/site/SiteNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { RevealOnScroll } from "@/components/site/Reveal";
+import { Analytics } from "@/components/site/Analytics";
 
 /** The public website: dark, cinematic, gold on midnight. HQ lives at /hq with its own layout. */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -13,6 +14,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <main id="main">{children}</main>
       <SiteFooter />
       <RevealOnScroll />
+      <Analytics />
     </div>
   );
 }
