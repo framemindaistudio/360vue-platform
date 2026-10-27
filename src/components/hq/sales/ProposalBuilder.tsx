@@ -7,7 +7,7 @@ import { AlertTriangle, ArrowDown, ArrowUp, ChevronDown, Copy, ExternalLink, Fol
 import type { ServiceId } from "@/lib/content/catalog";
 import { getCollection, type BaseRecord, type LineItem } from "@/lib/hq/collections";
 import { can } from "@/lib/hq/roles";
-import { activeGroups, bundlePercent, priceService, splitMilestones, type QuoteLine, type QuoteMoney } from "@/lib/pricebook/math";
+import { activeGroups, bundlePercent, choiceOf, parseChoice, priceService, splitMilestones, type QuoteLine, type QuoteMoney } from "@/lib/pricebook/math";
 import type { Milestone, RateCard } from "@/lib/pricebook/types";
 import { Badge, statusTone } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -636,7 +636,11 @@ function LineCard({
           {line.kind === "service" && service && (
             <>
               {activeGroups(service, line.selections).map((g) => {
-                const chosen = line.selections[g.id] ?? [];
+                const entries = (line.selections[g.id] ?? []).map(parseChoice);
+                const chosen = entries.map((c) => c.id);
+                const qtyFor = (id: string) => entries.find((c) => c.id === id)?.qty ?? 1;
+                const setQty = (id: string, qty: number) =>
+                  onChange(repriceService(line, rates, { ...line.selections, [g.id]: entries.map((c) => (c.id === id ? choiceOf(id, Math.max(1, Math.min(999, qty))) : choiceOf(c.id, c.qty))) }));
                 return (
                   <div key={g.id}>
                     <p className="mb-2 flex items-baseline gap-2">
@@ -661,7 +665,8 @@ function LineCard({
                               checked={on}
                               disabled={!editable}
                               onChange={(e) => {
-                                const next = g.mode === "one" ? [o.id] : e.target.checked ? [...chosen, o.id] : chosen.filter((x) => x !== o.id);
+                                const keep = entries.map((c) => choiceOf(c.id, c.qty));
+                                const next = g.mode === "one" ? [o.id] : e.target.checked ? [...keep, o.id] : entries.filter((c) => c.id !== o.id).map((c) => choiceOf(c.id, c.qty));
                                 onChange(repriceService(line, rates, { ...line.selections, [g.id]: next }));
                               }}
                               className="mt-1 accent-[#0d0d0d]"
@@ -673,7 +678,21 @@ function LineCard({
                               </span>
                               {o.detail && <span className="block text-[11px] leading-snug text-blueprint">{o.detail}</span>}
                             </span>
-                            <span className="tabular shrink-0 text-xs font-semibold text-charcoal">{o.price ? `+${formatINR(o.price)}` : "Included"}</span>
+                            <span className="flex shrink-0 flex-col items-end gap-1">
+                              <span className="tabular text-xs font-semibold text-charcoal">{o.price ? `+${formatINR(o.price)}${o.unit ?? ""}` : "Included"}</span>
+                              {o.unit && on && g.mode === "any" && (
+                                <input
+                                  type="number"
+                                  min={1}
+                                  max={999}
+                                  value={qtyFor(o.id)}
+                                  disabled={!editable}
+                                  aria-label={`How many: ${o.label}`}
+                                  onChange={(e) => setQty(o.id, Number(e.target.value) || 1)}
+                                  className="tabular h-7 w-16 rounded-[var(--radius-sm)] border border-graphite/25 bg-white px-2 text-right text-xs"
+                                />
+                              )}
+                            </span>
                           </label>
                         );
                       })}

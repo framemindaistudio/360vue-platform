@@ -6,6 +6,7 @@
 
 export const NAV = [
   { href: "/services", label: "Services" },
+  { href: "/pricing", label: "Pricing" },
   { href: "/industries", label: "Industries" },
   { href: "/portfolio", label: "Demo tours" },
   { href: "/how-it-works", label: "How it works" },
@@ -138,11 +139,13 @@ export const FAQS: { q: string; a: string; group: string }[] = [
   { group: "Tours", q: "How long until the tour is delivered?", a: "The delivery timeline is written on your quote. It starts once the advance is received and the capture date is confirmed." },
   { group: "Google Maps", q: "Can the tour appear on Google Maps?", a: "We help publish eligible panoramic content to Google Street View, so it can appear with your business listing. Google decides what it accepts and how it is shown." },
   { group: "Google Maps", q: "Will it improve my ranking or bring more customers?", a: "We do not promise search rankings, visits or sales from Google publication. A tour helps customers understand your space before they visit; what they do next is up to them." },
-  { group: "Hosting", q: "How is the tour hosted? Is hosting forever?", a: "Hosting is included for the period written on your quote — it is not unlimited. Before that period ends we tell you about renewal and any charge, and you decide." },
+  { group: "Hosting", q: "How is the tour hosted? Is hosting forever?", a: "Every tour includes 12 months of hosting for its link and website embed. After that, a Hosting & Care plan keeps it online (from a few hundred rupees a month). Your Google Maps listing stays live either way. We remind you before the year ends, and you decide." },
   { group: "Hosting", q: "Can I put the tour on my own website?", a: "Yes. You get an embed code and a shareable link. Website embedding help is available if your developer needs it." },
   { group: "Privacy", q: "What about private areas and people?", a: "Tell us which areas are restricted or private and we will not capture them. Before delivery we remove or blur identifiable people and unintended sensitive information where necessary." },
   { group: "Privacy", q: "Do I need the owner's permission?", a: "If you do not own the space, we need the property owner's permission before the capture. We confirm access and permissions during site preparation." },
-  { group: "Pricing", q: "How much does a tour cost?", a: "Our packages start with the Starter Tour for small spaces, the Business Tour for multiple viewpoints with navigation, and the Premium Experience for larger spaces with custom hotspots. They are indicative launch prices; your quote states the exact scope and price." },
+  { group: "Pricing", q: "How much does a tour cost?", a: "Tours are priced by scenes — one scene is one 360° viewpoint. Glance (up to 6 scenes) suits a café or clinic, Walkthrough (up to 12) a restaurant or showroom, Showcase (up to 20) a banquet hall or villa, and Grand Tour (up to 35) a hotel or campus. Bigger spaces add scenes individually. Use the price calculator to see your exact price." },
+  { group: "Pricing", q: "Can you price by square feet?", a: "Yes. Enter your area in square feet or square metres, the number of floors and the rooms or areas in the price calculator: it works out the scenes your space needs (about one per 350 sq ft of open space, at least one per room, plus a landing for each extra floor) and picks the plan. We confirm the count before the capture." },
+  { group: "Pricing", q: "Is Google Maps publishing extra?", a: "No. Publishing eligible panoramas to Google Maps and Street View is included in every plan, as are 12 months of hosting for your tour link and website embed." },
   { group: "Pricing", q: "How do payments work?", a: "50% advance confirms the booking; the remaining 50% is paid before final handover or activation, as agreed in the quote. Work outside the scope needs your written approval, and hosting or maintenance is billed separately." },
   { group: "Pricing", q: "Are revisions included?", a: "Yes — the number of revision rounds is written on your quote. Extra areas, extra viewpoints or re-capture after changes to the space are quoted separately." },
 ];

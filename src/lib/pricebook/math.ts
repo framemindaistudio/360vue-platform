@@ -7,8 +7,28 @@ import type { BundleStep, SocialContract } from "./types";
 
 /* ───────────────────────────── one service, configured ───────────────────────────── */
 
-/** groupId → the option ids chosen in it */
+/**
+ * groupId → the option ids chosen in it. An option sold by the unit (it has a `unit`, such as "/scene") is stored
+ * with its quantity as "id*qty" (for example "extra-scene*5"); a bare id means a quantity of 1.
+ */
 export type Selections = Record<string, string[]>;
+
+/** "extra-scene*5" → { id: "extra-scene", qty: 5 } */
+export function parseChoice(entry: string): { id: string; qty: number } {
+  const i = entry.lastIndexOf("*");
+  if (i < 0) return { id: entry, qty: 1 };
+  const qty = Math.round(Number(entry.slice(i + 1)));
+  return { id: entry.slice(0, i), qty: Number.isFinite(qty) && qty > 0 ? Math.min(qty, 999) : 1 };
+}
+/** { id, qty } → the stored form */
+export const choiceOf = (id: string, qty = 1) => (qty > 1 ? `${id}*${Math.round(qty)}` : id);
+/** The chosen option ids of a group, without quantities. */
+export const chosenIds = (sel: Selections, groupId: string) => (sel[groupId] ?? []).map((e) => parseChoice(e).id);
+/** The quantity chosen for an option (0 when it is not chosen). */
+export function qtyOf(sel: Selections, groupId: string, optionId: string) {
+  const hit = (sel[groupId] ?? []).map(parseChoice).find((c) => c.id === optionId);
+  return hit ? hit.qty : 0;
+}
 
 export interface PricedItem {
   group: string;
@@ -19,7 +39,7 @@ export interface PricedItem {
 /** A ready package is chosen: the service's "package" group holds an option with a price (not "Build my own"). */
 export function packageChosen(service: Service, selections: Selections) {
   const g = service.groups.find((x) => x.id === "package");
-  const id = g ? (selections[g.id] ?? [])[0] : undefined;
+  const id = g ? chosenIds(selections, g.id)[0] : undefined;
   return !!g?.options.find((o) => o.id === id && o.price > 0);
 }
 
@@ -32,9 +52,12 @@ export function activeGroups(service: Service, selections: Selections) {
 export function priceService(service: Service, selections: Selections): { items: PricedItem[]; subtotal: number } {
   const items: PricedItem[] = [];
   for (const g of activeGroups(service, selections)) {
-    const chosen = selections[g.id] ?? [];
-    const picked = g.options.filter((o) => chosen.includes(o.id));
-    for (const o of g.mode === "one" ? picked.slice(0, 1) : picked) items.push({ group: g.title, label: o.label, price: o.price });
+    const chosen = (selections[g.id] ?? []).map(parseChoice);
+    const picked = g.options.filter((o) => chosen.some((c) => c.id === o.id));
+    for (const o of g.mode === "one" ? picked.slice(0, 1) : picked) {
+      const qty = o.unit ? (chosen.find((c) => c.id === o.id)?.qty ?? 1) : 1;
+      items.push({ group: g.title, label: qty > 1 ? `${o.label} × ${qty}` : o.label, price: o.price * qty });
+    }
   }
   return { items, subtotal: items.reduce((s, i) => s + i.price, 0) };
 }

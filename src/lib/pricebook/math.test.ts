@@ -45,3 +45,23 @@ test("the bundle discount applies to one-time work only, never on top of a contr
   assert.equal(m.taxable, 100000 + 27000 * 6 - 5000);
   assert.equal(m.monthlyNet, 27000, "the retainer keeps only its contract discount");
 });
+
+test("options sold by the unit are priced by their quantity", () => {
+  const svc: Service = {
+    id: "tours",
+    name: "Tour",
+    short: "",
+    description: "",
+    division: "Tours",
+    billing: "project",
+    included: [],
+    icon: "Rotate3d",
+    groups: [
+      { id: "package", title: "Plan", mode: "one", options: [{ id: "p", label: "Walkthrough", price: 12999, base: true, scenes: 12 }] },
+      { id: "scale", title: "Size", mode: "any", options: [{ id: "s", label: "Extra scenes", price: 799, unit: "/scene" }, { id: "b", label: "Branding", price: 1499 }] },
+    ],
+  };
+  const r = priceService(svc, { package: ["p"], scale: ["s*5", "b"] });
+  assert.equal(r.subtotal, 12999 + 799 * 5 + 1499);
+  assert.equal(r.items[1].label, "Extra scenes × 5");
+});

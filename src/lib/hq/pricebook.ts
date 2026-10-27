@@ -69,7 +69,8 @@ function cleanGroups(v: unknown, base: ServiceGroup[]): ServiceGroup[] {
           const badge = text(x.badge, 24);
           const unit = text(x.unit, 24);
           const upTo = num(x.upTo, 0, 0, 100_000_000);
-          return { id: oid, label: text(x.label, 120), price: num(x.price, 0, 0, 100_000_000), ...(detail ? { detail } : {}), ...(badge ? { badge } : {}), ...(x.base === true ? { base: true } : {}), ...(unit ? { unit } : {}), ...(upTo ? { upTo } : {}) };
+          const scenes = num(x.scenes, 0, 0, 10_000);
+          return { id: oid, label: text(x.label, 120), price: num(x.price, 0, 0, 100_000_000), ...(detail ? { detail } : {}), ...(badge ? { badge } : {}), ...(x.base === true ? { base: true } : {}), ...(unit ? { unit } : {}), ...(upTo ? { upTo } : {}), ...(scenes ? { scenes } : {}) };
         })
         .filter((o) => o.label);
       const help = text(g.help, 300);

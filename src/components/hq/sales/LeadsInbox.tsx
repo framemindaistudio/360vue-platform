@@ -15,7 +15,7 @@ import { CollectionManager, type ExtraColumn } from "@/components/hq/CollectionM
 import { useCollection, useHq } from "@/components/hq/data";
 import { RecordForm } from "@/components/hq/fields";
 import { PageHeader, StatCard } from "@/components/hq/ui";
-import { cn, formatDate, formatDateTime, formatNumber, isoDate } from "@/lib/utils";
+import { cn, formatDate, formatDateTime, formatINR, formatNumber, isoDate } from "@/lib/utils";
 import { introMessage, introSubject, phoneDigits, telHref, whatsappHref } from "./contact";
 import { addDays, isWithinDays, relativeDay, str, todayIso } from "./crm";
 import { ContactButtons, Notice } from "./bits";
@@ -36,7 +36,7 @@ const STATUS_OPTIONS = leadsDef.fields.find((f) => f.key === "status")?.options 
  * application about the role — so nobody sees boxes that do not apply.
  */
 const KIND_FIELDS: Record<string, string[]> = {
-  project: ["channel", "organisation", "role", "phone", "email", "city", "services", "spaceSize", "budget", "timeline", "clientId"],
+  project: ["channel", "organisation", "role", "phone", "email", "city", "services", "spaceSize", "estimate", "quoteNo", "budget", "timeline", "clientId"],
   careers: ["channel", "role", "phone", "email", "city"],
   partner: ["channel", "organisation", "role", "phone", "email", "city"],
   contact: ["channel", "organisation", "role", "phone", "email", "city", "services", "clientId"],
@@ -364,6 +364,8 @@ function LeadDetail({ lead, canWrite }: { lead: BaseRecord; canWrite: boolean })
       ["budget", str(lead.budget)],
       ["timeline", str(lead.timeline)],
       ["spaceSize", str(lead.spaceSize)],
+      ["estimate", Number(lead.estimate) > 0 ? <span className="tabular">{formatINR(Number(lead.estimate))} + GST</span> : ""],
+      ["quoteNo", str(lead.quoteNo)],
       ["page", str(lead.page)],
     ] as [string, React.ReactNode][]
   )

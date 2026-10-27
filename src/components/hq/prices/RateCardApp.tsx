@@ -423,7 +423,8 @@ function ServiceEditor({ service, editable, onChange }: { service: Service; edit
                   <th className="pb-2 pr-2 font-medium">Option</th>
                   <th className="pb-2 pr-2 font-medium">Detail</th>
                   <th className="w-32 pb-2 pr-2 text-right font-medium">Price</th>
-                  <th className="w-32 pb-2 pr-2 text-right font-medium" title="The website shows a range, e.g. ₹5,000–₹8,000. Leave 0 for a single price.">Up to</th>
+                  {g.id === "package" && <th className="w-24 pb-2 pr-2 text-right font-medium" title="Scenes the plan covers: the website's calculator picks plans by it. 0 for none.">Scenes</th>}
+                  <th className="w-28 pb-2 pr-2 font-medium" title="Sold by the unit, e.g. /scene or /floor: quotes then ask how many. Empty for a single item.">Unit</th>
                   <th className="w-32 pb-2 pr-2 font-medium">Badge</th>
                   {editable && <th className="w-24" />}
                 </tr>
@@ -434,7 +435,10 @@ function ServiceEditor({ service, editable, onChange }: { service: Service; edit
                     <td className="py-1.5 pr-2">{editable ? <Text label="Option" value={o.label} onChange={(v) => setOption(g.id, o.id, { label: v })} /> : <span className="font-medium">{o.label}</span>}</td>
                     <td className="py-1.5 pr-2">{editable ? <Text label="Detail" value={o.detail ?? ""} onChange={(v) => setOption(g.id, o.id, { detail: v })} /> : <span className="text-charcoal">{o.detail}</span>}</td>
                     <td className="py-1.5 pr-2">{editable ? <Money label="Price" value={o.price} onChange={(v) => setOption(g.id, o.id, { price: v })} /> : <span className="tabular block text-right font-mono">{o.price ? formatINR(o.price) : "Included"}</span>}</td>
-                    <td className="py-1.5 pr-2">{editable ? <Money label="Up to" value={o.upTo ?? 0} onChange={(v) => setOption(g.id, o.id, { upTo: v || undefined })} /> : <span className="tabular block text-right font-mono">{o.upTo ? formatINR(o.upTo) : "—"}</span>}</td>
+                    {g.id === "package" && (
+                      <td className="py-1.5 pr-2">{editable ? <Money label="Scenes" suffix="count" value={o.scenes ?? 0} onChange={(v) => setOption(g.id, o.id, { scenes: v || undefined })} /> : <span className="tabular block text-right font-mono">{o.scenes ?? "—"}</span>}</td>
+                    )}
+                    <td className="py-1.5 pr-2">{editable ? <Text label="Unit" placeholder="—" value={o.unit ?? ""} onChange={(v) => setOption(g.id, o.id, { unit: v || undefined })} /> : <span className="text-charcoal">{o.unit ?? "—"}</span>}</td>
                     <td className="py-1.5 pr-2">{editable ? <Text label="Badge" placeholder="—" value={o.badge ?? ""} onChange={(v) => setOption(g.id, o.id, { badge: v })} /> : o.badge}</td>
                     {editable && (
                       <td className="whitespace-nowrap py-1.5 text-right">

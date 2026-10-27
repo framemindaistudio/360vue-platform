@@ -5,6 +5,7 @@ import { site } from "@/lib/site";
 const PAGES: { path: string; priority: number; changeFrequency: "weekly" | "monthly" }[] = [
   { path: "", priority: 1, changeFrequency: "weekly" },
   { path: "/services", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },
   { path: "/contact", priority: 0.9, changeFrequency: "monthly" },
   { path: "/portfolio", priority: 0.8, changeFrequency: "weekly" },
   { path: "/industries", priority: 0.8, changeFrequency: "monthly" },

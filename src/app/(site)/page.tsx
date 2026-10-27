@@ -196,7 +196,7 @@ export default function HomePage() {
       {/* ── packages ─────────────────────────────────────── */}
       <section className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead center eyebrow="Packages" title="Three packages. No confusion." intro="Pick the one closest to your space; your quote spells out exactly what is included." />
+          <SectionHead center eyebrow="Plans" title="Priced by scenes. No surprises." intro="Four plans, from a café to a campus. Enter your area, floors and rooms in the calculator for your exact price." />
           <div className="mt-14">
             <Packages />
           </div>

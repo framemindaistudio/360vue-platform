@@ -270,6 +270,10 @@ export const collections: CollectionDef[] = [
       { key: "budget", label: "Budget mentioned", type: "text", width: "third" },
       { key: "timeline", label: "Timeline", type: "text", placeholder: "e.g. Live before the grand opening", width: "third" },
       { key: "spaceSize", label: "Approximate space size", type: "text", placeholder: "e.g. 2,500 sq ft, 3 areas", width: "third" },
+      { key: "estimate", label: "Website estimate (ex-GST)", type: "currency", width: "third", help: "What the price configurator showed them. New quote opens with the same choices." },
+      { key: "quoteNo", label: "Website quote no.", type: "text", width: "third" },
+      // the configurator's selections per service (read by New quote): set only by the website
+      { key: "config", label: "Configured selections", type: "text", hidden: true },
       { key: "message", label: "Message", type: "textarea", width: "full" },
       { key: "page", label: "Submitted from", type: "text", width: "half" },
       { key: "clientId", label: "Converted to client", type: "ref", ref: "clients", width: "half" },

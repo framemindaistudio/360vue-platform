@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Check } from "lucide-react";
 import { Packages } from "@/components/site/Packages";
 import { ParentCompany } from "@/components/site/ParentCompany";
@@ -56,9 +57,14 @@ export default async function ServicesPage() {
 
       <section id="packages" className="scroll-mt-20 border-t border-cream/10 bg-night/60 py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead center eyebrow="Tour packages" title="Starter, Business or Premium." intro="Proposed launch prices to validate with our first clients. Your quote states the exact scope." />
+          <SectionHead center eyebrow="Tour plans" title="Glance, Walkthrough, Showcase, Grand Tour." intro="Every plan includes Google Maps publishing and 12 months of hosting. Use the price calculator for your exact quote." />
           <div className="mt-14">
             <Packages />
+          </div>
+          <div className="reveal mt-10 flex justify-center">
+            <Link href="/pricing" className="inline-flex items-center gap-2 rounded-full bg-gold-grad px-8 py-3.5 text-sm font-semibold text-midnight shadow-[0_12px_40px_-10px_rgba(245,158,76,0.7)]">
+              Build your quote — area, floors, rooms
+            </Link>
           </div>
 
           {addons.length > 0 && (
@@ -74,7 +80,7 @@ export default async function ServicesPage() {
                           {o.detail && <span className="mt-0.5 block text-xs text-cream/45">{o.detail}</span>}
                         </span>
                         <span className="shrink-0 font-mono text-cream/70">
-                          {o.price ? `from ${formatINR(o.price)}${o.unit ?? ""}` : "Included"}
+                          {o.price ? `${formatINR(o.price)}${o.unit ?? ""}` : "Included"}
                         </span>
                       </li>
                     ))}
