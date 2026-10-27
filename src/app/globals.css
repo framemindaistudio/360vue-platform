@@ -262,6 +262,8 @@ html.lenis, html.lenis body { height: auto; }
   .print-page:last-child { break-after: auto; }
   a { color: inherit; text-decoration: none; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  /* gradient-clipped text can print as a solid block: print the gold as a flat colour */
+  .text-gold-grad { background-image: none !important; -webkit-background-clip: border-box !important; background-clip: border-box !important; color: #d9953f !important; }
 }
 
 /* ── Markdown documents (HQ docs viewer & printable docs) ─────────────── */
