@@ -7,6 +7,12 @@
  */
 const PROD_URL = "https://www.360vue.website";
 const DEV_URL = "http://localhost:3012";
+/**
+ * The live domain redirects 360vue.website to www.360vue.website, so every address the site gives out (canonical tags,
+ * the sitemap, structured data, links in emails) must use www — an address that redirects confuses search engines.
+ * This holds even if NEXT_PUBLIC_SITE_URL is set without www.
+ */
+const canonicalHost = (u: string) => u.replace(/\/+$/, "").replace(/^https?:\/\/360vue\.website(?=$|\/)/i, "https://www.360vue.website");
 
 export const site = {
   name: "360VUE",
@@ -22,8 +28,8 @@ export const site = {
     "360VUE makes 360° virtual tours, SkyVUE drone 360° aerial views and Google Maps listings for restaurants, hotels, banquet halls, showrooms, hospitals, colleges and real estate across South India — Bengaluru, Chennai, Hyderabad, Kochi and beyond.",
   mission: "Help businesses showcase their spaces online through high-quality, interactive visual experiences.",
   vision: "Become a trusted provider of virtual tours and immersive visual experiences for businesses across India, with the potential to serve international clients.",
-  url: (process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "production" ? PROD_URL : DEV_URL)).replace(/\/+$/, ""),
-  website: (process.env.NEXT_PUBLIC_WEBSITE_URL || process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "production" ? PROD_URL : DEV_URL)).replace(/\/+$/, ""),
+  url: canonicalHost(process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "production" ? PROD_URL : DEV_URL)),
+  website: canonicalHost(process.env.NEXT_PUBLIC_WEBSITE_URL || process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "production" ? PROD_URL : DEV_URL)),
   location: process.env.NEXT_PUBLIC_LOCATION || "",
   contact: {
     email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "framemindaistudio@gmail.com",
