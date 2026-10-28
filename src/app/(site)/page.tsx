@@ -9,11 +9,11 @@ import { ServiceStory } from "@/components/site/ServiceStory";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead, SiteIcon } from "@/components/site/bits";
 import { FAQS, FEATURES, INDUSTRIES } from "@/lib/site-content";
 import { TERMS } from "@/lib/content/catalog";
-import { site } from "@/lib/site";
+import { CITIES, STATES, citiesIn } from "@/lib/locations";
 
 export const metadata: Metadata = {
-  title: { absolute: "360VUE — 360° Virtual Tours, Photography & Immersive Experiences" },
-  description: site.description,
+  title: { absolute: "360° Virtual Tours & Drone 360 in South India | 360VUE" },
+  description: "360° virtual tours, drone 360° aerial views and Google Maps listings for businesses and real estate in Bengaluru, Chennai, Hyderabad, Kochi and across South India.",
   alternates: { canonical: "/" },
 };
 
@@ -168,6 +168,31 @@ export default function HomePage() {
               <GoldButton href="/skyvue">Explore SkyVUE</GoldButton>
               <GhostButton href="/pricing?need=sky">See prices</GhostButton>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── where we work ────────────────────────────────── */}
+      <section className="border-t border-cream/10 py-20 sm:py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHead eyebrow="Where we work" title={<>360° tours across <span className="text-gold-grad">South India.</span></>} intro={`We come to you in ${STATES.map((s) => s.name).join(", ").replace(/, ([^,]*)$/, " and $1")} — ${CITIES.length} cities and the towns around them.`} />
+          <div className="reveal mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
+            {STATES.map((s) => (
+              <div key={s.slug}>
+                <Link href={`/locations#${s.slug}`} className="text-sm font-semibold uppercase tracking-[0.18em] text-sand/80 hover:text-sunset">
+                  {s.name}
+                </Link>
+                <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                  {citiesIn(s.slug).map((c) => (
+                    <li key={c.slug}>
+                      <Link href={`/locations/${c.slug}`} className="text-cream/70 hover:text-sunset">
+                        {c.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </section>

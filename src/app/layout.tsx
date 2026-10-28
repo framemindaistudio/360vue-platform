@@ -25,9 +25,11 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: "360VUE — 360° Virtual Tours · See Every Angle", template: "%s | 360VUE" },
+  title: { default: "360VUE — 360° Virtual Tours & Drone 360 in South India", template: "%s | 360VUE" },
   description: site.description,
   applicationName: "360VUE",
+  // Google Search Console: paste the token from "HTML tag" verification into NEXT_PUBLIC_GSC_VERIFICATION
+  ...(process.env.NEXT_PUBLIC_GSC_VERIFICATION ? { verification: { google: process.env.NEXT_PUBLIC_GSC_VERIFICATION } } : {}),
   manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",

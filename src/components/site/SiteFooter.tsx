@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { NAV } from "@/lib/site-content";
 import { site, whatsappLink } from "@/lib/site";
+import { CITIES } from "@/lib/locations";
 
 export function SiteFooter() {
   const wa = whatsappLink("Hi 360VUE, I'd like a virtual tour of my space.");
@@ -19,7 +20,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer relative overflow-hidden border-t border-cream/10 bg-night">
       <div className="pointer-events-none absolute -bottom-40 left-1/2 size-[520px] -translate-x-1/2 rounded-full bg-sunset/10 blur-[140px]" aria-hidden />
-      <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
+      <div className="relative mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.3fr_0.8fr_1.4fr_1fr] lg:px-8">
         <div>
           <div className="text-[22px]">
             <Logo tone="white" tagline />
@@ -33,6 +34,22 @@ export function SiteFooter() {
               <li key={n.href}>
                 <Link href={n.href} className="text-cream/70 hover:text-sunset">
                   {n.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sand/70">
+            <Link href="/locations" className="hover:text-sunset">
+              Across South India
+            </Link>
+          </p>
+          <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">
+            {CITIES.map((c) => (
+              <li key={c.slug}>
+                <Link href={`/locations/${c.slug}`} className="text-cream/60 hover:text-sunset">
+                  {c.name}
                 </Link>
               </li>
             ))}

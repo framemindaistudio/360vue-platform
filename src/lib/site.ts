@@ -19,7 +19,7 @@ export const site = {
   pillars: ["360° Virtual Tours", "SkyVUE Aerial 360°", "Google Maps Publishing", "3D & Digital Twins"],
   headline: "Real spaces. Real experiences.",
   description:
-    "360VUE creates interactive 360° virtual tours, interior photography and video for restaurants, cafés, hotels, banquet halls, showrooms, real estate and offices — so customers can explore a space online before they visit.",
+    "360VUE makes 360° virtual tours, SkyVUE drone 360° aerial views and Google Maps listings for restaurants, hotels, banquet halls, showrooms, hospitals, colleges and real estate across South India — Bengaluru, Chennai, Hyderabad, Kochi and beyond.",
   mission: "Help businesses showcase their spaces online through high-quality, interactive visual experiences.",
   vision: "Become a trusted provider of virtual tours and immersive visual experiences for businesses across India, with the potential to serve international clients.",
   url: (process.env.NEXT_PUBLIC_SITE_URL || (process.env.NODE_ENV === "production" ? PROD_URL : DEV_URL)).replace(/\/+$/, ""),
