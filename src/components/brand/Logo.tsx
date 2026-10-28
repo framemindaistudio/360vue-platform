@@ -12,6 +12,8 @@ import { cn } from "@/lib/utils";
  * text, so they stay sharp at every size and in print. "VUE" is always the gold gradient.
  */
 const EMBLEM = "/brand/emblem-512.png";
+/** a 7 KB copy for the small inline wordmark (site header and footer), so it never holds up a phone's first load */
+const EMBLEM_SMALL = "/brand/emblem-128.webp";
 
 export function Wordmark({ tone = "white", className, tagline = false }: { tone?: "ink" | "white"; className?: string; tagline?: boolean }) {
   return (
@@ -45,8 +47,8 @@ export function Logo({
   alt?: string;
   tagline?: boolean;
 }) {
-  const mark = (cls?: string) => (
-    <Image src={EMBLEM} alt={variant === "mark" ? alt : ""} width={512} height={512} priority={priority} unoptimized className={cn("h-auto w-full select-none", cls)} draggable={false} />
+  const mark = (cls?: string, small = false) => (
+    <Image src={small ? EMBLEM_SMALL : EMBLEM} alt={variant === "mark" ? alt : ""} width={small ? 128 : 512} height={small ? 128 : 512} priority={priority} unoptimized className={cn("h-auto w-full select-none", cls)} draggable={false} />
   );
 
   const body =
@@ -59,7 +61,7 @@ export function Logo({
       </span>
     ) : (
       <span className={cn("flex items-center gap-[0.4em] text-[length:inherit] leading-none", className)} aria-label={alt}>
-        <span className="block aspect-square w-[1.9em] shrink-0">{mark()}</span>
+        <span className="block aspect-square w-[1.9em] shrink-0">{mark(undefined, true)}</span>
         <Wordmark tone={tone} tagline={tagline} className="text-[1.15em]" />
       </span>
     );

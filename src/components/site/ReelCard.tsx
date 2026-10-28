@@ -9,6 +9,15 @@ import { useEffect, useRef, useState } from "react";
 export function ReelCard({ video, poster, alt, className }: { video: string; poster: string; alt: string; className?: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [failed, setFailed] = useState(false);
+  const [near, setNear] = useState(false);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && setNear(true), { rootMargin: "600px" });
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     const v = ref.current;
@@ -30,5 +39,5 @@ export function ReelCard({ video, poster, alt, className }: { video: string; pos
     // eslint-disable-next-line @next/next/no-img-element
     return <img src={poster} alt={alt} className={className} loading="lazy" />;
   }
-  return <video ref={ref} className={className} src={video} poster={poster} muted loop playsInline preload="none" aria-label={alt} onError={() => setFailed(true)} />;
+  return <video ref={ref} className={className} src={near ? video : undefined} poster={near ? poster : undefined} muted loop playsInline preload="none" aria-label={alt} onError={() => setFailed(true)} />;
 }

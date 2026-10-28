@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { PanoViewer, DEMO_SCENES } from "@/components/site/PanoViewer";
 import { ReelCard } from "@/components/site/ReelCard";
+import { HeroVideo } from "@/components/site/HeroVideo";
 import { Packages } from "@/components/site/Packages";
 import { ServiceStory } from "@/components/site/ServiceStory";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead, SiteIcon } from "@/components/site/bits";
@@ -32,7 +33,7 @@ export default function HomePage() {
     <>
       {/* ── hero ─────────────────────────────────────────── */}
       <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden">
-        <video className="absolute inset-0 -z-20 h-full w-full object-cover" src="/media/hero-walkthrough.mp4" poster="/media/hero-poster.jpg" autoPlay muted loop playsInline preload="metadata" aria-hidden />
+        <HeroVideo className="absolute inset-0 -z-20 h-full w-full object-cover" src="/media/hero-walkthrough.mp4" poster="/media/hero-poster.webp" posterSmall="/media/hero-poster-sm.webp" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-midnight via-midnight/75 to-midnight/10" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-midnight via-transparent to-midnight/40" />
 

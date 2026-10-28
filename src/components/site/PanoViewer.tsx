@@ -287,7 +287,7 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
       {/* preview until the panorama is in */}
       {scene.preview && !ready && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={scene.preview} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover blur-md" aria-hidden />
+        <img src={scene.preview} alt="" loading="lazy" decoding="async" className="absolute inset-0 h-full w-full scale-110 object-cover blur-md" aria-hidden />
       )}
       <div ref={host} className="absolute inset-0" role="img" aria-label={`360° view: ${scene.label}. Drag to look around.`} />
 
