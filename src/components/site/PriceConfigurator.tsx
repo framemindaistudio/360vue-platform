@@ -69,6 +69,8 @@ function StepHead({ n, title, sub }: { n: number; title: string; sub?: string })
 
 const card = "rounded-3xl border border-cream/10 bg-night/80 p-5 sm:p-7";
 
+const ONE_LINK = "One link: aerial and ground scenes joined with hotspots (no extra charge for linking)";
+
 export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: PublicRates; initialMode?: "tour" | "sky" | "both" }) {
   const tour = rates.services.find((s) => s.id === "tours") as Service | undefined;
   const spatial = rates.services.find((s) => s.id === "spatial") as Service | undefined;
@@ -193,7 +195,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
       email: email.trim(),
       space: spaceLine,
       lines,
-      included: [...(withTour ? tour?.included ?? [] : []), ...(withSky ? sky?.included ?? [] : []), ...included.filter((x) => !/google/i.test(x))],
+      included: [...(withTour && withSky ? [ONE_LINK] : []), ...(withTour ? tour?.included ?? [] : []), ...(withSky ? sky?.included ?? [] : []), ...included.filter((x) => !/google/i.test(x))],
       discount: discount ? { label: `Multi-service discount (${bundlePct}%)`, amount: discount } : null,
       taxable,
       gstPercent: rates.gstPercent,
@@ -255,7 +257,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
               {[
                 { id: "tour", t: "360° virtual tour", d: "Walk through the inside of your space" },
                 { id: "sky", t: "SkyVUE aerial only", d: "Your location from above, with landmarks" },
-                { id: "both", t: "Tour + SkyVUE", d: "Arrive from the sky, then walk in" },
+                { id: "both", t: "Tour + SkyVUE, one link", d: "Sky and inside joined with hotspots" },
               ].map((m) => (
                 <button
                   key={m.id}
@@ -524,6 +526,14 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
                 </li>
               ))}
             </ul>
+            {withTour && (
+              <p className="mt-6 flex gap-3 rounded-2xl border border-sunset/40 bg-sunset/[0.07] px-4 py-3.5 text-sm leading-relaxed text-cream/80">
+                <Check className="mt-0.5 size-4 shrink-0 text-sunset" aria-hidden />
+                <span>
+                  <strong className="text-cream">One link, sky to inside.</strong> Your aerial scenes and your ground tour are joined in a single link: tap a hotspot on the aerial view to step into the lobby, café or flat, and tap &ldquo;Back to the sky&rdquo; to fly up again. No extra charge for linking.
+                </span>
+              </p>
+            )}
             {skyExtras?.note && <p className="mt-4 text-xs leading-relaxed text-cream/40">{skyExtras.note}</p>}
           </section>
         )}
@@ -608,6 +618,12 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
               <li className="flex justify-between gap-4 py-2.5 text-sunset">
                 <span>Multi-service discount ({bundlePct}%)</span>
                 <span className="tabular shrink-0 font-semibold">− {inr(discount)}</span>
+              </li>
+            )}
+            {withTour && withSky && (
+              <li className="flex justify-between gap-4 py-2.5 text-cream/50">
+                <span>One link: aerial + ground joined with hotspots</span>
+                <span className="shrink-0">Included</span>
               </li>
             )}
             <li className="flex justify-between gap-4 py-2.5 text-cream/50">

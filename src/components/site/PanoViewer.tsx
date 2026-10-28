@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Maximize2, Minimize2, Move, Pause, Play } from "lucide-react";
+import { ArrowUpRight, Maximize2, Minimize2, Move, Pause, Play } from "lucide-react";
 import type { Mesh, MeshBasicMaterial } from "three";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +29,8 @@ export interface PanoMarker {
   sub?: string;
   /** "title": large floating text over an area; "poi" (default): a pinned label */
   kind?: "poi" | "title";
+  /** a hotspot: the id of the scene this label takes you to when tapped (aerial <-> ground in one link) */
+  to?: string;
 }
 
 /**
@@ -274,6 +276,11 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
     else box.requestFullscreen?.().catch(() => {});
   };
 
+  const go = (id: string) => {
+    const i = scenes.findIndex((s) => s.id === id);
+    if (i >= 0) choose(i);
+  };
+
   const scene = scenes[active];
   return (
     <div className={cn("relative isolate overflow-hidden bg-night", className)}>
@@ -289,7 +296,27 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
         {ready &&
           (scene.markers ?? []).map((m) => (
             <div key={`${m.label}-${m.lon}`} data-lon={m.lon} data-lat={m.lat} className="absolute left-0 top-0 opacity-0 transition-opacity duration-300 will-change-transform">
-              {m.kind === "title" ? (
+              {m.to ? (
+                <button
+                  type="button"
+                  onClick={() => go(m.to!)}
+                  className="pointer-events-auto flex -translate-x-1/2 -translate-y-full flex-col items-center"
+                  aria-label={`Go to ${m.label}`}
+                >
+                  <span className="flex items-center gap-2 whitespace-nowrap rounded-full bg-gold-grad py-1.5 pl-3.5 pr-2 text-left shadow-[0_10px_30px_-8px_rgba(245,158,76,0.8)] transition-transform hover:scale-105">
+                    <span>
+                      <span className="block text-xs font-bold text-midnight sm:text-[13px]">{m.label}</span>
+                      {m.sub && <span className="block text-[10px] font-semibold uppercase tracking-wider text-midnight/70">{m.sub}</span>}
+                    </span>
+                    <ArrowUpRight className="size-4 text-midnight" aria-hidden />
+                  </span>
+                  <span className="h-5 w-px bg-sunset" />
+                  <span className="relative grid size-4 place-items-center">
+                    <span className="absolute inset-0 animate-ping rounded-full bg-sunset/60" />
+                    <span className="size-2.5 rounded-full border-2 border-cream bg-sunset" />
+                  </span>
+                </button>
+              ) : m.kind === "title" ? (
                 <span className="block -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-display text-lg font-bold uppercase tracking-[0.18em] text-cream [text-shadow:0_2px_14px_rgba(0,0,0,0.75)] sm:text-2xl">
                   {m.label}
                 </span>
@@ -353,22 +380,46 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
   );
 }
 
-/** SkyVUE demo: an aerial 360° over a plotted layout, with landmarks and distances (illustrative). */
-export const SKY_DEMO_SCENES: PanoScene[] = [
+/**
+ * SkyVUE combined demo: the aerial view and the ground scenes in one link. Gold labels are hotspots that
+ * fly down into the clubhouse, and each ground scene has one back up to the sky (illustrative).
+ */
+export const COMBINED_DEMO_SCENES: PanoScene[] = [
   {
     id: "sky-layout",
     label: "Aerial view",
     src: "/media/pano-aerial.webp",
     preview: "/media/pano-aerial-sm.webp",
-    start: 200,
+    start: 220,
     markers: [
       { lon: 147, lat: 8, label: "Lake & promenade", sub: "2.6 km" },
       { lon: 213, lat: 22, label: "City centre", sub: "9 km · 20 min" },
       { lon: 199, lat: -9, label: "National highway", sub: "400 m" },
       { lon: 253, lat: 12, label: "Multi-speciality hospital", sub: "1.8 km" },
       { lon: 338, lat: 10, label: "Shopping mall", sub: "2.2 km" },
-      { lon: 238, lat: -30, label: "Clubhouse & pool", sub: "Inside the layout" },
+      { lon: 238, lat: -30, label: "Clubhouse lobby", sub: "Step inside", to: "lobby" },
+      { lon: 272, lat: -24, label: "Clubhouse café", sub: "Step inside", to: "cafe" },
       { lon: 298, lat: -58, label: "Phase 2 plots", kind: "title" },
+    ],
+  },
+  {
+    id: "lobby",
+    label: "Clubhouse lobby",
+    src: "/media/pano-lobby.webp",
+    preview: "/media/pano-lobby-sm.webp",
+    markers: [
+      { lon: 200, lat: 18, label: "Back to the sky", sub: "Aerial view", to: "sky-layout" },
+      { lon: 150, lat: -2, label: "Café", sub: "Walk in", to: "cafe" },
+    ],
+  },
+  {
+    id: "cafe",
+    label: "Clubhouse café",
+    src: "/media/pano-restaurant.webp",
+    preview: "/media/pano-restaurant-sm.webp",
+    markers: [
+      { lon: 205, lat: 18, label: "Back to the sky", sub: "Aerial view", to: "sky-layout" },
+      { lon: 150, lat: -2, label: "Lobby", sub: "Walk back", to: "lobby" },
     ],
   },
 ];

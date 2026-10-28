@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Building2, Check, Factory, GraduationCap, Hotel, MapPinned, PartyPopper, ShieldCheck, Trees, Wind } from "lucide-react";
-import { PanoViewer, SKY_DEMO_SCENES } from "@/components/site/PanoViewer";
+import { COMBINED_DEMO_SCENES, PanoViewer } from "@/components/site/PanoViewer";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead } from "@/components/site/bits";
 import { publicRateCard } from "@/lib/public-rates";
 
@@ -18,7 +18,7 @@ const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
 const WHY = [
   { Icon: MapPinned, t: "Location sells", d: "Buyers and guests ask how far the highway, the school or the hospital is. SkyVUE shows it, with the distance on the label." },
   { Icon: Trees, t: "The whole property at once", d: "Layouts, resorts and campuses are too big for one photo. From 120 m, people see every plot, lawn and building in context." },
-  { Icon: ArrowRight, t: "Arrive from the sky", d: "Open your 360° tour with an aerial scene, then step down to the entrance and walk in." },
+  { Icon: ArrowRight, t: "Sky and inside, one link", d: "Combine SkyVUE with your 360° tour: hotspots take visitors from the aerial view down into the lobby, café or flat, and back up. One link to share." },
 ];
 
 const FOR = [
@@ -65,9 +65,9 @@ export default async function SkyVuePage() {
       {/* demo */}
       <section id="demo" className="scroll-mt-20 py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead eyebrow="Try it" title="Every landmark, with the distance." intro="Drag to look around a plotted layout from above. Labels stay pinned to the places they name." />
+          <SectionHead eyebrow="Try it" title="Sky to inside, in one link." intro="Drag to look around a plotted layout from above: every landmark shows its distance. Then tap a gold hotspot to step down into the clubhouse lobby or café, and tap “Back to the sky” to fly up again." />
           <div className="reveal mt-12 overflow-hidden rounded-3xl border border-cream/10 shadow-[0_40px_120px_-40px_rgba(245,158,76,0.35)]">
-            <PanoViewer scenes={SKY_DEMO_SCENES} className="aspect-[4/5] w-full sm:aspect-[16/9]" />
+            <PanoViewer scenes={COMBINED_DEMO_SCENES} className="aspect-[4/5] w-full sm:aspect-[16/9]" />
           </div>
           <p className="mt-3 text-center text-xs text-cream/40">Demo of an illustrative location; landmarks and distances are examples, not a real project.</p>
         </div>
@@ -162,9 +162,9 @@ export default async function SkyVuePage() {
               </ul>
             </div>
             <div className="reveal rounded-3xl border border-sunset/30 bg-sunset/[0.06] p-7">
-              <h3 className="text-lg font-semibold text-cream">Already getting a 360° tour?</h3>
+              <h3 className="text-lg font-semibold text-cream">Combine it with your 360° tour — one link</h3>
               <p className="mt-2 text-sm leading-relaxed text-cream/65">
-                Add a SkyVUE aerial opening scene to your tour for {opening ? `${inr(opening.price)} per scene` : "a lower price"} — we fly on the same visit, so it costs less than a standalone plan.
+                Take SkyVUE and a ground tour together and we join them in a single link, with hotspots from the aerial view into your space and back — linking costs nothing extra. Need just one aerial view? Add an aerial opening scene to your tour for {opening ? `${inr(opening.price)} per scene` : "a lower price"}; we fly on the same visit.
               </p>
               <Link href="/pricing?need=both" className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-sunset hover:underline">
                 Price a tour with SkyVUE <ArrowRight className="size-4" aria-hidden />

@@ -105,7 +105,7 @@ export const SERVICES: Service[] = [
         options: [
           { id: "extra-scene", label: "Extra scenes", detail: "Beyond the scenes in your plan", price: 799, unit: "/scene" },
           { id: "extra-floor", label: "Additional floors", detail: "Level switcher and stair connections for each floor after the first", price: 1499, unit: "/floor" },
-          { id: "aerial", label: "SkyVUE aerial opening scene", detail: "A drone 360° from above, with landmark labels, as the first scene of your tour — same visit", price: 3999, unit: "/scene" },
+          { id: "aerial", label: "SkyVUE aerial opening scene", detail: "A drone 360° with landmark labels as the first scene of your tour, in the same link with hotspots down into the space — same visit", price: 3999, unit: "/scene" },
         ],
       },
       {
@@ -157,7 +157,8 @@ export const SERVICES: Service[] = [
       "Drone capture from up to 120 m, stitched into a full 360° sphere",
       "Landmark labels with distances, researched for your location",
       "Shareable link, website embed, Google Maps where eligible",
-      "12 months of hosting · links into your ground tour",
+      "Combine with a ground tour in one link: hotspots from the sky into the space and back",
+      "12 months of hosting",
     ],
     groups: [
       {

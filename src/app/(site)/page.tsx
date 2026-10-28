@@ -157,7 +157,7 @@ export default function HomePage() {
               Show where you are, <span className="text-gold-grad">from 120 m up.</span>
             </h2>
             <p className="mt-5 text-lg text-cream/70">
-              A drone 360° with the highway, schools, hospital and lake around you labelled, with distances. For plotted layouts, apartments, resorts and campuses — on its own or as the first scene of your tour.
+              A drone 360° with the highway, schools, hospital and lake around you labelled, with distances. For plotted layouts, apartments, resorts and campuses — on its own, or combined with your tour in one link where a hotspot flies people down inside.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <GoldButton href="/skyvue">Explore SkyVUE</GoldButton>
