@@ -44,20 +44,20 @@ export const STATES: State[] = [
     intro: "From Bengaluru's cafés, offices and apartment launches to coastal resorts in Udupi and coffee-estate homestays in Coorg and Chikkamagaluru.",
     places: [
       { name: "Mysuru Palace", city: "mysuru" }, { name: "Srirangapatna", city: "mysuru" }, { name: "Coorg", city: "coorg" }, { name: "Chikkamagaluru", city: "chikkamagaluru" },
-      { name: "Hampi" }, { name: "Badami, Aihole & Pattadakal" }, { name: "Vijayapura (Gol Gumbaz)" }, { name: "Belur & Halebidu" },
-      { name: "Shravanabelagola" }, { name: "Gokarna" }, { name: "Murudeshwar" }, { name: "Udupi & Malpe", city: "udupi-manipal" },
+      { name: "Hampi", city: "hampi" }, { name: "Badami, Aihole & Pattadakal", city: "hampi" }, { name: "Vijayapura (Gol Gumbaz)" }, { name: "Belur & Halebidu" },
+      { name: "Shravanabelagola" }, { name: "Gokarna", city: "gokarna" }, { name: "Murudeshwar", city: "gokarna" }, { name: "Udupi & Malpe", city: "udupi-manipal" },
       { name: "Jog Falls" }, { name: "Dandeli" }, { name: "Kabini", city: "mysuru" }, { name: "Bandipur & Nagarhole", city: "mysuru" },
-      { name: "Sakleshpur" }, { name: "Kudremukh", city: "chikkamagaluru" }, { name: "Agumbe" }, { name: "Nandi Hills", city: "bengaluru" }, { name: "Karwar" },
+      { name: "Sakleshpur" }, { name: "Kudremukh", city: "chikkamagaluru" }, { name: "Agumbe" }, { name: "Nandi Hills", city: "bengaluru" }, { name: "Karwar", city: "gokarna" },
     ],
   },
   {
     slug: "tamil-nadu", name: "Tamil Nadu", local: "தமிழ்நாடு", lang: "ta",
     intro: "Chennai's showrooms and hospitals, Coimbatore's textile and engineering businesses, Madurai's hotels near the temple, and hill resorts in Ooty.",
     places: [
-      { name: "Mahabalipuram", city: "chennai" }, { name: "Kanchipuram", city: "chennai" }, { name: "Madurai Meenakshi Temple", city: "madurai" }, { name: "Ooty", city: "ooty" },
-      { name: "Coonoor", city: "ooty" }, { name: "Kodaikanal", city: "madurai" }, { name: "Yercaud" }, { name: "Yelagiri" },
+      { name: "Mahabalipuram", city: "mahabalipuram" }, { name: "Kanchipuram", city: "chennai" }, { name: "Madurai Meenakshi Temple", city: "madurai" }, { name: "Ooty", city: "ooty" },
+      { name: "Coonoor", city: "ooty" }, { name: "Kodaikanal", city: "kodaikanal" }, { name: "Yercaud" }, { name: "Yelagiri" },
       { name: "Valparai", city: "coimbatore" }, { name: "Mudumalai", city: "ooty" }, { name: "Thanjavur", city: "tiruchirappalli" }, { name: "Kumbakonam", city: "tiruchirappalli" },
-      { name: "Srirangam", city: "tiruchirappalli" }, { name: "Rameswaram", city: "madurai" }, { name: "Kanyakumari" }, { name: "Chettinad (Karaikudi)", city: "madurai" },
+      { name: "Srirangam", city: "tiruchirappalli" }, { name: "Rameswaram", city: "rameswaram" }, { name: "Kanyakumari", city: "kanyakumari" }, { name: "Chettinad (Karaikudi)", city: "madurai" },
       { name: "Tiruvannamalai" }, { name: "Velankanni" }, { name: "Courtallam" }, { name: "Hogenakkal" },
     ],
   },
@@ -66,8 +66,8 @@ export const STATES: State[] = [
     intro: "Kochi's hotels and cafés, Thiruvananthapuram's hospitals and colleges, houseboats and lake resorts in Alappuzha, and tea-country stays in Munnar.",
     places: [
       { name: "Munnar", city: "munnar" }, { name: "Alappuzha backwaters", city: "alappuzha" }, { name: "Kumarakom", city: "alappuzha" }, { name: "Fort Kochi", city: "kochi" },
-      { name: "Thekkady (Periyar)", city: "munnar" }, { name: "Vagamon", city: "kochi" }, { name: "Wayanad", city: "kozhikode" }, { name: "Kovalam", city: "thiruvananthapuram" },
-      { name: "Varkala", city: "thiruvananthapuram" }, { name: "Poovar", city: "thiruvananthapuram" }, { name: "Ponmudi", city: "thiruvananthapuram" }, { name: "Athirappilly", city: "thrissur" },
+      { name: "Thekkady (Periyar)", city: "thekkady" }, { name: "Vagamon", city: "kochi" }, { name: "Wayanad", city: "wayanad" }, { name: "Kovalam", city: "kovalam" },
+      { name: "Varkala", city: "varkala" }, { name: "Poovar", city: "kovalam" }, { name: "Ponmudi", city: "thiruvananthapuram" }, { name: "Athirappilly", city: "thrissur" },
       { name: "Guruvayur", city: "thrissur" }, { name: "Marari Beach", city: "alappuzha" }, { name: "Bekal" }, { name: "Kannur" }, { name: "Sabarimala" },
     ],
   },
@@ -85,7 +85,7 @@ export const STATES: State[] = [
     intro: "Beach-side hotels and apartments in Visakhapatnam, wedding halls and showrooms in Vijayawada and Guntur, and pilgrim hotels in Tirupati.",
     places: [
       { name: "Tirupati & Tirumala", city: "tirupati" }, { name: "Srikalahasti", city: "tirupati" }, { name: "Horsley Hills", city: "tirupati" }, { name: "RK Beach, Vizag", city: "visakhapatnam" },
-      { name: "Araku Valley", city: "visakhapatnam" }, { name: "Borra Caves", city: "visakhapatnam" }, { name: "Lambasingi", city: "visakhapatnam" }, { name: "Kanaka Durga Temple", city: "vijayawada" },
+      { name: "Araku Valley", city: "araku-valley" }, { name: "Borra Caves", city: "araku-valley" }, { name: "Lambasingi", city: "araku-valley" }, { name: "Kanaka Durga Temple", city: "vijayawada" },
       { name: "Bhavani Island", city: "vijayawada" }, { name: "Amaravati", city: "guntur" }, { name: "Srisailam" }, { name: "Gandikota" }, { name: "Lepakshi" },
       { name: "Puttaparthi" }, { name: "Konaseema" }, { name: "Papikondalu" }, { name: "Rajahmundry" },
     ],
@@ -167,7 +167,7 @@ export const CITIES: City[] = [
     fits: ["Showrooms and retail", "Hospitals and diagnostic centres", "Colleges and coaching centres", "Residential and plotted projects", "Banquet halls"],
     sky: "For plotted layouts, SkyVUE labels the BRTS corridor, the highway, schools and hospitals with distances.",
     airspace: "The surroundings of Hubballi airport are restricted. We check your exact location before booking.",
-    nearby: ["belagavi", "bengaluru", "udupi-manipal", "mysuru"],
+    nearby: ["belagavi", "hampi", "gokarna", "north-goa"],
   },
   {
     slug: "belagavi", name: "Belagavi", local: "ಬೆಳಗಾವಿ", state: "karnataka", aka: ["Belgaum"],
@@ -178,6 +178,23 @@ export const CITIES: City[] = [
     nearby: ["hubballi-dharwad", "north-goa", "panaji", "bengaluru"],
   },
 
+  {
+    slug: "hampi", name: "Hampi", local: "ಹಂಪಿ", state: "karnataka", aka: ["Hosapete", "Hospet", "Anegundi", "Kamalapura"],
+    intro: "Hampi's ruins draw travellers from across India and the world, and they stay in the resorts, homestays and guest houses around Hosapete, Kamalapura and across the river in Anegundi. Most book from far away — a 360° tour of the room, the courtyard and the view of the boulders helps them choose.",
+    fits: ["Heritage resorts and boutique hotels", "Homestays and guest houses", "Cafés and restaurants", "Hotels in Hosapete", "Tour operators and experience stays"],
+    sky: "SkyVUE shows a resort among the boulders and paddy fields, with the Virupaksha temple, the river and Hosapete labelled with distances.",
+    airspace: "Hampi's monuments are protected by the Archaeological Survey of India, and drones near them need ASI permission. We fly over your property only where it is allowed, and check before booking.",
+    nearby: ["hubballi-dharwad", "gokarna", "bengaluru", "belagavi"],
+  },
+  {
+    slug: "gokarna", name: "Gokarna", local: "ಗೋಕರ್ಣ", state: "karnataka", aka: ["Om Beach", "Kudle Beach"],
+    intro: "Gokarna is a temple town and a beach escape at once: pilgrims come for the Mahabaleshwar temple, travellers for Om, Kudle and Half Moon beaches. Beach huts, resorts, cafés and homestays all compete online — a tour shows the sea view that photos never quite capture.",
+    fits: ["Beach resorts and huts", "Homestays and guest houses", "Cafés and restaurants", "Yoga and wellness retreats", "Pilgrim lodges"],
+    sky: "SkyVUE shows a resort on the cliffs with each beach, the temple and the town labelled with distances — and a tap takes guests inside.",
+    airspace: "Coastal security areas and the naval base near Karwar are restricted, and temple areas have rules. We check your exact location before booking.",
+    nearby: ["udupi-manipal", "north-goa", "hampi", "hubballi-dharwad"],
+  },
+
   /* ── Tamil Nadu ── */
   {
     slug: "chennai", name: "Chennai", local: "சென்னை", state: "tamil-nadu", aka: ["Madras"],
@@ -185,7 +202,7 @@ export const CITIES: City[] = [
     fits: ["Wedding halls and convention centres", "Hospitals and clinics", "Jewellery, furniture and car showrooms", "Apartment projects along OMR and ECR", "Restaurants and hotels"],
     sky: "SkyVUE shows a project's distance to the metro, OMR, the beach, IT parks and schools — on one screen.",
     airspace: "Chennai International Airport, the port and defence areas are restricted. We check your exact location and apply for permission where possible.",
-    nearby: ["puducherry", "bengaluru", "tiruchirappalli", "vijayawada"],
+    nearby: ["mahabalipuram", "puducherry", "bengaluru", "tirupati"],
   },
   {
     slug: "coimbatore", name: "Coimbatore", local: "கோயம்புத்தூர்", state: "tamil-nadu", aka: ["Kovai"],
@@ -201,7 +218,7 @@ export const CITIES: City[] = [
     fits: ["Hotels and lodges", "Wedding halls", "Hospitals", "Textile and jewellery showrooms", "Colleges"],
     sky: "SkyVUE labels the temple, the railway station and the bus stand with distances for hotels and residential projects.",
     airspace: "Madurai airport and the temple area have airspace rules, and drones are not allowed over the temple. We confirm what is possible before booking.",
-    nearby: ["tiruchirappalli", "coimbatore", "chennai", "thiruvananthapuram"],
+    nearby: ["kodaikanal", "rameswaram", "tiruchirappalli", "kanyakumari"],
   },
   {
     slug: "tiruchirappalli", name: "Tiruchirappalli", local: "திருச்சிராப்பள்ளி", state: "tamil-nadu", aka: ["Trichy", "Tiruchi"],
@@ -220,6 +237,39 @@ export const CITIES: City[] = [
     nearby: ["coimbatore", "mysuru", "coorg", "kozhikode"],
   },
 
+  {
+    slug: "kodaikanal", name: "Kodaikanal", local: "கொடைக்கானல்", state: "tamil-nadu", aka: ["Kodai"],
+    intro: "Kodaikanal's cottages, resorts and heritage bungalows sell cool air, the lake and valley views to families and honeymooners from Chennai, Bengaluru and Madurai. A 360° tour of the room with the view decides the booking.",
+    fits: ["Resorts and cottages", "Heritage bungalows and homestays", "Boarding schools", "Restaurants and cafés", "Holiday homes for sale"],
+    sky: "SkyVUE shows the resort on the hillside with the lake, the town and the viewpoints labelled with distances.",
+    airspace: "Kodaikanal Wildlife Sanctuary and forest areas around the town have strict rules. We check your property's zone and forest status first.",
+    nearby: ["madurai", "coimbatore", "munnar", "thekkady"],
+  },
+  {
+    slug: "mahabalipuram", name: "Mahabalipuram", local: "மாமல்லபுரம்", state: "tamil-nadu", aka: ["Mamallapuram", "ECR", "East Coast Road"],
+    intro: "Mahabalipuram's Shore Temple and the beach resorts along the East Coast Road make it Chennai's weekend escape and a stop for every visitor to Tamil Nadu. Resorts, villas, event venues and beach homes all win when guests can look around first.",
+    fits: ["Beach resorts on ECR", "Villas and holiday homes", "Wedding and event venues", "Restaurants and cafés", "Plot and villa projects on ECR"],
+    sky: "SkyVUE shows a resort's beach front with the Shore Temple, the ECR and Chennai labelled with distances.",
+    airspace: "The monuments are protected by the Archaeological Survey of India, and the Kalpakkam nuclear plant to the south is a no-fly area. We check your exact location and tell you before booking if a flight is not possible.",
+    nearby: ["chennai", "puducherry", "tiruchirappalli", "kanyakumari"],
+  },
+  {
+    slug: "kanyakumari", name: "Kanyakumari", local: "கன்னியாகுமரி", state: "tamil-nadu", aka: ["Cape Comorin"],
+    intro: "At India's southern tip, Kanyakumari's hotels sell one thing above all: a sunrise and sunset view over three seas, with the Vivekananda Rock Memorial and the Thiruvalluvar statue in front. A 360° tour from the room and the rooftop shows exactly that.",
+    fits: ["Sea-view hotels and lodges", "Resorts", "Restaurants", "Pilgrim stays", "Homestays"],
+    sky: "SkyVUE shows the hotel with the Vivekananda Rock, the statue, the beach and the railway station labelled with distances.",
+    airspace: "Coastal security areas are restricted, and the memorials have their own rules. We check your exact location first.",
+    nearby: ["kovalam", "thiruvananthapuram", "madurai", "rameswaram"],
+  },
+  {
+    slug: "rameswaram", name: "Rameswaram", local: "இராமேஸ்வரம்", state: "tamil-nadu", aka: ["Dhanushkodi", "Pamban"],
+    intro: "Rameswaram receives pilgrims all year for the Ramanathaswamy temple, and travellers for Pamban bridge and Dhanushkodi. Most book a hotel or lodge before they arrive — a tour of the room and the dining hall helps them choose yours.",
+    fits: ["Hotels and lodges for pilgrims", "Resorts", "Restaurants", "Homestays", "Function halls"],
+    sky: "SkyVUE shows the hotel with the temple, the station, Pamban bridge and the road to Dhanushkodi labelled with distances.",
+    airspace: "Rameswaram is close to the international maritime border, with navy and coast guard areas nearby: much of the island is restricted. We check your exact location and say clearly before booking if a flight is not possible.",
+    nearby: ["madurai", "kanyakumari", "tiruchirappalli", "chennai"],
+  },
+
   /* ── Kerala ── */
   {
     slug: "kochi", name: "Kochi", local: "കൊച്ചി", state: "kerala", aka: ["Cochin", "Ernakulam"],
@@ -235,7 +285,7 @@ export const CITIES: City[] = [
     fits: ["Hospitals and wellness centres", "Beach resorts and hotels", "Residential projects", "Colleges", "Offices in IT parks"],
     sky: "SkyVUE shows a resort's beach and a project's distance to the IT park, the airport and hospitals.",
     airspace: "Thiruvananthapuram International Airport, government and defence areas are restricted. We check your location before booking.",
-    nearby: ["kochi", "alappuzha", "madurai", "munnar"],
+    nearby: ["kovalam", "varkala", "kanyakumari", "kochi"],
   },
   {
     slug: "kozhikode", name: "Kozhikode", local: "കോഴിക്കോട്", state: "kerala", aka: ["Calicut"],
@@ -243,7 +293,7 @@ export const CITIES: City[] = [
     fits: ["Hospitals", "Wedding venues and convention centres", "Restaurants and cafés", "Textile and jewellery showrooms", "Apartments for buyers abroad"],
     sky: "SkyVUE labels the beach, the railway station and the highway for residential and commercial projects.",
     airspace: "Calicut International Airport and nearby restricted areas need permission. We check your exact pin first.",
-    nearby: ["thrissur", "kochi", "mangaluru", "ooty"],
+    nearby: ["wayanad", "thrissur", "kochi", "mangaluru"],
   },
   {
     slug: "thrissur", name: "Thrissur", local: "തൃശ്ശൂർ", state: "kerala", aka: ["Trichur"],
@@ -267,7 +317,40 @@ export const CITIES: City[] = [
     fits: ["Resorts and cottages", "Plantation and tree-house stays", "Restaurants", "Adventure and camping stays", "Spice and tea estates"],
     sky: "SkyVUE shows the resort in the valley with the town, the viewpoints and the tea gardens labelled.",
     airspace: "Forest, wildlife and protected areas around Munnar have strict rules. We check your property's zone and status first.",
-    nearby: ["kochi", "alappuzha", "thrissur", "madurai"],
+    nearby: ["kochi", "thekkady", "kodaikanal", "alappuzha"],
+  },
+
+  {
+    slug: "wayanad", name: "Wayanad", local: "വയനാട്", state: "kerala", aka: ["Kalpetta", "Vythiri", "Sulthan Bathery"],
+    intro: "Wayanad's resorts, tree houses, plantation stays and homestays draw weekend travellers from Bengaluru, Mysuru and Kozhikode. The rooms are only half the story — a 360° tour shows the forest, the infinity pool and the mist.",
+    fits: ["Resorts and tree houses", "Plantation and homestays", "Wellness and ayurveda retreats", "Restaurants", "Estate land for sale"],
+    sky: "SkyVUE shows the resort in the hills with Banasura Sagar, Chembra peak and Kalpetta labelled with distances.",
+    airspace: "Wayanad Wildlife Sanctuary and the forest areas have strict rules. We check your property's zone and forest status before booking.",
+    nearby: ["kozhikode", "coorg", "mysuru", "ooty"],
+  },
+  {
+    slug: "thekkady", name: "Thekkady", local: "തേക്കടി", state: "kerala", aka: ["Kumily", "Periyar"],
+    intro: "Thekkady's resorts, homestays and spice-plantation stays sit at the edge of the Periyar Tiger Reserve, and guests choose on nature and quiet. A 360° tour of the cottage, the garden and the plantation walk shows them both.",
+    fits: ["Resorts and jungle lodges", "Homestays", "Spice-plantation stays", "Ayurveda centres", "Restaurants"],
+    sky: "SkyVUE shows a resort on the plantation with Kumily town and the tiger reserve boundary labelled with distances.",
+    airspace: "Drones are not allowed over the Periyar Tiger Reserve, and nearby forest areas have rules. We fly only over permitted private land, and check before booking.",
+    nearby: ["munnar", "kodaikanal", "kochi", "madurai"],
+  },
+  {
+    slug: "varkala", name: "Varkala", local: "വർക്കല", state: "kerala", aka: ["Varkala Cliff", "Papanasam Beach"],
+    intro: "Varkala's cliff-top cafés, guest houses, yoga retreats and ayurveda resorts look straight down to the sea, and most guests are travellers comparing options on their phones. A 360° tour from the cliff edge does the selling.",
+    fits: ["Cliff-top guest houses and resorts", "Cafés and restaurants", "Yoga and ayurveda retreats", "Homestays", "Villas and holiday homes"],
+    sky: "SkyVUE shows the cliff with the beach, the Janardhana Swamy temple and the railway station labelled with distances.",
+    airspace: "Coastal and temple areas have rules. We check your exact location before booking.",
+    nearby: ["thiruvananthapuram", "kovalam", "alappuzha", "kochi"],
+  },
+  {
+    slug: "kovalam", name: "Kovalam", local: "കോവളം", state: "kerala", aka: ["Lighthouse Beach", "Poovar"],
+    intro: "Kovalam's beach resorts, ayurveda hospitals and boutique hotels serve travellers from India and abroad, many booking treatments weeks ahead. A tour of the treatment rooms, the pool and the beach builds the trust they need to book.",
+    fits: ["Beach resorts and hotels", "Ayurveda hospitals and resorts", "Restaurants", "Homestays", "Villas"],
+    sky: "SkyVUE shows the resort with the Lighthouse Beach, Thiruvananthapuram and the airport labelled with distances.",
+    airspace: "Thiruvananthapuram airport is close, and the Vizhinjam port and coastal security areas are restricted. We check your exact location first.",
+    nearby: ["thiruvananthapuram", "varkala", "kanyakumari", "alappuzha"],
   },
 
   /* ── Telangana ── */
@@ -295,7 +378,7 @@ export const CITIES: City[] = [
     fits: ["Hotels and beach resorts", "Sea-view apartments", "Hospitals", "Colleges", "Restaurants and cafés"],
     sky: "SkyVUE shows the sea, the beach road and the city's landmarks from above, with distances.",
     airspace: "Visakhapatnam has a naval base, a port and an airport: much of the city is restricted. We check your exact location and say clearly before booking if a flight is not possible.",
-    nearby: ["vijayawada", "guntur", "warangal", "hyderabad"],
+    nearby: ["araku-valley", "vijayawada", "guntur", "hyderabad"],
   },
   {
     slug: "vijayawada", name: "Vijayawada", local: "విజయవాడ", state: "andhra-pradesh", aka: ["Bezawada"],
@@ -320,6 +403,15 @@ export const CITIES: City[] = [
     sky: "SkyVUE shows a hotel's distance to the railway station, the bus stand and the route to Tirumala.",
     airspace: "Drones are not allowed over Tirumala, and Tirupati airport at Renigunta is restricted. We fly only where it is permitted, and tell you before booking.",
     nearby: ["chennai", "vijayawada", "bengaluru", "guntur"],
+  },
+
+  {
+    slug: "araku-valley", name: "Araku Valley", local: "అరకు లోయ", state: "andhra-pradesh", aka: ["Araku", "Borra Caves", "Lambasingi"],
+    intro: "Araku Valley's resorts, cottages and coffee-estate stays draw families from Visakhapatnam and across Andhra Pradesh and Telangana for the valley views, the coffee and Borra Caves. A 360° tour of the cottage and the valley brings them to you.",
+    fits: ["Resorts and cottages", "Coffee-estate stays", "Homestays", "Restaurants", "Camping and adventure stays"],
+    sky: "SkyVUE shows the resort in the valley with Borra Caves, the coffee museum and the road to Vizag labelled with distances.",
+    airspace: "Forest areas and the Eastern Ghats have rules, and some areas need local permission. We check your property's zone before booking.",
+    nearby: ["visakhapatnam", "vijayawada", "guntur", "warangal"],
   },
 
   /* ── Goa ── */
