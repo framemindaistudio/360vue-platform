@@ -95,7 +95,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             <Link href="/" className="hover:text-sunset">Home</Link> <span aria-hidden>/</span> <Link href="/locations" className="hover:text-sunset">Locations</Link> <span aria-hidden>/</span> <span className="text-cream/80">{c.name}</span>
           </nav>
           <Eyebrow className="mt-6">
-            {state.name} · <span lang={state.slug === "karnataka" ? "kn" : state.slug === "kerala" ? "ml" : state.slug === "tamil-nadu" || state.slug === "puducherry" ? "ta" : "te"}>{c.local}</span>
+            {state.name} · <span lang={state.lang}>{c.local}</span>
           </Eyebrow>
           <h1 className="mt-6 max-w-4xl text-balance text-4xl font-semibold leading-[1.04] text-cream sm:text-6xl">
             360° Virtual Tours in <span className="text-gold-grad">{c.name}</span>
@@ -190,7 +190,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             ))}
             <li>
               <Link href="/locations" className="inline-flex rounded-full border border-sunset/40 px-4 py-2 text-sm font-semibold text-sunset hover:bg-sunset/10">
-                All of South India →
+                All of South India & Goa →
               </Link>
             </li>
           </ul>

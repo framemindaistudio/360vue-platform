@@ -12,7 +12,11 @@ export interface State {
   name: string;
   /** the state's name in its own script */
   local: string;
+  /** the language of `local`, for the lang attribute */
+  lang: string;
   intro: string;
+  /** tourist places in the state; `city` links one to the nearest city page */
+  places: { name: string; city?: string }[];
 }
 
 export interface City {
@@ -35,12 +39,76 @@ export interface City {
 }
 
 export const STATES: State[] = [
-  { slug: "karnataka", name: "Karnataka", local: "ಕರ್ನಾಟಕ", intro: "From Bengaluru's cafés, offices and apartment launches to coastal resorts in Udupi and coffee-estate homestays in Coorg and Chikkamagaluru." },
-  { slug: "tamil-nadu", name: "Tamil Nadu", local: "தமிழ்நாடு", intro: "Chennai's showrooms and hospitals, Coimbatore's textile and engineering businesses, Madurai's hotels near the temple, and hill resorts in Ooty." },
-  { slug: "kerala", name: "Kerala", local: "കേരളം", intro: "Kochi's hotels and cafés, Thiruvananthapuram's hospitals and colleges, houseboats and lake resorts in Alappuzha, and tea-country stays in Munnar." },
-  { slug: "telangana", name: "Telangana", local: "తెలంగాణ", intro: "Hyderabad's restaurants, gated communities, tech-park offices and banquet halls, and growing education and healthcare in Warangal." },
-  { slug: "andhra-pradesh", name: "Andhra Pradesh", local: "ఆంధ్రప్రదేశ్", intro: "Beach-side hotels and apartments in Visakhapatnam, wedding halls and showrooms in Vijayawada and Guntur, and pilgrim hotels in Tirupati." },
-  { slug: "puducherry", name: "Puducherry", local: "புதுச்சேரி", intro: "Heritage stays and cafés in the French Quarter, beach resorts and boutique hotels along the East Coast Road." },
+  {
+    slug: "karnataka", name: "Karnataka", local: "ಕರ್ನಾಟಕ", lang: "kn",
+    intro: "From Bengaluru's cafés, offices and apartment launches to coastal resorts in Udupi and coffee-estate homestays in Coorg and Chikkamagaluru.",
+    places: [
+      { name: "Mysuru Palace", city: "mysuru" }, { name: "Srirangapatna", city: "mysuru" }, { name: "Coorg", city: "coorg" }, { name: "Chikkamagaluru", city: "chikkamagaluru" },
+      { name: "Hampi" }, { name: "Badami, Aihole & Pattadakal" }, { name: "Vijayapura (Gol Gumbaz)" }, { name: "Belur & Halebidu" },
+      { name: "Shravanabelagola" }, { name: "Gokarna" }, { name: "Murudeshwar" }, { name: "Udupi & Malpe", city: "udupi-manipal" },
+      { name: "Jog Falls" }, { name: "Dandeli" }, { name: "Kabini", city: "mysuru" }, { name: "Bandipur & Nagarhole", city: "mysuru" },
+      { name: "Sakleshpur" }, { name: "Kudremukh", city: "chikkamagaluru" }, { name: "Agumbe" }, { name: "Nandi Hills", city: "bengaluru" }, { name: "Karwar" },
+    ],
+  },
+  {
+    slug: "tamil-nadu", name: "Tamil Nadu", local: "தமிழ்நாடு", lang: "ta",
+    intro: "Chennai's showrooms and hospitals, Coimbatore's textile and engineering businesses, Madurai's hotels near the temple, and hill resorts in Ooty.",
+    places: [
+      { name: "Mahabalipuram", city: "chennai" }, { name: "Kanchipuram", city: "chennai" }, { name: "Madurai Meenakshi Temple", city: "madurai" }, { name: "Ooty", city: "ooty" },
+      { name: "Coonoor", city: "ooty" }, { name: "Kodaikanal", city: "madurai" }, { name: "Yercaud" }, { name: "Yelagiri" },
+      { name: "Valparai", city: "coimbatore" }, { name: "Mudumalai", city: "ooty" }, { name: "Thanjavur", city: "tiruchirappalli" }, { name: "Kumbakonam", city: "tiruchirappalli" },
+      { name: "Srirangam", city: "tiruchirappalli" }, { name: "Rameswaram", city: "madurai" }, { name: "Kanyakumari" }, { name: "Chettinad (Karaikudi)", city: "madurai" },
+      { name: "Tiruvannamalai" }, { name: "Velankanni" }, { name: "Courtallam" }, { name: "Hogenakkal" },
+    ],
+  },
+  {
+    slug: "kerala", name: "Kerala", local: "കേരളം", lang: "ml",
+    intro: "Kochi's hotels and cafés, Thiruvananthapuram's hospitals and colleges, houseboats and lake resorts in Alappuzha, and tea-country stays in Munnar.",
+    places: [
+      { name: "Munnar", city: "munnar" }, { name: "Alappuzha backwaters", city: "alappuzha" }, { name: "Kumarakom", city: "alappuzha" }, { name: "Fort Kochi", city: "kochi" },
+      { name: "Thekkady (Periyar)", city: "munnar" }, { name: "Vagamon", city: "kochi" }, { name: "Wayanad", city: "kozhikode" }, { name: "Kovalam", city: "thiruvananthapuram" },
+      { name: "Varkala", city: "thiruvananthapuram" }, { name: "Poovar", city: "thiruvananthapuram" }, { name: "Ponmudi", city: "thiruvananthapuram" }, { name: "Athirappilly", city: "thrissur" },
+      { name: "Guruvayur", city: "thrissur" }, { name: "Marari Beach", city: "alappuzha" }, { name: "Bekal" }, { name: "Kannur" }, { name: "Sabarimala" },
+    ],
+  },
+  {
+    slug: "telangana", name: "Telangana", local: "తెలంగాణ", lang: "te",
+    intro: "Hyderabad's restaurants, gated communities, tech-park offices and banquet halls, and growing education and healthcare in Warangal.",
+    places: [
+      { name: "Charminar", city: "hyderabad" }, { name: "Golconda Fort", city: "hyderabad" }, { name: "Ramoji Film City", city: "hyderabad" }, { name: "Hussain Sagar", city: "hyderabad" },
+      { name: "Ramappa Temple", city: "warangal" }, { name: "Thousand Pillar Temple", city: "warangal" }, { name: "Laknavaram Lake", city: "warangal" }, { name: "Ananthagiri Hills", city: "hyderabad" },
+      { name: "Yadagirigutta", city: "hyderabad" }, { name: "Nagarjuna Sagar" }, { name: "Bhadrachalam" }, { name: "Kuntala Waterfall" }, { name: "Medak Cathedral" },
+    ],
+  },
+  {
+    slug: "andhra-pradesh", name: "Andhra Pradesh", local: "ఆంధ్రప్రదేశ్", lang: "te",
+    intro: "Beach-side hotels and apartments in Visakhapatnam, wedding halls and showrooms in Vijayawada and Guntur, and pilgrim hotels in Tirupati.",
+    places: [
+      { name: "Tirupati & Tirumala", city: "tirupati" }, { name: "Srikalahasti", city: "tirupati" }, { name: "Horsley Hills", city: "tirupati" }, { name: "RK Beach, Vizag", city: "visakhapatnam" },
+      { name: "Araku Valley", city: "visakhapatnam" }, { name: "Borra Caves", city: "visakhapatnam" }, { name: "Lambasingi", city: "visakhapatnam" }, { name: "Kanaka Durga Temple", city: "vijayawada" },
+      { name: "Bhavani Island", city: "vijayawada" }, { name: "Amaravati", city: "guntur" }, { name: "Srisailam" }, { name: "Gandikota" }, { name: "Lepakshi" },
+      { name: "Puttaparthi" }, { name: "Konaseema" }, { name: "Papikondalu" }, { name: "Rajahmundry" },
+    ],
+  },
+  {
+    slug: "goa", name: "Goa", local: "गोंय", lang: "kok",
+    intro: "Beach resorts, villas and holiday homes, boutique hotels, beach shacks and cafés, and Panaji's heritage quarter — almost all booked online by visitors who have never seen the place.",
+    places: [
+      { name: "Panaji & Fontainhas", city: "panaji" }, { name: "Old Goa churches", city: "panaji" }, { name: "Divar Island", city: "panaji" }, { name: "Miramar", city: "panaji" },
+      { name: "Calangute & Baga", city: "north-goa" }, { name: "Candolim", city: "north-goa" }, { name: "Anjuna & Vagator", city: "north-goa" }, { name: "Morjim & Ashwem", city: "north-goa" },
+      { name: "Arambol", city: "north-goa" }, { name: "Fort Aguada", city: "north-goa" }, { name: "Chapora Fort", city: "north-goa" }, { name: "Palolem", city: "south-goa" },
+      { name: "Agonda", city: "south-goa" }, { name: "Colva & Benaulim", city: "south-goa" }, { name: "Cavelossim & Varca", city: "south-goa" }, { name: "Margao", city: "south-goa" },
+      { name: "Dudhsagar Falls", city: "south-goa" },
+    ],
+  },
+  {
+    slug: "puducherry", name: "Puducherry", local: "புதுச்சேரி", lang: "ta",
+    intro: "Heritage stays and cafés in the French Quarter, beach resorts and boutique hotels along the East Coast Road.",
+    places: [
+      { name: "White Town (French Quarter)", city: "puducherry" }, { name: "Promenade Beach", city: "puducherry" }, { name: "Auroville", city: "puducherry" },
+      { name: "Paradise Beach", city: "puducherry" }, { name: "Serenity Beach", city: "puducherry" }, { name: "Karaikal" },
+    ],
+  },
 ];
 
 export const CITIES: City[] = [
@@ -107,7 +175,7 @@ export const CITIES: City[] = [
     fits: ["Wedding halls and lawns", "Hospitals and colleges", "Industrial units and showrooms", "Residential projects", "Hotels and resorts"],
     sky: "SkyVUE labels the highway, the railway station and the city's landmarks for residential projects and resorts.",
     airspace: "The cantonment and the surroundings of Belagavi airport are restricted zones. We check the zone for your exact pin first.",
-    nearby: ["hubballi-dharwad", "bengaluru", "udupi-manipal", "mangaluru"],
+    nearby: ["hubballi-dharwad", "north-goa", "panaji", "bengaluru"],
   },
 
   /* ── Tamil Nadu ── */
@@ -254,6 +322,32 @@ export const CITIES: City[] = [
     nearby: ["chennai", "vijayawada", "bengaluru", "guntur"],
   },
 
+  /* ── Goa ── */
+  {
+    slug: "north-goa", name: "North Goa", local: "उत्तर गोंय", state: "goa", aka: ["Calangute", "Baga", "Candolim", "Anjuna", "Vagator", "Mapusa"],
+    intro: "North Goa's beach resorts, private villas, holiday homes and cafés compete for the same visitors, who book from their phones weeks ahead. A 360° tour of the pool, the rooms and the walk to the beach is what makes them choose yours.",
+    fits: ["Private villas and holiday homes", "Beach resorts and boutique hotels", "Cafés, shacks and restaurants", "Wedding and event venues", "Villa and plot projects for second-home buyers"],
+    sky: "SkyVUE shows a villa or resort with the beach, the nearest village, the airport road and the sea labelled with distances.",
+    airspace: "Manohar International Airport at Mopa and coastal security areas are restricted, and beaches can be crowded — we fly only where and when it is permitted and safe, and check your exact location before booking.",
+    nearby: ["panaji", "south-goa", "belagavi", "hubballi-dharwad"],
+  },
+  {
+    slug: "panaji", name: "Panaji", local: "पणजी", state: "goa", aka: ["Panjim", "Old Goa", "Porvorim"],
+    intro: "Panaji mixes Goa's government and business with heritage hotels in Fontainhas, restaurants along the river, and offices and apartments in Porvorim and Dona Paula. A tour helps visitors and buyers see inside before they come.",
+    fits: ["Heritage hotels and guest houses", "Restaurants and cafés", "Offices and showrooms", "Apartments and villas", "Event and conference venues"],
+    sky: "SkyVUE shows a property with the Mandovi river, the old city, Miramar beach and the bridges labelled with distances.",
+    airspace: "Government buildings and the airports nearby make parts of Panaji restricted. We check your exact location before booking.",
+    nearby: ["north-goa", "south-goa", "belagavi", "mangaluru"],
+  },
+  {
+    slug: "south-goa", name: "South Goa", local: "दक्षिण गोंय", state: "goa", aka: ["Margao", "Palolem", "Colva", "Benaulim", "Cavelossim", "Agonda"],
+    intro: "South Goa's quieter beaches draw luxury resorts, beach-hut stays, homestays and heritage Portuguese houses. Guests choose on atmosphere — a 360° tour shows the room, the garden and the beach better than any photo.",
+    fits: ["Luxury and beach resorts", "Beach huts and eco stays", "Heritage Portuguese homes", "Wedding venues", "Villas and holiday homes"],
+    sky: "SkyVUE shows a resort's beach and its distance to Margao, the railway station and the airport.",
+    airspace: "Dabolim airport is a naval air station (INS Hansa) and is restricted, as are coastal security areas. We check your exact location and tell you before booking if a flight is not possible.",
+    nearby: ["panaji", "north-goa", "udupi-manipal", "belagavi"],
+  },
+
   /* ── Puducherry ── */
   {
     slug: "puducherry", name: "Puducherry", local: "புதுச்சேரி", state: "puducherry", aka: ["Pondicherry", "Pondy", "Auroville"],
@@ -268,5 +362,5 @@ export const CITIES: City[] = [
 export const stateOf = (c: City) => STATES.find((s) => s.slug === c.state)!;
 export const cityBySlug = (slug: string) => CITIES.find((c) => c.slug === slug);
 export const citiesIn = (state: string) => CITIES.filter((c) => c.state === state);
-/** the six states and union territory we serve, as schema.org places */
+/** the states and union territory we serve, as schema.org places */
 export const AREA_SERVED = STATES.map((s) => s.name);

@@ -17,7 +17,7 @@ export function organizationLd() {
     name: site.name,
     alternateName: ["360 VUE", "Three-Sixty View", "SkyVUE"],
     description:
-      "360° virtual tours, SkyVUE drone 360° aerial views and Google Maps & Street View publishing for businesses and real estate across South India: Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh and Puducherry.",
+      "360° virtual tours, SkyVUE drone 360° aerial views and Google Maps & Street View publishing for businesses and real estate across South India and Goa: Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Goa and Puducherry.",
     url: site.url,
     logo: `${site.url}/brand/emblem-512.png`,
     image: `${site.url}/og-image.jpg`,

@@ -6,9 +6,9 @@ import { site } from "@/lib/site";
 import { ORG_ID, ldScript } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "360° Virtual Tours Across South India",
+  title: "360° Virtual Tours Across South India & Goa",
   description:
-    "360° virtual tours and drone 360° views in Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh and Puducherry. Find your city and get a price.",
+    "360° tours and drone 360° views for hotels, resorts and businesses in Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Goa and Puducherry.",
   alternates: { canonical: "/locations" },
 };
 
@@ -27,17 +27,17 @@ export default function LocationsPage() {
         eyebrow="Locations"
         title={
           <>
-            360° tours across <span className="text-gold-grad">South India.</span>
+            360° tours across <span className="text-gold-grad">South India &amp; Goa.</span>
           </>
         }
-        intro="We travel to you — Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh and Puducherry. Find your city for local prices, what suits your kind of space, and the drone rules where you are."
+        intro="We travel to you — Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Goa and Puducherry, from city businesses to the hotels, resorts, homestays and houseboats at every tourist destination. Find your city for local prices and the drone rules where you are."
         image="/media/aerial-hero.webp"
       />
       <section className="pb-24">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 md:grid-cols-2 lg:px-8">
           {STATES.map((s) => (
             <section key={s.slug} id={s.slug} className="reveal scroll-mt-24 rounded-3xl border border-cream/10 bg-night/70 p-7">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sunset">{s.local}</p>
+              <p lang={s.lang} className="text-xs font-semibold uppercase tracking-[0.25em] text-sunset">{s.local}</p>
               <h2 className="mt-2 text-2xl font-semibold text-cream">{s.name}</h2>
               <p className="mt-2 text-sm leading-relaxed text-cream/60">{s.intro}</p>
               <ul className="mt-5 flex flex-wrap gap-2">
@@ -49,11 +49,26 @@ export default function LocationsPage() {
                   </li>
                 ))}
               </ul>
+              <p className="mt-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-sand/70">Tourist places we cover</p>
+              <p className="mt-1 text-xs text-cream/45">Hotels, resorts, homestays and venues near:</p>
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {s.places.map((pl) => (
+                  <li key={pl.name}>
+                    {pl.city ? (
+                      <Link href={`/locations/${pl.city}`} className="inline-flex rounded-full bg-cream/[0.06] px-3 py-1 text-xs text-cream/75 hover:bg-sunset/15 hover:text-sunset">
+                        {pl.name}
+                      </Link>
+                    ) : (
+                      <span className="inline-flex rounded-full bg-cream/[0.04] px-3 py-1 text-xs text-cream/55">{pl.name}</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </section>
           ))}
         </div>
         <p className="mx-auto mt-10 max-w-3xl px-4 text-center text-sm text-cream/50">
-          Your town not listed? We still come to you anywhere in South India — travel and stay outside our base area are billed at actual cost and shown on your quote before you book.
+          Your town not listed? We still come to you anywhere in South India and Goa — travel and stay outside our base area are billed at actual cost and shown on your quote before you book.
         </p>
       </section>
       <CtaBand />
