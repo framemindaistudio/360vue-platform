@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CtaBand, PageHero } from "@/components/site/bits";
-import { CITIES, STATES, citiesIn } from "@/lib/locations";
+import { CITIES, INDIA_WIDE, STATES, citiesIn } from "@/lib/locations";
 import { site } from "@/lib/site";
 import { ORG_ID, ldScript } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "360° Virtual Tours Across South India & Goa",
+  title: "360° Virtual Tours — South India & All India",
   description:
-    "360° tours and drone 360° views for hotels, resorts and businesses in Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Goa and Puducherry.",
+    "360° tours and drone 360° views for hotels, resorts and businesses across South India, with the rest of India on request. Find your city and get a price.",
   alternates: { canonical: "/locations" },
 };
 
@@ -27,10 +27,10 @@ export default function LocationsPage() {
         eyebrow="Locations"
         title={
           <>
-            360° tours across <span className="text-gold-grad">South India &amp; Goa.</span>
+            360° tours across <span className="text-gold-grad">South India.</span>
           </>
         }
-        intro="We travel to you — Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Goa and Puducherry, from city businesses to the hotels, resorts, homestays and houseboats at every tourist destination. Find your city for local prices and the drone rules where you are."
+        intro="South India is our home ground — Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh and Puducherry, plus Goa next door — from city businesses to the hotels, resorts, homestays and houseboats at every tourist destination. Elsewhere in India, we come on request."
         image="/media/aerial-hero.webp"
       />
       <section className="pb-24">
@@ -68,7 +68,7 @@ export default function LocationsPage() {
           ))}
         </div>
         <p className="mx-auto mt-10 max-w-3xl px-4 text-center text-sm text-cream/50">
-          Your town not listed? We still come to you anywhere in South India and Goa — travel and stay outside our base area are billed at actual cost and shown on your quote before you book.
+          Your town not listed? We still come to you. {INDIA_WIDE}
         </p>
       </section>
       <CtaBand />

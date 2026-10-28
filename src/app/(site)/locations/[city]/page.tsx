@@ -190,7 +190,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
             ))}
             <li>
               <Link href="/locations" className="inline-flex rounded-full border border-sunset/40 px-4 py-2 text-sm font-semibold text-sunset hover:bg-sunset/10">
-                All of South India & Goa →
+                All locations →
               </Link>
             </li>
           </ul>

@@ -17,7 +17,7 @@ export function organizationLd() {
     name: site.name,
     alternateName: ["360 VUE", "Three-Sixty View", "SkyVUE"],
     description:
-      "360° virtual tours, SkyVUE drone 360° aerial views and Google Maps & Street View publishing for businesses and real estate across South India and Goa: Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Goa and Puducherry.",
+      "360° virtual tours, SkyVUE drone 360° aerial views and Google Maps & Street View publishing for businesses and real estate. Based in South India — Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Puducherry and Goa — and across India on request.",
     url: site.url,
     logo: `${site.url}/brand/emblem-512.png`,
     image: `${site.url}/og-image.jpg`,
@@ -26,7 +26,8 @@ export function organizationLd() {
     priceRange: "₹₹",
     currenciesAccepted: "INR",
     ...(site.location ? { address: { "@type": "PostalAddress", addressLocality: site.location, addressCountry: "IN" } } : {}),
-    areaServed: AREA_SERVED.map((name) => ({ "@type": "State", name, containedInPlace: { "@type": "Country", name: "India" } })),
+    // the home states first, then India as a whole (served on request)
+    areaServed: [...AREA_SERVED.map((name) => ({ "@type": "State", name, containedInPlace: { "@type": "Country", name: "India" } })), { "@type": "Country", name: "India" }],
     knowsAbout: ["360° virtual tours", "Google Street View", "Drone 360° aerial photography", "Virtual tours for real estate", "Virtual tours for hotels and restaurants"],
     parentOrganization: { "@type": "Organization", name: site.parent.name, url: site.parent.url },
     founder: [{ "@type": "Person", name: "Hrishikesh Kulkarni" }, { "@type": "Person", name: "Chinmay R M" }],

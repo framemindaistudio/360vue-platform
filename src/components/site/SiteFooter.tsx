@@ -42,7 +42,7 @@ export function SiteFooter() {
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sand/70">
             <Link href="/locations" className="hover:text-sunset">
-              South India & Goa
+              Where we work
             </Link>
           </p>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm">

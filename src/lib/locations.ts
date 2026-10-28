@@ -1,5 +1,6 @@
 /**
- * Where 360VUE works: every state and city in South India we serve, with copy written for that place.
+ * Where 360VUE works. South India (with Goa next door) is the home ground: every state and city here has a page with
+ * copy written for that place. The rest of India is served on request, when the calendar has room (INDIA_WIDE).
  *
  * Each city page (/locations/<slug>) is built from this file. Write what is true about the place and the kinds of
  * spaces there; never claim past projects, an office or a team in a city — 360VUE travels to it (travel and stay
@@ -454,5 +455,8 @@ export const CITIES: City[] = [
 export const stateOf = (c: City) => STATES.find((s) => s.slug === c.state)!;
 export const cityBySlug = (slug: string) => CITIES.find((c) => c.slug === slug);
 export const citiesIn = (state: string) => CITIES.filter((c) => c.state === state);
+/** how we say that we also work beyond South India */
+export const INDIA_WIDE = "Anywhere else in India, we come on request when our calendar has room — travel and stay billed at actual cost and shown on your quote before you book.";
+
 /** the states and union territory we serve, as schema.org places */
 export const AREA_SERVED = STATES.map((s) => s.name);

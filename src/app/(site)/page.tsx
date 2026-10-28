@@ -13,7 +13,7 @@ import { CITIES, STATES, citiesIn } from "@/lib/locations";
 
 export const metadata: Metadata = {
   title: { absolute: "360° Virtual Tours & Drone 360 in South India | 360VUE" },
-  description: "360° virtual tours, drone 360° aerial views and Google Maps listings for businesses and real estate in Bengaluru, Chennai, Hyderabad, Kochi, Goa and across South India.",
+  description: "360° virtual tours, drone 360° views and Google Maps listings across South India — Bengaluru, Chennai, Hyderabad, Kochi — and anywhere in India on request.",
   alternates: { canonical: "/" },
 };
 
@@ -175,7 +175,7 @@ export default function HomePage() {
       {/* ── where we work ────────────────────────────────── */}
       <section className="border-t border-cream/10 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead eyebrow="Where we work" title={<>360° tours across <span className="text-gold-grad">South India &amp; Goa.</span></>} intro={`We come to you in ${STATES.map((s) => s.name).join(", ").replace(/, ([^,]*)$/, " and $1")} — ${CITIES.length} cities and the towns around them.`} />
+          <SectionHead eyebrow="Where we work" title={<>360° tours across <span className="text-gold-grad">South India.</span></>} intro={`Our home ground: ${STATES.map((s) => s.name).join(", ").replace(/, ([^,]*)$/, " and $1")} — ${CITIES.length} cities and tourist destinations. Anywhere else in India, on request when our calendar has room.`} />
           <div className="reveal mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
             {STATES.map((s) => (
               <div key={s.slug}>
