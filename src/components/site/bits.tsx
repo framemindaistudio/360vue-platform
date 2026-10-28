@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, Box, Building, Camera, Dumbbell, Globe, Hotel, MapPin, Navigation, PartyPopper, Rotate3d, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
+import { ArrowRight, Box, Building, Camera, Dumbbell, Globe, Hotel, MapPin, Navigation, PartyPopper, Plane, Rotate3d, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const ICONS: Record<string, LucideIcon> = { Box, Building, Camera, Dumbbell, Globe, Hotel, MapPin, Navigation, PartyPopper, Rotate3d, Store, UtensilsCrossed };
+const ICONS: Record<string, LucideIcon> = { Box, Building, Camera, Dumbbell, Globe, Hotel, MapPin, Navigation, PartyPopper, Plane, Rotate3d, Store, UtensilsCrossed };
 
 export function SiteIcon({ name, className }: { name: string; className?: string }) {
   const I = ICONS[name] ?? Rotate3d;

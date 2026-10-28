@@ -13,6 +13,22 @@ export interface PanoScene {
   preview?: string;
   /** the panorama's horizontal coverage in degrees (360 for a full wrap) */
   hfov?: number;
+  /** the direction the view opens on, in degrees across the image (0 = left edge, 180 = middle) */
+  start?: number;
+  /** labels pinned to directions in the scene: landmarks with distances, or big floating titles */
+  markers?: PanoMarker[];
+}
+
+export interface PanoMarker {
+  /** degrees across the image: 0 = left edge, 360 = right edge */
+  lon: number;
+  /** degrees above (+) or below (−) the image's middle line */
+  lat: number;
+  label: string;
+  /** a second line, such as a distance */
+  sub?: string;
+  /** "title": large floating text over an area; "poi" (default): a pinned label */
+  kind?: "poi" | "title";
 }
 
 /**
@@ -22,6 +38,7 @@ export interface PanoScene {
  */
 export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, compact = false }: { scenes: PanoScene[]; className?: string; initial?: number; autoRotate?: boolean; compact?: boolean }) {
   const host = useRef<HTMLDivElement>(null);
+  const markerLayer = useRef<HTMLDivElement>(null);
   const api = useRef<{ load: (s: PanoScene) => void; setSpin: (on: boolean) => void; dispose: () => void } | null>(null);
   const [active, setActive] = useState(initial);
   const [ready, setReady] = useState(false);
@@ -87,7 +104,7 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
           mesh = new THREE.Mesh(geo, mat);
           scene.add(mesh);
           lat = 0;
-          lon = 180;
+          lon = s.start ?? 180;
           setReady(true);
         });
       };
@@ -160,6 +177,8 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
       const io = new IntersectionObserver(([en]) => (visible = en.isIntersecting), { threshold: 0.01 });
       io.observe(el);
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const look = new THREE.Vector3();
+      const pt = new THREE.Vector3();
       const tick = () => {
         raf = requestAnimationFrame(tick);
         if (!visible) return;
@@ -172,6 +191,23 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
         const theta = THREE.MathUtils.degToRad(lon);
         camera.lookAt(10 * Math.sin(phi) * Math.cos(theta), 10 * Math.cos(phi), 10 * Math.sin(phi) * Math.sin(theta));
         renderer.render(scene, camera);
+        // pin each label to its direction: project it onto the screen, hide it when it is behind the camera
+        const layer = markerLayer.current;
+        if (layer && layer.children.length) {
+          camera.getWorldDirection(look);
+          const w = el.clientWidth;
+          const h = el.clientHeight;
+          for (const node of Array.from(layer.children) as HTMLElement[]) {
+            const mPhi = THREE.MathUtils.degToRad(90 - Number(node.dataset.lat));
+            const mTheta = THREE.MathUtils.degToRad(Number(node.dataset.lon));
+            pt.set(10 * Math.sin(mPhi) * Math.cos(mTheta), 10 * Math.cos(mPhi), 10 * Math.sin(mPhi) * Math.sin(mTheta));
+            const facing = pt.clone().normalize().dot(look) > 0.15;
+            pt.project(camera);
+            const inView = facing && Math.abs(pt.x) < 1.2 && Math.abs(pt.y) < 1.2;
+            node.style.opacity = inView ? "1" : "0";
+            if (inView) node.style.transform = `translate(${((pt.x + 1) / 2) * w}px, ${((1 - pt.y) / 2) * h}px)`;
+          }
+        }
       };
       tick();
 
@@ -248,6 +284,29 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
       )}
       <div ref={host} className="absolute inset-0" role="img" aria-label={`360° view: ${scene.label}. Drag to look around.`} />
 
+      {/* labels pinned in the scene (positioned every frame by the viewer) */}
+      <div ref={markerLayer} key={scene.id} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden={!ready}>
+        {ready &&
+          (scene.markers ?? []).map((m) => (
+            <div key={`${m.label}-${m.lon}`} data-lon={m.lon} data-lat={m.lat} className="absolute left-0 top-0 opacity-0 transition-opacity duration-300 will-change-transform">
+              {m.kind === "title" ? (
+                <span className="block -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-display text-lg font-bold uppercase tracking-[0.18em] text-cream [text-shadow:0_2px_14px_rgba(0,0,0,0.75)] sm:text-2xl">
+                  {m.label}
+                </span>
+              ) : (
+                <span className="flex -translate-x-1/2 -translate-y-full flex-col items-center">
+                  <span className="whitespace-nowrap rounded-xl border border-cream/25 bg-midnight/75 px-3 py-1.5 text-center shadow-lg backdrop-blur-md">
+                    <span className="block text-xs font-semibold text-cream sm:text-[13px]">{m.label}</span>
+                    {m.sub && <span className="block text-[11px] font-semibold text-sunset">{m.sub}</span>}
+                  </span>
+                  <span className="h-5 w-px bg-cream/60" />
+                  <span className="size-2.5 rounded-full border-2 border-cream bg-sunset" />
+                </span>
+              )}
+            </div>
+          ))}
+      </div>
+
       {!ready && (
         <div className="pointer-events-none absolute inset-0 grid place-items-center">
           <span className="rounded-full border border-cream/20 bg-midnight/60 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-cream/80 backdrop-blur">Loading 360°…</span>
@@ -293,6 +352,26 @@ export function PanoViewer({ scenes, className, initial = 0, autoRotate = true, 
     </div>
   );
 }
+
+/** SkyVUE demo: an aerial 360° over a plotted layout, with landmarks and distances (illustrative). */
+export const SKY_DEMO_SCENES: PanoScene[] = [
+  {
+    id: "sky-layout",
+    label: "Aerial view",
+    src: "/media/pano-aerial.webp",
+    preview: "/media/pano-aerial-sm.webp",
+    start: 200,
+    markers: [
+      { lon: 147, lat: 8, label: "Lake & promenade", sub: "2.6 km" },
+      { lon: 213, lat: 22, label: "City centre", sub: "9 km · 20 min" },
+      { lon: 199, lat: -9, label: "National highway", sub: "400 m" },
+      { lon: 253, lat: 12, label: "Multi-speciality hospital", sub: "1.8 km" },
+      { lon: 338, lat: 10, label: "Shopping mall", sub: "2.2 km" },
+      { lon: 238, lat: -30, label: "Clubhouse & pool", sub: "Inside the layout" },
+      { lon: 298, lat: -58, label: "Phase 2 plots", kind: "title" },
+    ],
+  },
+];
 
 export const DEMO_SCENES: PanoScene[] = [
   { id: "restaurant", label: "Restaurant", src: "/media/pano-restaurant.webp", preview: "/media/pano-restaurant-sm.webp" },

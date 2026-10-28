@@ -48,6 +48,7 @@ export const servicesOf = (p: Rec) => {
 
 export const SERVICE_ICON: Record<string, string> = {
   tours: "Rotate3d",
+  aerial: "Drone",
   spatial: "Box",
   hosting: "Server",
   other: "Layers",
@@ -115,6 +116,20 @@ export const CHECKLISTS: Record<string, Tpl> = {
     ["7 · Quality check", "Google publishing requirements checked (if included)"],
     ...HANDOVER,
   ],
+  aerial: [
+    ...KICKOFF,
+    ["3 · Site preparation", "Airspace zone checked (green / yellow / red) and any permission applied for"],
+    ["3 · Site preparation", "Owner's permission and take-off spot confirmed"],
+    ["3 · Site preparation", "Landmarks and distances researched and agreed with the client"],
+    ["4 · Capture", "Weather and wind checked; batteries and propellers checked"],
+    ["4 · Capture", "Every aerial position captured (full sphere, level horizon)"],
+    ["4 · Capture", "Captures backed up twice before leaving"],
+    ["5 · Processing", "Spheres stitched, sky and horizon corrected, people and plates blurred"],
+    ["6 · Tour assembly", "Landmark labels and distances placed; 3D titles and overlays added"],
+    ["6 · Tour assembly", "Aerial scenes linked to each other and to the ground tour"],
+    ["7 · Quality check", "Labels, distances and spellings double-checked with the client"],
+    ...HANDOVER,
+  ],
   spatial: [
     ...KICKOFF,
     ["3 · Site preparation", "Scoping visit done and platform chosen"],
@@ -170,6 +185,7 @@ export interface ClientInput {
 
 export const CLIENT_INPUTS: Record<string, string[]> = {
   tours: ["Access on the capture date and a contact on site", "Property owner's permission (if the client does not own the space)", "List of restricted or private areas", "Logo for the branded starting screen", "Room and area names for the labels", "Website developer's contact for the embed", "Google Business Profile access (an invite, not a password), if publishing is included"],
+  aerial: ["Exact location pin and the take-off spot", "Landmarks you want labelled (or approve our list)", "Plot numbers or layout plan, if an overlay is included", "Owner's permission to fly over the property"],
   spatial: ["Floor plans or measurements, if available", "Product list for tagging", "Access for the scoping visit"],
   hosting: ["Billing contact", "Where the tour is embedded"],
 };

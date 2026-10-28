@@ -6,6 +6,7 @@
 
 export const NAV = [
   { href: "/services", label: "Services" },
+  { href: "/skyvue", label: "SkyVUE" },
   { href: "/pricing", label: "Pricing" },
   { href: "/industries", label: "Industries" },
   { href: "/portfolio", label: "Demo tours" },
@@ -41,7 +42,7 @@ export const INDUSTRIES: Industry[] = [
     image: "/media/hotel",
     icon: "Hotel",
     priority: "High",
-    points: ["Every room type, walked through", "Lobbies, pools, spas and amenities", "Multi-space projects in one connected tour"],
+    points: ["Every room type, walked through", "Lobbies, pools, spas and amenities", "SkyVUE aerial opening scene showing the property and what is nearby"],
   },
   {
     id: "banquets",
@@ -68,7 +69,7 @@ export const INDUSTRIES: Industry[] = [
     image: "/media/realestate",
     icon: "Building",
     priority: "High",
-    points: ["Show-flats and furnished rentals online", "Commercial spaces for remote buyers", "Pair with photography and video from FrameMind AI Studio"],
+    points: ["Show-flats and furnished rentals online", "Commercial spaces for remote buyers", "SkyVUE aerial 360° with plot numbers and distances to landmarks"],
   },
   {
     id: "others",
@@ -87,6 +88,7 @@ export const FEATURES = [
   { icon: "Navigation", title: "Navigation & hotspots", text: "Arrows between viewpoints, room labels, information points and a branded start screen." },
   { icon: "Globe", title: "On your website", text: "An embeddable tour or a shareable link — WhatsApp it, post it, put it on every page." },
   { icon: "Camera", title: "Photography & video", text: "Interior photography, reels and showcase films, delivered in-house by our parent company, FrameMind AI Studio." },
+  { icon: "Plane", title: "SkyVUE aerial 360°", text: "A drone 360° with the landmarks around you labelled and their distances — highway, schools, hospital, lake." },
   { icon: "Box", title: "3D & digital twins", text: "Interactive floor plans, virtual showrooms and 3D walkthroughs for larger spaces." },
 ] as const;
 
@@ -104,6 +106,21 @@ export const DIVISIONS = [
       "Navigation hotspots, room labels and a branded starting screen where supported",
       "An embeddable tour or shareable link",
       "Help publishing eligible panoramic content to Google Street View",
+    ],
+  },
+  {
+    id: "skyvue",
+    name: "SkyVUE",
+    tag: "Aerial 360°",
+    title: "Aerial 360° with landmarks",
+    image: "/media/aerial-hero",
+    points: [
+      "Drone 360° views from up to 120 m, stitched into full spheres",
+      "Landmarks labelled with distances: highways, schools, hospitals, malls, lakes",
+      "Floating 3D titles and plot or phase overlays for layouts and townships",
+      "Standalone, or the opening scene of your ground tour",
+      "Construction progress re-flights for projects being built",
+      "Flown only where airspace permits, after an airspace check",
     ],
   },
   {
@@ -145,6 +162,8 @@ export const FAQS: { q: string; a: string; group: string }[] = [
   { group: "Privacy", q: "Do I need the owner's permission?", a: "If you do not own the space, we need the property owner's permission before the capture. We confirm access and permissions during site preparation." },
   { group: "Pricing", q: "How much does a tour cost?", a: "Tours are priced by scenes — one scene is one 360° viewpoint. Glance (up to 6 scenes) suits a café or clinic, Walkthrough (up to 12) a restaurant or showroom, Showcase (up to 20) a banquet hall or villa, and Grand Tour (up to 35) a hotel or campus. Bigger spaces add scenes individually. Use the price calculator to see your exact price." },
   { group: "Pricing", q: "Can you price by square feet?", a: "Yes. Enter your area in square feet or square metres, the number of floors and the rooms or areas in the price calculator: it works out the scenes your space needs (about one per 350 sq ft of open space, at least one per room, plus a landing for each extra floor) and picks the plan. We confirm the count before the capture." },
+  { group: "SkyVUE", q: "What is SkyVUE?", a: "SkyVUE is our aerial 360°: a drone view from up to 120 m with the landmarks around your property labelled and their distances shown — the highway, schools, hospitals, malls, lakes — plus plot numbers and phases for layouts. Buy it on its own, or add an aerial opening scene to your 360° tour." },
+  { group: "SkyVUE", q: "Is it legal to fly a drone over my property?", a: "We check the airspace zone before booking. In green zones flights need no prior permission; near airports and other restricted zones we apply for permission first, or tell you before booking if it is not possible. We fly over your property, not over crowds, and the date depends on safe weather." },
   { group: "Pricing", q: "Is Google Maps publishing extra?", a: "No. Publishing eligible panoramas to Google Maps and Street View is included in every plan, as are 12 months of hosting for your tour link and website embed." },
   { group: "Pricing", q: "How do payments work?", a: "50% advance confirms the booking; the remaining 50% is paid before final handover or activation, as agreed in the quote. Work outside the scope needs your written approval, and hosting or maintenance is billed separately." },
   { group: "Pricing", q: "Are revisions included?", a: "Yes — the number of revision rounds is written on your quote. Extra areas, extra viewpoints or re-capture after changes to the space are quoted separately." },

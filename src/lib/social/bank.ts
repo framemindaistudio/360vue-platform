@@ -48,7 +48,7 @@ export function startingPrice(serviceId: string) {
   return s.groups.filter((g) => g.mode === "one").reduce((sum, g) => sum + Math.min(...g.options.map((o) => o.price)), 0);
 }
 const serviceOf = (v: Values) => SERVICES.find((s) => s.id === val(v, "service")) ?? SERVICES[0];
-const SERVICE_SETS: Record<string, PickableSet> = { tours: "tours", spatial: "spatial", hosting: "tours" };
+const SERVICE_SETS: Record<string, PickableSet> = { tours: "tours", aerial: "realestate", spatial: "spatial", hosting: "tours" };
 
 const client: FieldSpec = { key: "client", label: "Client", kind: "text", placeholder: "The client's name, as they write it", help: "Name a client only after they have approved the post.", max: 48 };
 const work: FieldSpec = { key: "work", label: "What we made", kind: "text", placeholder: "a 360° tour of the dining hall and terrace", max: 70 };

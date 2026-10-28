@@ -125,6 +125,7 @@ export const CLIENT_STAGES = opts(
 /** Every service 360VUE sells: the ones on its rate card. Photography and video are FrameMind AI Studio's. */
 export const SERVICE_OPTS = opts(
   ["tours", "360° virtual tour"],
+  ["aerial", "SkyVUE aerial 360°"],
   ["spatial", "3D / spatial"],
   ["hosting", "Hosting & care"],
   ["other", "Other"],
@@ -168,6 +169,7 @@ export const EXPENSE_CATEGORIES = opts(
 
 export const INCOME_STREAMS = opts(
   "Virtual tours",
+  "SkyVUE aerial",
   "3D / spatial",
   "Hosting & care",
   "Partner / white-label work",
@@ -371,7 +373,7 @@ export const collections: CollectionDef[] = [
     fields: [
       { key: "title", label: "Capture day", type: "text", required: true, placeholder: "e.g. Café — 360° capture", table: true, width: "full" },
       { key: "projectId", label: "Project", type: "ref", ref: "projects", table: true, width: "half" },
-      { key: "kind", label: "Type", type: "select", options: opts("360° tour", "Scoping visit", "Re-capture", "Floor plan / 3D"), default: "360° tour", table: true, width: "half" },
+      { key: "kind", label: "Type", type: "select", options: opts("360° tour", "SkyVUE aerial (drone)", "Tour + aerial", "Scoping visit", "Re-capture", "Progress re-flight", "Floor plan / 3D"), default: "360° tour", table: true, width: "half" },
       { key: "date", label: "Date", type: "date", required: true, table: true, width: "third" },
       { key: "callTime", label: "Crew call time", type: "time", default: "08:00", width: "third" },
       { key: "wrapTime", label: "Wrap by", type: "time", width: "third" },
@@ -411,7 +413,7 @@ export const collections: CollectionDef[] = [
         key: "type",
         label: "Deliverable",
         type: "select",
-        options: opts("Virtual tour", "Panorama set", "Google Street View upload", "Website embed", "Floor plan", "3D walkthrough", "Virtual showroom", "Document", "Other"),
+        options: opts("Virtual tour", "Aerial 360° scene", "Landmark labels", "Panorama set", "Google Street View upload", "Website embed", "Floor plan", "3D walkthrough", "Virtual showroom", "Document", "Other"),
         table: true,
         width: "half",
       },
@@ -720,7 +722,7 @@ export const collections: CollectionDef[] = [
     write: OPS,
     fields: [
       { key: "name", label: "Item", type: "text", required: true, table: true, width: "half" },
-      { key: "category", label: "Category", type: "select", options: opts("360° camera", "Camera body", "Lens", "Tripod & levelling", "Lighting", "Drone", "Stabiliser & rig", "Storage & media", "Batteries & power", "Computer", "Monitor & display", "Accessory", "Cleaning & cases"), table: true, width: "half" },
+      { key: "category", label: "Category", type: "select", options: opts("360° camera", "Drone", "Camera body", "Lens", "Tripod & levelling", "Lighting", "Stabiliser & rig", "Storage & media", "Batteries & power", "Computer", "Monitor & display", "Accessory", "Cleaning & cases"), table: true, width: "half" },
       { key: "assetTag", label: "Asset tag", type: "text", placeholder: "e.g. VUE-CAM-01", table: true, width: "third" },
       { key: "serial", label: "Serial no.", type: "text", staffOnly: true, width: "third" },
       { key: "qty", label: "Quantity", type: "number", default: 1, width: "third" },

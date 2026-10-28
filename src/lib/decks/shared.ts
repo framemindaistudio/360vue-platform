@@ -12,6 +12,7 @@ export const THEME: DeckTheme = { accent: "#9A5A31", tint: "#F6EBDD", level: 4, 
 
 export const SERVICE_ICON: Record<string, IconName> = {
   tours: "RotateCw",
+  aerial: "Plane",
   spatial: "Box",
   hosting: "Globe",
 };

@@ -16,7 +16,7 @@ export const site = {
   pronounced: "Three-Sixty View",
   tagline: "See Every Angle.",
   line: "360° Virtual Tours · Photography · Immersive Experiences",
-  pillars: ["360° Virtual Tours", "Interior Photography", "Promotional Video", "Google Maps Publishing", "3D & Digital Twins"],
+  pillars: ["360° Virtual Tours", "SkyVUE Aerial 360°", "Google Maps Publishing", "3D & Digital Twins"],
   headline: "Real spaces. Real experiences.",
   description:
     "360VUE creates interactive 360° virtual tours, interior photography and video for restaurants, cafés, hotels, banquet halls, showrooms, real estate and offices — so customers can explore a space online before they visit.",

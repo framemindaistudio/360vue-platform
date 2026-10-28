@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { PriceConfigurator } from "@/components/site/PriceConfigurator";
+import { PricingFromQuery } from "@/components/site/PricingFromQuery";
 import { CtaBand, PageHero } from "@/components/site/bits";
 import { publicRateCard } from "@/lib/public-rates";
 
 export const metadata: Metadata = {
   title: "Pricing — build your 360° tour quote",
-  description: "Enter your space — area in sq ft or sq m, floors and rooms — and see the price of your 360° virtual tour instantly. Plans from Glance to Grand Tour, add-ons, and a downloadable PDF quote.",
+  description: "Enter your space — area in sq ft or sq m, floors and rooms — and see the price of your 360° virtual tour or SkyVUE aerial 360° instantly, with a downloadable PDF quote.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -22,7 +24,9 @@ export default async function PricingPage() {
       />
       <section className="pb-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <PriceConfigurator rates={rates} />
+          <Suspense fallback={<PriceConfigurator rates={rates} />}>
+            <PricingFromQuery rates={rates} />
+          </Suspense>
         </div>
       </section>
       <CtaBand />

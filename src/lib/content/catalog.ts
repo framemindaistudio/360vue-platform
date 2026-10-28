@@ -18,7 +18,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export type ServiceId = "tours" | "spatial" | "hosting";
+export type ServiceId = "tours" | "aerial" | "spatial" | "hosting";
 
 export interface ServiceOption {
   id: string;
@@ -62,7 +62,7 @@ export interface Service {
   /** icon for HQ screens (a lucide-react export name) */
   icon: string;
   /** the division of 360VUE it belongs to */
-  division: "Tours" | "Spatial";
+  division: "Tours" | "Sky" | "Spatial";
 }
 
 export const SERVICES: Service[] = [
@@ -105,7 +105,7 @@ export const SERVICES: Service[] = [
         options: [
           { id: "extra-scene", label: "Extra scenes", detail: "Beyond the scenes in your plan", price: 799, unit: "/scene" },
           { id: "extra-floor", label: "Additional floors", detail: "Level switcher and stair connections for each floor after the first", price: 1499, unit: "/floor" },
-          { id: "aerial", label: "Aerial 360° (drone)", detail: "A view from above the property, where flying is legally permitted", price: 4999, unit: "/scene" },
+          { id: "aerial", label: "SkyVUE aerial opening scene", detail: "A drone 360° from above, with landmark labels, as the first scene of your tour — same visit", price: 3999, unit: "/scene" },
         ],
       },
       {
@@ -139,6 +139,48 @@ export const SERVICES: Service[] = [
           { id: "after-hours", label: "Early-morning or after-hours capture", detail: "Before you open or after you close", price: 1999 },
           { id: "twilight", label: "Twilight capture", detail: "A second visit after sunset, with the lights on", price: 2999 },
           { id: "express", label: "Express delivery", detail: "Live within 72 hours of the capture", price: 2999 },
+        ],
+      },
+    ],
+  },
+  {
+    id: "aerial",
+    name: "SkyVUE Aerial 360°",
+    short: "Drone 360° · Landmarks · Distances",
+    division: "Sky",
+    description:
+      "An aerial 360° view from a drone, with the landmarks around you labelled and their distances shown — highway, school, hospital, lake, airport — so buyers and guests see where you are, not just what is inside. Standalone, or the opening scene of your tour.",
+    billing: "project",
+    icon: "Drone",
+    included: [
+      "Airspace check before booking (we fly only where it is permitted)",
+      "Drone capture from up to 120 m, stitched into a full 360° sphere",
+      "Landmark labels with distances, researched for your location",
+      "Shareable link, website embed, Google Maps where eligible",
+      "12 months of hosting · links into your ground tour",
+    ],
+    groups: [
+      {
+        id: "package",
+        title: "SkyVUE plan",
+        mode: "one",
+        help: "One aerial scene is one drone position. Labels name what is around you and how far it is.",
+        options: [
+          { id: "sky-point", label: "SkyVUE Point", detail: "1 aerial scene, up to 10 landmark labels · plots, farmhouses, standalone buildings", price: 7999, base: true, scenes: 1 },
+          { id: "sky-neighbourhood", label: "SkyVUE Neighbourhood", detail: "3 aerial scenes, up to 25 labels, floating 3D titles · apartments, resorts, hotels, schools", price: 14999, base: true, scenes: 3, badge: "Most popular" },
+          { id: "sky-masterplan", label: "SkyVUE Masterplan", detail: "6 linked aerial scenes, up to 50 labels, plot and phase overlays · layouts, townships, campuses", price: 27999, base: true, scenes: 6 },
+        ],
+      },
+      {
+        id: "sky-extras",
+        title: "SkyVUE extras",
+        mode: "any",
+        note: "Flights happen only where airspace permits under India's Drone Rules, 2021. Near airports and other restricted zones we apply for permission first, or tell you before booking if it is not possible. Dates depend on the weather.",
+        options: [
+          { id: "sky-extra-scene", label: "Extra aerial scenes", detail: "Another drone position, linked to the others", price: 2499, unit: "/scene" },
+          { id: "sky-overlay", label: "Plot & boundary overlay", detail: "Plot numbers, boundaries, phases or amenities drawn onto the view", price: 4999 },
+          { id: "sky-golden", label: "Golden-hour or sunrise flight", detail: "Warm, low light at the start or end of the day", price: 2999 },
+          { id: "sky-progress", label: "Construction progress re-flight", detail: "The same positions re-flown and added to your tour, for buyers to follow progress", price: 5999, unit: "/visit" },
         ],
       },
     ],
@@ -204,7 +246,7 @@ export const SOCIAL_CONTRACTS: { months: number; label: string; discountPercent:
   { months: 24, label: "24 months", discountPercent: 25 },
 ];
 
-/** Buying several services together (for example a tour with a measured floor plan or a virtual showroom).
+/** Buying several services together (for example a tour with SkyVUE aerial, a measured floor plan or a virtual showroom).
  *  Photography and video are quoted by the parent company, FrameMind AI Studio, not here. */
 export const BUNDLE = {
   /** number of services → discount percent (the last step covers that many or more) */

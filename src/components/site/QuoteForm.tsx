@@ -8,6 +8,7 @@ import { track } from "@/lib/analytics";
 const TYPES = ["Restaurant / café", "Hotel / resort", "Banquet hall / venue", "Showroom / retail", "Real estate", "Gym / clinic / office", "Other"];
 const SERVICES = [
   { id: "tours", label: "360° virtual tour" },
+  { id: "aerial", label: "SkyVUE aerial 360°" },
   { id: "spatial", label: "3D / virtual showroom" },
 ];
 const PACKAGES: Record<string, string> = { starter: "Starter Tour", business: "Business Tour", premium: "Premium Experience" };

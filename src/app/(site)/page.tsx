@@ -145,6 +145,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── SkyVUE aerial ─────────────────────────────────── */}
+      <section className="relative isolate overflow-hidden py-24 sm:py-32">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/media/aerial-hero.webp" alt="" loading="lazy" className="absolute inset-0 -z-20 h-full w-full object-cover" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-midnight via-midnight/80 to-midnight/10" />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="reveal max-w-xl">
+            <Eyebrow>New · SkyVUE aerial 360°</Eyebrow>
+            <h2 className="mt-5 text-balance text-4xl font-semibold leading-[1.05] text-cream sm:text-5xl">
+              Show where you are, <span className="text-gold-grad">from 120 m up.</span>
+            </h2>
+            <p className="mt-5 text-lg text-cream/70">
+              A drone 360° with the highway, schools, hospital and lake around you labelled, with distances. For plotted layouts, apartments, resorts and campuses — on its own or as the first scene of your tour.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <GoldButton href="/skyvue">Explore SkyVUE</GoldButton>
+              <GhostButton href="/pricing?need=sky">See prices</GhostButton>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── industries ───────────────────────────────────── */}
       <section className="py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

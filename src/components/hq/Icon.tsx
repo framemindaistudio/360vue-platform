@@ -64,11 +64,13 @@ import {
   Box,
   Server,
   Gem,
+  Drone,
   type LucideIcon,
 } from "lucide-react";
 
 /** Explicit icon map (keeps the bundle small — never import * from lucide). */
 const ICONS: Record<string, LucideIcon> = {
+  Drone,
   Rotate3d,
   Box,
   Server,
