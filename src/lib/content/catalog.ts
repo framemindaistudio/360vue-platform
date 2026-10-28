@@ -58,6 +58,17 @@ export interface Service {
   billing: "project" | "month";
   /** what is always included */
   included: string[];
+  /** the plain-language pitch shown on the website, in quotes and in proposals */
+  pitch?: {
+    /** the customer's problem, in their words */
+    problem: string;
+    /** what we do about it, in one sentence */
+    solution: string;
+    /** what a visitor does, step by step */
+    journey: string[];
+    /** what the business gets out of it */
+    benefits: string[];
+  };
   groups: ServiceGroup[];
   /** icon for HQ screens (a lucide-react export name) */
   icon: string;
@@ -72,19 +83,35 @@ export const SERVICES: Service[] = [
     short: "Capture · Connect · Publish",
     division: "Tours",
     description:
-      "An interactive 360° walkthrough of your space: every scene captured in high resolution, stitched, connected with navigation arrows, published to Google Maps and delivered as a link and website embed.",
+      "A 360° tour of your space that customers open on their phone: they walk from room to room, tap points for details, and call or WhatsApp you from inside the tour. Published on Google Maps and shared as one link.",
     billing: "project",
     icon: "Rotate3d",
     included: [
-      "Site survey and capture plan",
-      "High-resolution 360° capture of every scene",
-      "Stitching, colour correction and privacy blurring",
-      "Navigation arrows between scenes, room labels",
-      "Google Maps & Street View publishing (eligible content)",
-      "Shareable link, website embed code, VR-ready",
-      "12 months of tour hosting",
-      "2 revision rounds · delivery in 5–7 working days",
+      "Site survey and a capture plan",
+      "Every room in high-resolution 360°, colour-corrected, faces and number plates blurred",
+      "Arrows to walk from room to room, with room names",
+      "Contact panel beside the tour: your logo, name, phone and email, plus a Call button",
+      "Share and full-screen buttons on every scene",
+      "Published on Google Maps & Street View (eligible places)",
+      "One link to share, and code to put the tour on your website",
+      "12 months of hosting · 2 revision rounds · live in 5–7 working days",
     ],
+    pitch: {
+      problem: "Customers decide from a few photos. They cannot tell how big the space is, how it feels or whether it suits them — so they scroll past, or they visit and walk away.",
+      solution: "A 360° tour lets them walk through every room on their phone before they come, and contact you from inside the tour.",
+      journey: [
+        "They find you on Google Maps, your website, Instagram or a WhatsApp link",
+        "They open the tour and walk from room to room, looking in every direction",
+        "They tap info points for menus, prices, room details or a video",
+        "They call, WhatsApp or book from the contact panel — without leaving the tour",
+      ],
+      benefits: [
+        "More enquiries from Google Maps and your website",
+        "Visitors who already know the space — fewer wasted site visits",
+        "Open 24×7: one link for WhatsApp, Instagram, ads and brochures",
+        "Stand out from competitors who only show photos",
+      ],
+    },
     groups: [
       {
         id: "package",
@@ -110,14 +137,17 @@ export const SERVICES: Service[] = [
       },
       {
         id: "interactive",
-        title: "Interactive layer",
+        title: "Add to your tour",
         mode: "any",
+        help: "Every tour already has a contact panel with your logo, phone and email, and a Call button. These add more.",
         options: [
-          { id: "branding", label: "Branded intro", detail: "Your logo, colours and a welcome screen", price: 1499 },
-          { id: "hotspots", label: "Info hotspots", detail: "Text, photos, menus or prices inside the tour — 10 per pack", price: 1999, unit: "/pack" },
-          { id: "cta", label: "Call, WhatsApp & booking buttons", detail: "Visitors contact you from inside the tour", price: 1499 },
-          { id: "floorplan", label: "Floor-plan mini-map", detail: "A clickable plan that shows where the visitor is", price: 2499, unit: "/floor" },
-          { id: "audio", label: "Music or voice guide", detail: "Background music or a recorded welcome", price: 1999 },
+          { id: "cta", label: "WhatsApp, booking & directions buttons", detail: "Buttons in the tour that open a WhatsApp chat, your booking or enquiry page, or Google Maps directions", price: 999 },
+          { id: "hotspots", label: "Info points", detail: "Tap-to-open popups with text and photos — menus, room details, prices, amenities. 10 per pack", price: 1999, unit: "/pack" },
+          { id: "video", label: "Videos in the tour", detail: "A play button inside the tour that opens your YouTube or Instagram video — a reel, a walkthrough, a client story. Up to 3 videos", price: 1499 },
+          { id: "branding", label: "Branded welcome & theme", detail: "Your colours and icons across the tour, and a welcome screen when it opens", price: 1499 },
+          { id: "audio", label: "Music or voice welcome", detail: "Background music, or a recorded welcome in your own voice", price: 1999 },
+          { id: "mapbox", label: "Location map in the tour", detail: "A small map with every 360° point on it; tap a point to jump there — for campuses, resorts and large sites", price: 1499 },
+          { id: "language", label: "Second language", detail: "The whole tour in Kannada, Hindi or another language as well", price: 2499, unit: "/language" },
         ],
       },
       {
@@ -149,17 +179,34 @@ export const SERVICES: Service[] = [
     short: "Drone 360° · Landmarks · Distances",
     division: "Sky",
     description:
-      "An aerial 360° view from a drone, with the landmarks around you labelled and their distances shown — highway, school, hospital, lake, airport — so buyers and guests see where you are, not just what is inside. Standalone, or the opening scene of your tour.",
+      "A drone 360° of your property from up to 120 m. Nearby places are labelled with distances, and your own buildings and amenities are labelled too — tap one and the 360° of that hall, building or entrance opens, so people explore it inside. On its own, or combined with your ground tour in one link.",
     billing: "project",
     icon: "Drone",
     included: [
-      "Airspace check before booking (we fly only where it is permitted)",
-      "Drone capture from up to 120 m, stitched into a full 360° sphere",
-      "Landmark labels with distances, researched for your location",
-      "Shareable link, website embed, Google Maps where eligible",
-      "Combine with a ground tour in one link: hotspots from the sky into the space and back",
-      "12 months of hosting",
+      "Airspace check before booking — we fly only where it is permitted",
+      "Drone 360° from up to 120 m, stitched into a full sphere",
+      "Labels on nearby places with distances: highway, schools, hospital, malls, lake",
+      "Labels on your own buildings, amenities and entrances",
+      "With a ground tour: tap a label to open the 360° of that place, and fly back up — one link",
+      "Contact panel with your logo, phone and email, and a Call button",
+      "Shareable link, website embed, Google Maps where eligible · 12 months of hosting",
     ],
+    pitch: {
+      problem: "Buyers and guests cannot see where a property is or what is around it. A brochure map and a few photos do not show the location, the size of the land or the amenities.",
+      solution: "SkyVUE shows the whole property from the sky with every landmark and amenity labelled — and each label opens a 360° of that place, so people go from the sky straight inside.",
+      journey: [
+        "They see your property from above, with nearby places and distances labelled",
+        "They tap a label on your property — the clubhouse, a villa, the café, the entrance",
+        "The 360° of that place opens, and they walk through it",
+        "They fly back up to the sky, or call and WhatsApp you from the tour",
+      ],
+      benefits: [
+        "The location sells itself: distances to highway, schools and hospitals on screen",
+        "The whole layout, resort or campus understood in seconds",
+        "Sky and inside in one link — nothing else to download or open",
+        "Fewer “where exactly is it?” calls and more serious site visits",
+      ],
+    },
     groups: [
       {
         id: "package",
@@ -179,7 +226,7 @@ export const SERVICES: Service[] = [
         note: "Flights happen only where airspace permits under India's Drone Rules, 2021. Near airports and other restricted zones we apply for permission first, or tell you before booking if it is not possible. Dates depend on the weather.",
         options: [
           { id: "sky-extra-scene", label: "Extra aerial scenes", detail: "Another drone position, linked to the others", price: 2499, unit: "/scene" },
-          { id: "sky-overlay", label: "Plot & boundary overlay", detail: "Plot numbers, boundaries, phases or amenities drawn onto the view", price: 4999 },
+          { id: "sky-overlay", label: "Plot & boundary overlay", detail: "Your boundary outlined, and plot numbers, phases and measurements (plot size, road width) written onto the view", price: 4999 },
           { id: "sky-golden", label: "Golden-hour or sunrise flight", detail: "Warm, low light at the start or end of the day", price: 2999 },
           { id: "sky-progress", label: "Construction progress re-flight", detail: "The same positions re-flown and added to your tour, for buyers to follow progress", price: 5999, unit: "/visit" },
         ],

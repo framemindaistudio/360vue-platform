@@ -396,6 +396,54 @@ function TermsPage({ c, page }: { c: Ctx; page: string }) {
   );
 }
 
+/* ─────────────────── why it works: problem, visitor journey, benefits ─────────────────── */
+
+type Pitched = { id: string; name: string; pitch: NonNullable<(typeof SERVICES)[number]["pitch"]> };
+
+function WhyPage({ c, stories, page }: { c: Ctx; stories: Pitched[]; page: string }) {
+  return (
+    <A4Page>
+      <RunningHead c={c} section="How it works" page={page} />
+      <p className={LABEL}>How it works</p>
+      <h2 className="mt-2 text-[22pt] font-semibold leading-tight tracking-[-0.03em] text-graphite">What it does for {c.clientName}</h2>
+      {stories.map((s) => (
+        <section key={s.id} className="mt-[7mm] border-t-[1.5px] border-graphite pt-[4mm]">
+          <p className={LABEL}>{s.name}</p>
+          <div className="mt-[3mm] grid grid-cols-2 gap-[5mm] text-[9pt] leading-relaxed">
+            <div className="rounded-[3mm] bg-graphite/[0.05] p-[4mm]">
+              <p className={LABEL}>The problem</p>
+              <p className="mt-1 text-charcoal">{s.pitch.problem}</p>
+            </div>
+            <div className="rounded-[3mm] bg-graphite p-[4mm] text-paper">
+              <p className="text-[6.5pt] font-semibold uppercase tracking-[0.22em] text-lime">What we do</p>
+              <p className="mt-1">{s.pitch.solution}</p>
+            </div>
+          </div>
+          <p className={`${LABEL} mt-[4mm]`}>How your customer uses it</p>
+          <ol className="mt-[2mm] grid grid-cols-4 gap-[3mm]">
+            {s.pitch.journey.map((j, i) => (
+              <li key={j} className="rounded-[3mm] border border-graphite/15 p-[3mm] text-[8.3pt] leading-snug text-charcoal">
+                <span className="mb-1.5 grid size-[6mm] place-items-center rounded-full bg-lime font-mono text-[7.5pt] font-semibold text-graphite">{i + 1}</span>
+                {j}
+              </li>
+            ))}
+          </ol>
+          <p className={`${LABEL} mt-[4mm]`}>What you get out of it</p>
+          <ul className="mt-[2mm] grid grid-cols-2 gap-x-[6mm] gap-y-1 text-[8.8pt] text-charcoal">
+            {s.pitch.benefits.map((b) => (
+              <li key={b} className="flex gap-2">
+                <span className="mt-[1.6mm] size-[1.8mm] shrink-0 rounded-full bg-lime" />
+                {b}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
+      <Foot c={c} />
+    </A4Page>
+  );
+}
+
 /* ─────────────────────────── the document ─────────────────────────── */
 
 function Notice({ title, body }: { title: string; body: string }) {
@@ -460,7 +508,10 @@ export function ProposalPrint({ id }: { id: string }) {
     signatory: { name: settings.signatoryName || founder.name, title: settings.signatoryTitle || founder.role },
   };
   const scope = chunk(lines);
-  const total = 1 + scope.length + 2;
+  // the services in this quote that have a plain-language pitch (tours, SkyVUE) get a "How it works" page
+  const pitched: Pitched[] = SERVICES.filter((s) => s.pitch && lines.some((l) => l.kind === "service" && l.serviceId === s.id)).map((s) => ({ id: s.id, name: s.name, pitch: s.pitch! }));
+  const why = pitched.length ? 1 : 0;
+  const total = 1 + why + scope.length + 2;
   const label = (n: number) => `${number} · ${n} / ${total}`;
   // the number of each scope page's first line: 1, then running on from the page before
   const starts = scope.map((_, i) => 1 + scope.slice(0, i).reduce((n, p) => n + p.length, 0));
@@ -481,11 +532,12 @@ export function ProposalPrint({ id }: { id: string }) {
       }
     >
       <Cover c={c} />
+      {why > 0 && <WhyPage c={c} stories={pitched} page={label(2)} />}
       {scope.map((page, i) => {
-        return <ScopePage key={i} c={c} lines={page} start={starts[i]} page={label(i + 2)} first={i === 0} />;
+        return <ScopePage key={i} c={c} lines={page} start={starts[i]} page={label(i + 2 + why)} first={i === 0} />;
       })}
-      <InvestmentPage c={c} page={label(scope.length + 2)} />
-      <TermsPage c={c} page={label(scope.length + 3)} />
+      <InvestmentPage c={c} page={label(scope.length + 2 + why)} />
+      <TermsPage c={c} page={label(scope.length + 3 + why)} />
     </PrintShell>
   );
 }

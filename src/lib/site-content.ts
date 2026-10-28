@@ -85,10 +85,10 @@ export const INDUSTRIES: Industry[] = [
 export const FEATURES = [
   { icon: "Rotate3d", title: "Interactive 360° tours", text: "Spherical photographs at planned viewpoints, stitched and connected into a walkthrough." },
   { icon: "MapPin", title: "Google Maps publishing", text: "Help publishing eligible panoramas to Google Street View, so your listing shows the inside." },
-  { icon: "Navigation", title: "Navigation & hotspots", text: "Arrows between viewpoints, room labels, information points and a branded start screen." },
+  { icon: "Navigation", title: "Contact from inside the tour", text: "Every tour has a contact panel with your logo, phone, email and a Call button. Add WhatsApp, booking and directions buttons, info points and videos." },
   { icon: "Globe", title: "On your website", text: "An embeddable tour or a shareable link — WhatsApp it, post it, put it on every page." },
   { icon: "Camera", title: "Photography & video", text: "Interior photography, reels and showcase films, delivered in-house by our parent company, FrameMind AI Studio." },
-  { icon: "Plane", title: "SkyVUE aerial 360°", text: "A drone 360° with the landmarks around you labelled and their distances — highway, schools, hospital, lake." },
+  { icon: "Plane", title: "SkyVUE aerial 360°", text: "Your property from the sky with landmarks and distances labelled. Tap a building or amenity and its 360° opens, so people explore it inside." },
   { icon: "Box", title: "3D & digital twins", text: "Interactive floor plans, virtual showrooms and 3D walkthroughs for larger spaces." },
 ] as const;
 
@@ -165,6 +165,7 @@ export const FAQS: { q: string; a: string; group: string }[] = [
   { group: "SkyVUE", q: "What is SkyVUE?", a: "SkyVUE is our aerial 360°: a drone view from up to 120 m with the landmarks around your property labelled and their distances shown — the highway, schools, hospitals, malls, lakes — plus plot numbers and phases for layouts. Buy it on its own, or add an aerial opening scene to your 360° tour." },
   { group: "SkyVUE", q: "Can the aerial view and the inside tour be one link?", a: "Yes. SkyVUE can be on its own, or combined with your 360° ground tour in a single link. Hotspots on the aerial view take visitors down into the lobby, café, rooms or show flat, and a “Back to the sky” hotspot flies them up again. Linking is included at no extra charge when you take both, and we can also add aerial scenes to a 360VUE tour you already have." },
   { group: "SkyVUE", q: "Is it legal to fly a drone over my property?", a: "We check the airspace zone before booking. In green zones flights need no prior permission; near airports and other restricted zones we apply for permission first, or tell you before booking if it is not possible. We fly over your property, not over crowds, and the date depends on safe weather." },
+  { group: "Pricing", q: "What comes with every tour, and what can I add?", a: "Every tour includes 360° of every room, arrows to walk between rooms, room names, a contact panel with your logo, phone, email and a Call button, share and full-screen buttons, Google Maps publishing and 12 months of hosting. You can add WhatsApp, booking and directions buttons; info points with text and photos (menus, prices, room details); videos that play from inside the tour; a branded welcome and theme; music or a voice welcome; a location map; and a second language. Each one is priced in the calculator." },
   { group: "Pricing", q: "Is Google Maps publishing extra?", a: "No. Publishing eligible panoramas to Google Maps and Street View is included in every plan, as are 12 months of hosting for your tour link and website embed." },
   { group: "Pricing", q: "How do payments work?", a: "50% advance confirms the booking; the remaining 50% is paid before final handover or activation, as agreed in the quote. Work outside the scope needs your written approval, and hosting or maintenance is billed separately." },
   { group: "Pricing", q: "Are revisions included?", a: "Yes — the number of revision rounds is written on your quote. Extra areas, extra viewpoints or re-capture after changes to the space are quoted separately." },

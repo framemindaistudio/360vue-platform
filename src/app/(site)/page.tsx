@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { PanoViewer, DEMO_SCENES } from "@/components/site/PanoViewer";
 import { ReelCard } from "@/components/site/ReelCard";
 import { Packages } from "@/components/site/Packages";
+import { ServiceStory } from "@/components/site/ServiceStory";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead, SiteIcon } from "@/components/site/bits";
 import { FAQS, FEATURES, INDUSTRIES } from "@/lib/site-content";
 import { TERMS } from "@/lib/content/catalog";
@@ -105,6 +106,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── the problem, and how a tour solves it ───────────── */}
+      <ServiceStory id="tours" images={["/media/phone-maps-sm.webp", "/media/pano-lobby-sm.webp", "/media/restaurant-sm.webp", "/media/phone-tour-sm.webp"]} eyebrow="Why a 360° tour" title={<>Photos don&apos;t sell a space. <span className="text-gold-grad">Walking through it does.</span></>} className="border-t border-cream/10" />
+
       {/* ── reels: how it works in the real world ───────────── */}
       <section className="relative overflow-hidden py-24 sm:py-32">
         <div className="pointer-events-none absolute left-[-10%] top-20 size-[520px] rounded-full bg-bronze/20 blur-[140px]" aria-hidden />
@@ -157,7 +161,7 @@ export default function HomePage() {
               Show where you are, <span className="text-gold-grad">from 120 m up.</span>
             </h2>
             <p className="mt-5 text-lg text-cream/70">
-              A drone 360° with the highway, schools, hospital and lake around you labelled, with distances. For plotted layouts, apartments, resorts and campuses — on its own, or combined with your tour in one link where a hotspot flies people down inside.
+              A drone 360° of your property with the highway, schools, hospital and lake labelled with distances. Your buildings are labelled too: tap the clubhouse, the café or the entrance and its 360° opens, so people walk inside. All in one link.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <GoldButton href="/skyvue">Explore SkyVUE</GoldButton>

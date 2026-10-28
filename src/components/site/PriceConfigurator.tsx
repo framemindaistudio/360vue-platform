@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Check, Download, Loader2, Minus, Plus, Sparkles, X } from "lucide-react";
-import { estimateScenes, SQFT_PER_SQM, type Service, type ServiceOption } from "@/lib/content/catalog";
+import { estimateScenes, SERVICES as CATALOG, SQFT_PER_SQM, type Service, type ServiceOption } from "@/lib/content/catalog";
 import { choiceOf, priceService, type Selections } from "@/lib/pricebook/math";
 import type { PublicRates } from "@/lib/public-rates";
 import { cn } from "@/lib/utils";
@@ -195,13 +195,21 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
       email: email.trim(),
       space: spaceLine,
       lines,
-      included: [...(withTour && withSky ? [ONE_LINK] : []), ...(withTour ? tour?.included ?? [] : []), ...(withSky ? sky?.included ?? [] : []), ...included.filter((x) => !/google/i.test(x))],
+      included: [...(withTour && withSky ? [ONE_LINK] : []), ...(withTour ? tour?.included ?? [] : []), ...(withSky ? (sky?.included ?? []).filter((x) => !withTour || !/^Contact panel|^With a ground tour/.test(x)) : []), ...included.filter((x) => !/google/i.test(x))],
       discount: discount ? { label: `Multi-service discount (${bundlePct}%)`, amount: discount } : null,
       taxable,
       gstPercent: rates.gstPercent,
       gst,
       total,
       hosting: hostOpt ? `${hostOpt.label} at ${inr(hostMonthly)}/month + GST (${contract?.label} plan)` : "",
+      stories: [...(withTour ? [tour] : []), ...(withSky ? [sky] : [])]
+        .map((s) => (s ? CATALOG.find((c) => c.id === s.id) : undefined))
+        .filter((s): s is NonNullable<typeof s> => !!s?.pitch)
+        .map((s) => ({ name: s.name, ...s.pitch! })),
+      optional: [
+        ...(withTour ? addonGroups.filter((g) => g.id === "interactive").flatMap((g) => g.options).filter((o) => !(addons[o.id] ?? 0) && o.price > 0) : []),
+        ...(withSky ? (skyExtras?.options ?? []).filter((o) => !(skyAddons[o.id] ?? 0)) : []),
+      ].map((o) => ({ label: o.label, detail: o.detail, price: o.price, unit: o.unit })),
     };
     // open the window now, while the click still counts as the user's: a window opened after an await is blocked
     const win = window.open("", "_blank");
@@ -422,7 +430,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
         {/* 3 · add-ons */}
         {withTour && (
         <section className={card}>
-          <StepHead n={3} title="Make it work harder" sub="Optional upgrades. Tick what you want; set how many where it says per pack, floor or scene." />
+          <StepHead n={3} title="Add more to your tour" sub="Every tour already has a contact panel (your logo, phone, email and a Call button). Tick extras like WhatsApp buttons, info points or videos; set how many where it says per pack, floor or scene." />
           <div className="mt-6 space-y-7">
             {addonGroups.map((g) => {
               const opts = g.options.filter((o) => o.id !== "extra-scene" && o.id !== "extra-floor" && !(o.id === "aerial" && withSky));
@@ -472,7 +480,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
         {/* SkyVUE */}
         {withSky && sky && (
           <section className={card}>
-            <StepHead n={withTour ? 4 : 1} title="SkyVUE aerial 360°" sub="A drone 360° from up to 120 m with the landmarks around you labelled and their distances — so people see where you are." />
+            <StepHead n={withTour ? 4 : 1} title="SkyVUE aerial 360°" sub="Your property from up to 120 m. Nearby places are labelled with distances, and your buildings and amenities are labelled too — with a ground tour, tapping one opens its 360°." />
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {skyPlans.map((p) => {
                 const on = p.id === skyPlan?.id;

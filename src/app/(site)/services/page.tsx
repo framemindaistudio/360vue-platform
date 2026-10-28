@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { Packages } from "@/components/site/Packages";
+import { ServiceStory } from "@/components/site/ServiceStory";
 import { ParentCompany } from "@/components/site/ParentCompany";
 import { site } from "@/lib/site";
 import { CtaBand, PageHero, SectionHead } from "@/components/site/bits";
@@ -23,6 +24,9 @@ export default async function ServicesPage() {
   return (
     <>
       <PageHero eyebrow="Services" title={<>One visit. <span className="text-gold-grad">Every angle.</span></>} intro="Tours come first, with immersive 3D work built around them. Photography, video and social media come from our parent company, FrameMind AI Studio, so one team can cover your website, your Maps listing and your social media." image="/media/camera.webp" />
+
+      <ServiceStory id="tours" images={["/media/phone-maps-sm.webp", "/media/pano-lobby-sm.webp", "/media/restaurant-sm.webp", "/media/phone-tour-sm.webp"]} eyebrow="Why a 360° tour" title={<>Photos don&apos;t sell a space. <span className="text-gold-grad">Walking through it does.</span></>} />
+      <ServiceStory id="aerial" images={["/media/aerial-hero-sm.webp", "/media/pano-aerial-sm.webp", "/media/pano-lobby-sm.webp", "/media/phone-tour-sm.webp"]} eyebrow="Why SkyVUE aerial" title={<>From the sky, <span className="text-gold-grad">straight inside.</span></>} className="border-t border-cream/10 bg-night/60" />
 
       {DIVISIONS.map((d, i) => (
         <section key={d.id} id={d.id} className="scroll-mt-20 border-t border-cream/10 py-20 sm:py-28">
@@ -72,6 +76,7 @@ export default async function ServicesPage() {
               {addons.map((g) => (
                 <div key={g.id} className="reveal rounded-3xl border border-cream/10 bg-midnight/70 p-7">
                   <h3 className="text-lg font-semibold text-cream">{g.title}</h3>
+                  {g.help && <p className="mt-1 text-xs leading-relaxed text-cream/50">{g.help}</p>}
                   <ul className="mt-5 divide-y divide-cream/10">
                     {g.options.map((o) => (
                       <li key={o.id} className="flex items-start justify-between gap-4 py-3 text-sm">

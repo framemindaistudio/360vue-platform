@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Building2, Check, Factory, GraduationCap, Hotel, MapPinned, PartyPopper, ShieldCheck, Trees, Wind } from "lucide-react";
 import { COMBINED_DEMO_SCENES, PanoViewer } from "@/components/site/PanoViewer";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead } from "@/components/site/bits";
+import { ServiceStory } from "@/components/site/ServiceStory";
 import { publicRateCard } from "@/lib/public-rates";
 
 export const metadata: Metadata = {
@@ -14,12 +15,6 @@ export const metadata: Metadata = {
 export const revalidate = 600;
 
 const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
-
-const WHY = [
-  { Icon: MapPinned, t: "Location sells", d: "Buyers and guests ask how far the highway, the school or the hospital is. SkyVUE shows it, with the distance on the label." },
-  { Icon: Trees, t: "The whole property at once", d: "Layouts, resorts and campuses are too big for one photo. From 120 m, people see every plot, lawn and building in context." },
-  { Icon: ArrowRight, t: "Sky and inside, one link", d: "Combine SkyVUE with your 360° tour: hotspots take visitors from the aerial view down into the lobby, café or flat, and back up. One link to share." },
-];
 
 const FOR = [
   { Icon: MapPinned, t: "Plotted layouts & villa projects", d: "Plot numbers, phases, roads and amenities marked on the view" },
@@ -73,23 +68,8 @@ export default async function SkyVuePage() {
         </div>
       </section>
 
-      {/* why */}
-      <section className="border-y border-cream/10 bg-night/60 py-20 sm:py-28">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead eyebrow="Why aerial" title="The view a brochure can't give." />
-          <ul className="mt-12 grid gap-4 md:grid-cols-3">
-            {WHY.map(({ Icon, t, d }) => (
-              <li key={t} className="reveal rounded-3xl border border-cream/10 bg-midnight/70 p-7">
-                <span className="grid size-12 place-items-center rounded-2xl border border-sunset/30 bg-sunset/10">
-                  <Icon className="size-6 text-sunset" strokeWidth={1.5} aria-hidden />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold text-cream">{t}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-cream/60">{d}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      {/* problem → how it works → what you get */}
+      <ServiceStory id="aerial" images={["/media/aerial-hero-sm.webp", "/media/pano-aerial-sm.webp", "/media/pano-lobby-sm.webp", "/media/phone-tour-sm.webp"]} eyebrow="How SkyVUE works" title={<>From the sky, <span className="text-gold-grad">straight inside.</span></>} className="border-y border-cream/10 bg-night/60" />
 
       {/* who */}
       <section className="py-20 sm:py-28">
