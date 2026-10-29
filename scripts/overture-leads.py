@@ -74,6 +74,47 @@ def kind_of(cat):
     return ""
 
 
+# How well each kind of business fits a 360° tour (10 = best: people choose them by seeing the space).
+FIT = {
+    "Resort": 10, "Hotel": 10, "Event / banquet venue": 10, "Homestay / guest house": 9, "Real-estate agent": 9,
+    "Restaurant": 8, "Café": 8, "Furniture / interiors showroom": 8, "Co-working space": 8, "Vehicle showroom": 7,
+    "Retail showroom": 6, "Architect": 6, "Hospital": 6, "Gym / fitness": 6, "Clinic": 5, "College": 5, "Bar / pub": 5,
+    "Spa / salon": 4, "School": 3,
+}
+# At most this many of one kind in a list of 500, so every kind 360VUE sells to gets a share.
+CAP = {
+    "Hotel": 70, "Resort": 40, "Homestay / guest house": 50, "Event / banquet venue": 50, "Real-estate agent": 40,
+    "Restaurant": 50, "Café": 30, "Furniture / interiors showroom": 30, "Co-working space": 20, "Vehicle showroom": 20,
+    "Retail showroom": 25, "Architect": 10, "Hospital": 25, "Gym / fitness": 15, "Clinic": 20, "College": 15, "Bar / pub": 10,
+    "Spa / salon": 10, "School": 10,
+}
+# Big chains decide at head office, not at the outlet: they go to the bottom.
+CHAIN_RE = re.compile(r"domino|mcdonald|kfc|pizza hut|subway|starbucks|cafe coffee day|burger king|baskin|naturals|lakme|apollo pharmacy|reliance|more supermarket|big bazaar|dmart|tanishq|kalyan jewel|malabar gold|titan|bata|pantaloons|max fashion|trends|zudio|westside|lenskart|oyo|treebo|fabhotel|haldiram|a2b|wow! momo|chai point|barbeque nation|vlcc|green trends|toni & guy|cult\.fit|gold's gym|anytime fitness", re.I)
+
+
+def score(p):
+    contact = (4 if p["phone"] else 0) + (2 if p["website"] else 0) + (2 if p["email"] else 0) + (1 if p["address"] else 0)
+    return FIT.get(p["category"], 3) * 3 + contact + p["confidence"] - (25 if p.get("chain") else 0)
+
+
+def rank(items):
+    """Best fit first, local before chains, each kind capped so the list stays varied; leftovers fill any gap."""
+    items = sorted(items, key=score, reverse=True)
+    picked, used, rest = [], {}, []
+    for p in items:
+        cap = CAP.get(p["category"], 20)
+        if not p.get("chain") and used.get(p["category"], 0) < cap and len(picked) < MAX:
+            picked.append(p)
+            used[p["category"]] = used.get(p["category"], 0) + 1
+        else:
+            rest.append(p)
+    for p in rest:  # small places: fill up to 500 with what is left, still best first (chains last)
+        if len(picked) >= MAX:
+            break
+        picked.append(p)
+    return sorted(picked, key=score, reverse=True)
+
+
 def geocode(name, state):
     q = urllib.parse.quote(f"{name}, {state}, India")
     req = urllib.request.Request(f"https://nominatim.openstreetmap.org/search?format=json&limit=1&q={q}", headers={"User-Agent": UA})
@@ -99,6 +140,7 @@ def build(con, slug):
     rows = con.execute(
         f"""
         SELECT names.primary AS name, taxonomy.primary AS cat, array_to_string(taxonomy.hierarchy, '/') AS hier, basic_category AS basic, phones, websites, emails,
+               coalesce(brand.names.primary, brand.wikidata) AS brand,
                addresses[1].freeform AS street, addresses[1].locality AS locality, confidence, id,
                (bbox.xmin + bbox.xmax) / 2 AS lon, (bbox.ymin + bbox.ymax) / 2 AS lat
         FROM read_parquet('{SRC}', hive_partitioning = 1)
@@ -110,7 +152,7 @@ def build(con, slug):
     ).fetchall()
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     out, seen = [], set()
-    for (nm, cat, hier, basic, phones, websites, emails, street, locality, conf, oid, plon, plat) in rows:
+    for (nm, cat, hier, basic, phones, websites, emails, brand, street, locality, conf, oid, plon, plat) in rows:
         kind = kind_of(cat or "") or kind_of(basic or "") or kind_of(hier or "")
         if not kind:
             continue
@@ -123,10 +165,11 @@ def build(con, slug):
             "name": nm[:160], "category": kind, "phone": phone[:40], "email": ((emails or [""])[0] or "")[:120],
             "website": ((websites or [""])[0] or "")[:200], "address": ", ".join(x for x in [street, locality] if x)[:240],
             "overtureId": oid, "lat": round(plat, 6), "lon": round(plon, 6), "confidence": round(conf or 0, 2), "addedAt": now,
+            "chain": bool(brand) or bool(CHAIN_RE.search(nm)),
         })
-    score = lambda p: (4 if p["phone"] else 0) + (2 if p["website"] else 0) + (2 if p["email"] else 0) + (1 if p["address"] else 0) + p["confidence"]
-    out.sort(key=score, reverse=True)
-    out = out[:MAX]
+    out = rank(out)
+    for p in out:
+        p.pop("chain", None)
     os.makedirs(OUT, exist_ok=True)
     with open(os.path.join(OUT, f"{slug}.json"), "w", encoding="utf8") as f:
         json.dump({"city": slug, "center": {"lat": lat, "lon": lon}, "release": RELEASE, "businesses": out}, f, ensure_ascii=False, indent=1)
