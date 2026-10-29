@@ -62,7 +62,7 @@ function Ready({ inv, settings }: { inv: Rec; settings: CompanySettings }) {
   ].filter(([, v]) => v);
 
   const warnings = [
-    !settings.gstin && "Your GSTIN is missing — add it in HQ → Settings before issuing this as a tax invoice.",
+    m.gstPercent > 0 && !settings.gstin && "GST is charged on this invoice but your GSTIN is missing — add it in HQ → Settings, or turn “Charge GST” off on the invoice while you are not registered.",
     !str(inv.customerName).trim() && "Bill-to name is empty.",
     status === "draft" && "This invoice is still a draft. Set the status to “Sent” when you issue it.",
     place && !/\(\d{2}\)$/.test(place) && "Place of supply isn't a recognised state, so it was treated as intra-state (CGST + SGST). Use the state name or its 2-digit GST code.",
@@ -70,7 +70,7 @@ function Ready({ inv, settings }: { inv: Rec; settings: CompanySettings }) {
 
   return (
     <PrintShell
-      title={`Tax invoice ${number}`}
+      title={`${m.gstPercent > 0 ? "Tax invoice" : "Invoice"} ${number}`}
       back={`${BACK}&id=${encodeURIComponent(inv.id)}`}
       toolbar={
         <>
@@ -98,7 +98,7 @@ function Ready({ inv, settings }: { inv: Rec; settings: CompanySettings }) {
       <A4Page>
         {status === "cancelled" ? <Stamp>Cancelled</Stamp> : status === "draft" ? <Stamp>Draft</Stamp> : settled ? <Stamp>Paid</Stamp> : null}
         <div className="pb-[16mm]">
-          <Letterhead settings={settings} docTitle="TAX INVOICE" docMeta={<span className="uppercase tracking-[0.18em]">Original for recipient</span>} />
+          <Letterhead settings={settings} docTitle={m.gstPercent > 0 ? "TAX INVOICE" : "INVOICE"} docMeta={<span className="uppercase tracking-[0.18em]">Original for recipient</span>} />
 
           {/* parties + meta */}
           <section className="grid grid-cols-[1.25fr_1fr] gap-4 text-[11px] leading-relaxed">
@@ -267,6 +267,7 @@ function Ready({ inv, settings }: { inv: Rec; settings: CompanySettings }) {
             <div>
               <Cap>Terms &amp; conditions</Cap>
               <p className="whitespace-pre-line leading-relaxed text-charcoal">{settings.invoiceTerms || "Payment due as per the due date above."}</p>
+              {m.gstPercent === 0 && <p className="mt-1.5 leading-relaxed text-charcoal">{settings.legalName || "360VUE"} is not registered under GST, so no GST is charged on this invoice.</p>}
               <p className="mt-2 text-[9px] text-blueprint">This is a computer-generated invoice.</p>
             </div>
             <div className="text-center">

@@ -107,8 +107,8 @@ li:before{content:"";position:absolute;left:0;top:2.6mm;width:2mm;height:2mm;bor
   <table><thead><tr><th>YOUR QUOTE</th><th class="r">AMOUNT</th></tr></thead><tbody>${rows}</tbody></table>
   <table class="tot"><tbody>
    ${q.discount ? `<tr class="disc"><td>${esc(q.discount.label)}</td><td class="r">− ${inr(q.discount.amount)}</td></tr>` : ""}
-   <tr><td>Subtotal (before GST)</td><td class="r">${inr(q.taxable)}</td></tr>
-   <tr><td>GST ${q.gstPercent}%</td><td class="r">${inr(q.gst)}</td></tr>
+   ${q.gstPercent > 0 ? `<tr><td>Subtotal (before GST)</td><td class="r">${inr(q.taxable)}</td></tr>
+   <tr><td>GST ${q.gstPercent}%</td><td class="r">${inr(q.gst)}</td></tr>` : `<tr><td>No GST — 360VUE is not GST-registered</td><td class="r">₹0</td></tr>`}
    <tr class="big"><td>Total</td><td class="r">${inr(q.total)}</td></tr>
   </tbody></table>
   ${q.hosting ? `<p class="note">After the first 12 months: ${esc(q.hosting)}</p>` : ""}

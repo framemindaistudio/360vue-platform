@@ -94,7 +94,7 @@ export default async function ServicesPage() {
               ))}
             </div>
           )}
-          <p className="mt-6 text-center text-xs text-cream/40">All prices in Indian rupees, before GST. 3D work is quoted after a short call. Photography and video are quoted by FrameMind AI Studio.</p>
+          <p className="mt-6 text-center text-xs text-cream/40">All prices in Indian rupees, {rates.gstOn ? "before GST" : "with no GST (360VUE is not GST-registered yet)"}. 3D work is quoted after a short call. Photography and video are quoted by FrameMind AI Studio.</p>
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import { COMBINED_DEMO_SCENES, PanoViewer } from "@/components/site/PanoViewer";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead } from "@/components/site/bits";
 import { ServiceStory } from "@/components/site/ServiceStory";
 import { publicRateCard } from "@/lib/public-rates";
+import { taxNote } from "@/lib/tax";
 
 export const metadata: Metadata = {
   title: "SkyVUE — aerial 360° views with landmarks",
@@ -114,7 +115,7 @@ export default async function SkyVuePage() {
                   {featured && <span className="mb-3 self-start rounded-full bg-gold-grad px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-midnight">{p.badge}</span>}
                   <h3 className="text-2xl font-semibold text-cream">{p.label}</h3>
                   <p className="mt-4 font-display text-3xl font-bold text-cream">{inr(p.price)}</p>
-                  <p className="mt-1 text-xs text-cream/45">One-time · before GST</p>
+                  <p className="mt-1 text-xs text-cream/45">One-time · {taxNote(rates.gstOn)}</p>
                   <p className="mt-5 flex gap-2.5 text-sm text-cream/75">
                     <Check className="mt-0.5 size-4 shrink-0 text-sunset" aria-hidden /> {what}
                   </p>

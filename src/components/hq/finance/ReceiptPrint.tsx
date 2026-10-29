@@ -40,7 +40,7 @@ function Ready({ inv, settings, paymentId }: { inv: Rec; settings: CompanySettin
       back={back}
       toolbar={
         <Link href={`/hq/print/invoice/${inv.id}`} className="inline-flex h-8 items-center gap-1.5 rounded px-2.5 text-xs font-semibold hover:bg-graphite/5">
-          <FileText className="size-3.5" /> Tax invoice
+          <FileText className="size-3.5" /> Invoice
         </Link>
       }
     >
@@ -129,7 +129,7 @@ function Ready({ inv, settings, paymentId }: { inv: Rec; settings: CompanySettin
                 <div>
                   <Cap>Towards</Cap>
                   <p>
-                    Tax invoice <span className="font-semibold">{number}</span> dated {fmtDate(inv.date)}
+                    Invoice <span className="font-semibold">{number}</span> dated {fmtDate(inv.date)}
                     {str(inv.customerName) ? ` issued to ${str(inv.customerName)}` : ""}.
                   </p>
                   {hasCheque && <p className="mt-2 text-[10px] text-charcoal">Cheque payments are subject to realisation.</p>}

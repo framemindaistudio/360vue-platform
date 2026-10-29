@@ -11,6 +11,8 @@ export interface CompanySettings {
   phone: string;
   email: string;
   website: string;
+  /** registered under GST? Off: no GST on quotes, invoices or the website (turn on once registered) */
+  gstRegistered: boolean;
   gstin: string;
   pan: string;
   sacCode: string;
@@ -55,6 +57,7 @@ export const defaultSettings: CompanySettings = {
   phone: "+91 78993 04889",
   email: "framemindaistudio@gmail.com",
   website: "360vue.website",
+  gstRegistered: false,
   gstin: "",
   pan: "",
   // the SAC code for 360° tours and photography: confirm it with your CA, then set it in Settings

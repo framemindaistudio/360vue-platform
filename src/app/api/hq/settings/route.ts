@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
+import { RATECARD_TAG } from "@/lib/public-rates";
 import { apiEditor, apiUser } from "@/lib/hq/auth";
 import { apiError } from "@/lib/hq/api";
 import { readSettings, writeSettings } from "@/lib/hq/records";
@@ -23,6 +25,8 @@ export async function PUT(req: Request) {
   try {
     const body = await req.json();
     const settings = await writeSettings(body.settings || {}, user.name);
+    // the website's prices show "+ GST" only while 360VUE is registered: refresh them now
+    revalidateTag(RATECARD_TAG, { expire: 0 });
     return NextResponse.json({ settings });
   } catch (e) {
     return apiError(e);

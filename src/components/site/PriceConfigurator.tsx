@@ -201,7 +201,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
       gstPercent: rates.gstPercent,
       gst,
       total,
-      hosting: hostOpt ? `${hostOpt.label} at ${inr(hostMonthly)}/month + GST (${contract?.label} plan)` : "",
+      hosting: hostOpt ? `${hostOpt.label} at ${inr(hostMonthly)}/month${rates.gstOn ? " + GST" : ""} (${contract?.label} plan)` : "",
       stories: [...(withTour ? [tour] : []), ...(withSky ? [sky] : [])]
         .map((s) => (s ? CATALOG.find((c) => c.id === s.id) : undefined))
         .filter((s): s is NonNullable<typeof s> => !!s?.pitch)
@@ -234,7 +234,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
             ...(spatialOpt ? { spatial: { selections: { package: [spatialOpt.id] } } } : {}),
             ...(hostOpt ? { hosting: { selections: { package: [hostOpt.id] }, months: hostMonths } } : {}),
           },
-          message: [`Quote ${quoteNo} downloaded from the website.`, `Space: ${spaceLine}.`, ...lines.map((l) => `• ${l.label}: ${inr(l.price)}`), `Total: ${inr(taxable)} + GST = ${inr(total)}`, doc.hosting].filter(Boolean).join("\n"),
+          message: [`Quote ${quoteNo} downloaded from the website.`, `Space: ${spaceLine}.`, ...lines.map((l) => `• ${l.label}: ${inr(l.price)}`), `Total: ${inr(taxable)}${rates.gstOn ? ` + GST = ${inr(total)}` : " (no GST)"}`, doc.hosting].filter(Boolean).join("\n"),
           page: "/pricing",
         }),
       });
@@ -612,7 +612,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
           <div className="border-b border-cream/10 p-6">
             <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sunset">Your estimate</p>
             <p className="mt-2 font-display text-4xl font-bold tracking-tight text-cream">{inr(taxable)}</p>
-            <p className="text-sm text-cream/55">+ {rates.gstPercent}% GST = {inr(total)}</p>
+            <p className="text-sm text-cream/55">{rates.gstOn ? `+ ${rates.gstPercent}% GST = ${inr(total)}` : "No GST — 360VUE is not GST-registered yet"}</p>
             <p className="mt-3 text-xs leading-relaxed text-cream/45">{spaceLine}</p>
           </div>
           <ul className="divide-y divide-cream/10 px-6 text-sm">
@@ -664,7 +664,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
           <div className="min-w-0">
             <p className="font-display text-xl font-bold leading-tight text-cream">{inr(taxable)}</p>
             <p className="truncate text-[11px] text-cream/50">
-              + GST · {withTour ? `${plan?.label} · ${scenes} scenes` : skyPlan?.label}
+              {rates.gstOn ? "+ GST" : "No GST"} · {withTour ? `${plan?.label} · ${scenes} scenes` : skyPlan?.label}
             </p>
           </div>
           <button type="button" onClick={() => setAsking(true)} className="flex shrink-0 items-center gap-2 rounded-full bg-gold-grad px-5 py-3 text-sm font-semibold text-midnight">

@@ -115,7 +115,7 @@ function Cover({ c }: { c: Ctx }) {
             <div className="text-right">
               <p className="text-[6.5pt] font-semibold uppercase tracking-[0.22em] text-paper/40">Investment</p>
               <p className="mt-1 text-[20pt] font-semibold leading-none text-lime">{formatINR(money.taxable)}</p>
-              <p className="mt-1 text-[7.5pt] text-paper/50">+ GST {money.gstPercent}%</p>
+              <p className="mt-1 text-[7.5pt] text-paper/50">{money.gstPercent > 0 ? `+ GST ${money.gstPercent}%` : "No GST (not registered)"}</p>
             </div>
           </div>
           <p className="mt-[8mm] text-[7.5pt] text-paper/45">{[settings.phone, settings.email, settings.website].filter(Boolean).join("   ·   ")}</p>
@@ -275,16 +275,20 @@ function InvestmentPage({ c, page }: { c: Ctx; page: string }) {
         <div className="self-start bg-graphite p-[6mm] text-paper">
           <p className="text-[6.5pt] font-semibold uppercase tracking-[0.22em] text-lime">Total</p>
           <p className="tabular mt-2 text-[22pt] font-semibold leading-none">{formatINR(m.total)}</p>
-          <dl className="mt-[4mm] space-y-1 text-[8pt] text-paper/70">
-            <div className="flex justify-between">
-              <dt>Before GST</dt>
-              <dd className="tabular">{formatINR(m.taxable)}</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt>GST {m.gstPercent}%</dt>
-              <dd className="tabular">{formatINR(m.gst)}</dd>
-            </div>
-          </dl>
+          {m.gstPercent > 0 ? (
+            <dl className="mt-[4mm] space-y-1 text-[8pt] text-paper/70">
+              <div className="flex justify-between">
+                <dt>Before GST</dt>
+                <dd className="tabular">{formatINR(m.taxable)}</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt>GST {m.gstPercent}%</dt>
+                <dd className="tabular">{formatINR(m.gst)}</dd>
+              </div>
+            </dl>
+          ) : (
+            <p className="mt-[4mm] text-[8pt] text-paper/70">No GST — {c.settings.legalName || "360VUE"} is not GST-registered.</p>
+          )}
           <p className="mt-[4mm] text-[7pt] leading-snug text-paper/50">{amountInWords(Math.round(m.total))}</p>
         </div>
       </div>
@@ -360,7 +364,7 @@ function TermsPage({ c, page }: { c: Ctx; page: string }) {
             ["Revisions", TERMS.revisionPolicy],
             ["What we need from you", TERMS.clientResponsibilities],
             ["Handover", TERMS.handoff],
-            ["Pricing", `${TERMS.pricesFinal} ${TERMS.tax}`],
+            ["Pricing", `${TERMS.pricesFinal} ${c.money.gstPercent > 0 ? TERMS.tax : `All prices are in Indian rupees. ${c.settings.legalName || "360VUE"} is not registered under GST, so no GST is charged.`}`],
             ["Payment", TERMS.paymentTerms],
             ["Hosting & third parties", TERMS.thirdParty],
             ["Privacy", TERMS.privacy],

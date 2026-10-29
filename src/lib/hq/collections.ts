@@ -522,7 +522,7 @@ export const collections: CollectionDef[] = [
     name: "invoices",
     label: "Invoices",
     singular: "Invoice",
-    description: "Tax invoices to clients, with payments received.",
+    description: "Invoices to clients (tax invoices once GST-registered), with payments received.",
     icon: "ReceiptIndianRupee",
     titleField: "number",
     subtitleField: "customerName",
@@ -544,11 +544,12 @@ export const collections: CollectionDef[] = [
       { key: "customerGstin", label: "Customer GSTIN", type: "text", width: "half" },
       { key: "customerAddress", label: "Billing address", type: "textarea", width: "full" },
       { key: "placeOfSupply", label: "Place of supply (state)", type: "text", width: "half" },
+      { key: "chargeGst", label: "Charge GST", type: "boolean", width: "third", help: "Off while 360VUE is not GST-registered: no GST is added and it prints as an invoice, not a tax invoice. New invoices follow Settings → Tax & bank." },
       { key: "gstPercent", label: "GST %", type: "percent", default: 18, width: "third" },
       { key: "discount", label: "Discount (₹)", type: "currency", width: "third" },
       { key: "items", label: "Line items", type: "lineItems", width: "full" },
       { key: "status", label: "Status", type: "select", options: opts("draft", "sent", "partially-paid", "paid", "overdue", "cancelled"), default: "draft", table: true, width: "third" },
-      { key: "total", label: "Total (incl. GST)", type: "currency", table: true, width: "third", help: "Calculated from line items" },
+      { key: "total", label: "Total", type: "currency", table: true, width: "third", help: "Calculated from line items (plus GST when it is charged)" },
       { key: "amountPaid", label: "Amount received", type: "currency", table: true, width: "third" },
       { key: "notes", label: "Notes on invoice", type: "textarea", width: "full" },
     ],
@@ -963,7 +964,8 @@ export function invoiceTotals(inv: Record<string, unknown>) {
   const subtotal = lineItemsTotal(inv.items);
   const discount = Number(inv.discount) || 0;
   const taxable = Math.max(0, subtotal - discount);
-  const gstPercent = inv.gstPercent === undefined || inv.gstPercent === "" ? 18 : Number(inv.gstPercent) || 0;
+  // "Charge GST" off (not registered) means no GST at all; invoices saved before the switch existed keep their rate
+  const gstPercent = inv.chargeGst === false ? 0 : inv.gstPercent === undefined || inv.gstPercent === "" ? 18 : Number(inv.gstPercent) || 0;
   const gst = Math.round(taxable * gstPercent) / 100;
   const total = Math.round((taxable + gst) * 100) / 100;
   const paid = Number(inv.amountPaid) || 0;

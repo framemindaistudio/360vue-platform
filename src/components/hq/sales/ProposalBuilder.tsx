@@ -73,7 +73,7 @@ function BuilderForm({ rates, initial, presetClient, presetLead, created }: { ra
   const activities = useCollection("activities");
   const projects = useCollection("projects");
   const invoices = useCollection(showMoney ? "invoices" : "__none");
-  const { settings } = useSettings();
+  const { settings, loading: settingsLoading } = useSettings();
   const leads = useCollection("leads");
   const canWrite = can(user, proposalsDef.write) && store.writable;
 
@@ -84,6 +84,14 @@ function BuilderForm({ rates, initial, presetClient, presetLead, created }: { ra
   const [error, setError] = useState("");
   const [notice, setNotice] = useState(created ? "Quote created." : presetLead ? "Started from the enquiry — check each service's options, then save." : "");
   const [open, setOpen] = useState<string | null>(() => linesOf(form)[0]?.key ?? null);
+
+  // a new quote charges GST only when Settings says 360VUE is GST-registered (decided once settings have loaded)
+  const gstDecided = useRef(!!initial);
+  useEffect(() => {
+    if (gstDecided.current || settingsLoading) return;
+    gstDecided.current = true;
+    setForm((f) => ({ ...f, gstPercent: settings.gstRegistered ? (rates?.gstPercent ?? 18) : 0 }));
+  }, [settingsLoading, settings.gstRegistered, rates?.gstPercent]);
 
   const set = (patch: Record<string, unknown>) => {
     setForm((f) => ({ ...f, ...patch }));
@@ -229,6 +237,7 @@ function BuilderForm({ rates, initial, presetClient, presetLead, created }: { ra
             customerGstin: str(client?.gstin),
             customerAddress: [str(client?.address), str(client?.city)].filter(Boolean).join(", "),
             placeOfSupply: settings.state,
+            chargeGst: money.gstPercent > 0,
             gstPercent: money.gstPercent,
             items: [{ description: `${str(q.title) || "360VUE project"} — ${first.label} (${first.percent}% of quote ${str(q.number)})`, qty: 1, rate: first.amount, sac: settings.sacCode || undefined }],
             status: "draft",

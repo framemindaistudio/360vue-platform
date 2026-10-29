@@ -389,7 +389,7 @@ export function milestonesOfProject(p: Rec): ProjectMilestoneLike[] {
 export function invoiceFromProject(
   p: Rec,
   client: Rec | undefined,
-  settings: Pick<CompanySettings, "state" | "sacCode">,
+  settings: Pick<CompanySettings, "state" | "sacCode"> & Partial<Pick<CompanySettings, "gstRegistered">>,
   today: string,
   milestone: ProjectMilestoneLike | null,
   customAmount = 0,
@@ -417,6 +417,7 @@ export function invoiceFromProject(
     customerAddress: address,
     customerGstin: str(client?.gstin),
     placeOfSupply: settings.state,
+    chargeGst: !!settings.gstRegistered,
     gstPercent: GST_PERCENT,
     items,
     status: "draft",

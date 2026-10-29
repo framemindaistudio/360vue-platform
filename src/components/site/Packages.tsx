@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { publicRateCard } from "@/lib/public-rates";
+import { taxNote } from "@/lib/tax";
 import { cn } from "@/lib/utils";
 
 const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
@@ -30,7 +31,7 @@ export async function Packages() {
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-sand/70">{scope || `Plan ${i + 1}`}</p>
               <h3 className="mt-3 text-2xl font-semibold text-cream">{p.label}</h3>
               <p className="mt-5 font-display text-3xl font-bold tracking-tight text-cream">{inr(p.price)}</p>
-              <p className="mt-1 text-xs text-cream/45">One-time · before GST</p>
+              <p className="mt-1 text-xs text-cream/45">One-time · {taxNote(rates.gstOn)}</p>
               {fit && <p className="mt-4 text-sm leading-relaxed text-cream/60">{fit}</p>}
               <ul className="mt-5 space-y-2 text-sm text-cream/75">
                 {["Google Maps publishing", "12 months hosting", "Link + website embed"].map((x) => (

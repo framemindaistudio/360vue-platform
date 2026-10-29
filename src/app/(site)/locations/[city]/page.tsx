@@ -8,6 +8,7 @@ import { publicRateCard } from "@/lib/public-rates";
 import { SERVICES } from "@/lib/content/catalog";
 import { site } from "@/lib/site";
 import { ORG_ID, ldScript } from "@/lib/seo";
+import { taxNote } from "@/lib/tax";
 
 export const revalidate = 600;
 export const dynamicParams = false;
@@ -47,7 +48,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
 
   const faqs = [
     { q: `Do you make 360° virtual tours in ${c.name}?`, a: `Yes. 360VUE captures 360° virtual tours and SkyVUE drone 360° views across ${state.name}, including ${c.name}${also}. We come to you; travel and stay outside our base area are billed at actual cost and shown on your quote before you book.` },
-    { q: `How much does a 360° virtual tour cost in ${c.name}?`, a: `Tours start at ${inr(tourFrom)} (before GST) for up to 6 scenes, which suits a café, clinic or boutique; larger spaces are priced by the number of scenes. SkyVUE aerial 360° starts at ${inr(skyFrom)}. Google Maps publishing and 12 months of hosting are included. Use the price calculator for your exact quote.` },
+    { q: `How much does a 360° virtual tour cost in ${c.name}?`, a: `Tours start at ${inr(tourFrom)} (${rates.gstOn ? "before GST" : "no GST is charged"}) for up to 6 scenes, which suits a café, clinic or boutique; larger spaces are priced by the number of scenes. SkyVUE aerial 360° starts at ${inr(skyFrom)}. Google Maps publishing and 12 months of hosting are included. Use the price calculator for your exact quote.` },
     { q: `Can you fly a drone for an aerial 360° in ${c.name}?`, a: `${c.airspace} Flights follow India's Drone Rules, 2021, and the date depends on safe weather.` },
     { q: "Will my tour show on Google Maps?", a: "We publish eligible 360° photos to Google Maps and Street View for your business listing as part of every plan. Google decides what it accepts and shows, so we cannot promise search rankings." },
     { q: "How long does it take?", a: `Usually one capture visit, and your tour is live in ${tourDays} working days after it. Express delivery within 72 hours is available.` },
@@ -64,8 +65,8 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
       provider: { "@id": ORG_ID },
       areaServed: { "@type": "City", name: c.name, alternateName: c.aka, containedInPlace: { "@type": "State", name: state.name } },
       offers: [
-        { "@type": "Offer", name: "360° virtual tour", priceCurrency: "INR", price: tourFrom, priceSpecification: { "@type": "PriceSpecification", minPrice: tourFrom, priceCurrency: "INR", valueAddedTaxIncluded: false } },
-        { "@type": "Offer", name: "SkyVUE aerial 360°", priceCurrency: "INR", price: skyFrom, priceSpecification: { "@type": "PriceSpecification", minPrice: skyFrom, priceCurrency: "INR", valueAddedTaxIncluded: false } },
+        { "@type": "Offer", name: "360° virtual tour", priceCurrency: "INR", price: tourFrom, priceSpecification: { "@type": "PriceSpecification", minPrice: tourFrom, priceCurrency: "INR", valueAddedTaxIncluded: !rates.gstOn } },
+        { "@type": "Offer", name: "SkyVUE aerial 360°", priceCurrency: "INR", price: skyFrom, priceSpecification: { "@type": "PriceSpecification", minPrice: skyFrom, priceCurrency: "INR", valueAddedTaxIncluded: !rates.gstOn } },
       ],
       url,
     },
@@ -122,7 +123,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
               <Link key={t} href={href} className="reveal group flex flex-col rounded-3xl border border-cream/10 bg-night/70 p-7 transition-colors hover:border-sunset/50">
                 <Icon className="size-7 text-sunset" strokeWidth={1.5} aria-hidden />
                 <h2 className="mt-5 text-xl font-semibold text-cream">{t}</h2>
-                <p className="mt-1 text-sm font-semibold text-sunset">{p} <span className="font-normal text-cream/40">· before GST</span></p>
+                <p className="mt-1 text-sm font-semibold text-sunset">{p} <span className="font-normal text-cream/40">· {taxNote(rates.gstOn)}</span></p>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-cream/65">{d}</p>
                 <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-cream/80 group-hover:text-sunset">
                   Learn more <ArrowRight className="size-4" aria-hidden />
