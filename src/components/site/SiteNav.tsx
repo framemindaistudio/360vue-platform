@@ -55,7 +55,7 @@ export function SiteNav() {
                   key={n.href}
                   href={n.href}
                   className={cn(
-                    "whitespace-nowrap rounded-full px-2 py-2 text-[13px] font-medium transition-colors xl:px-3.5",
+                    "whitespace-nowrap rounded-full px-3 py-2 text-[15px] font-medium transition-colors xl:px-4",
                     active ? "text-sunset" : "text-cream/75 hover:text-cream",
                   )}
                 >
