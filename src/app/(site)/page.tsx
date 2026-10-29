@@ -14,6 +14,7 @@ import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead, SiteIcon } from
 import { FAQS, FEATURES, INDUSTRIES } from "@/lib/site-content";
 import { TERMS } from "@/lib/content/catalog";
 import { CITIES, STATES, citiesIn } from "@/lib/locations";
+import { FEATURE_GROUPS, VISION } from "@/lib/content/tour-features";
 
 export const metadata: Metadata = {
   title: { absolute: "360° Virtual Tours & Drone 360 in South India | 360VUE" },
@@ -115,6 +116,32 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── vision: why we exist ──────────────────────────── */}
+      <section className="relative isolate overflow-hidden border-t border-cream/10 py-24 sm:py-32">
+        <div className="pointer-events-none absolute right-[-10%] top-10 -z-10 size-[520px] rounded-full bg-bronze/20 blur-[140px]" aria-hidden />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="reveal max-w-3xl">
+            <Eyebrow>Our vision</Eyebrow>
+            <h2 className="mt-5 text-balance text-3xl font-semibold leading-[1.08] text-cream sm:text-5xl">
+              <span className="text-gold-grad">{VISION.line}</span>
+            </h2>
+          </div>
+          <ol className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {VISION.beats.map((b, i) => (
+              <li key={b.title} className={`reveal reveal-d${(i % 3) + 1} rounded-2xl border border-cream/10 bg-night/70 p-6`}>
+                <span className="font-display text-3xl font-bold text-gold-grad">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-3 font-semibold text-cream">{b.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-cream/60">{b.text}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="reveal mt-10 flex flex-wrap gap-3">
+            <GoldButton href="/features">See everything a tour can do</GoldButton>
+            <GhostButton href="/features#who">Who it is for</GhostButton>
+          </div>
+        </div>
+      </section>
+
       {/* ── the problem, and how a tour solves it ───────────── */}
       <ServiceStory id="tours" images={["/media/phone-maps-sm.webp", "/media/pano-lobby-sm.webp", "/media/restaurant-sm.webp", "/media/phone-tour-sm.webp"]} eyebrow="Why a 360° tour" title={<>Photos don&apos;t sell a space. <span className="text-gold-grad">Walking through it does.</span></>} className="border-t border-cream/10" />
 
@@ -155,6 +182,9 @@ export default async function HomePage() {
               </li>
             ))}
           </ul>
+          <Link href="/features" className="reveal mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-sunset hover:underline">
+            All {FEATURE_GROUPS.reduce((n, g) => n + g.features.length, 0)} tour features <ArrowUpRight className="size-4" />
+          </Link>
         </div>
       </section>
 

@@ -425,7 +425,7 @@ export const collections: CollectionDef[] = [
       { key: "taskPrefix", label: "Task ID prefix", type: "text", width: "third", placeholder: "e.g. JHM", help: "Task IDs look like JHM-12. Set before the first task; leave empty to use the project's initials." },
       { key: "stagingUrl", label: "Preview link (for client review)", type: "url", width: "half" },
       { key: "liveUrl", label: "Live tour link", type: "url", width: "half" },
-      { key: "hostingSuspended", label: "Hosting suspended", type: "boolean", width: "third", help: "Tick when the tour is set to Inactive in Panocool for an unpaid renewal. The client still signs in and sees invoices; the portal shows that hosting is suspended and how to renew." },
+      { key: "hostingSuspended", label: "Hosting suspended", type: "boolean", width: "third", help: "Tick when the tour is set to Inactive on the tour host for an unpaid renewal. The client still signs in and sees invoices; the portal shows that hosting is suspended and how to renew." },
       { key: "feedbackScore", label: "Client rating (1–5)", type: "number", width: "third" },
       { key: "notes", label: "Internal notes", type: "textarea", staffOnly: true, width: "full" },
       // milestones, checklist, handover and the content list are kept on the record by the project screens

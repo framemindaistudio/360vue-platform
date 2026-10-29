@@ -6,6 +6,7 @@
 
 export const NAV = [
   { href: "/services", label: "Services" },
+  { href: "/features", label: "Features" },
   { href: "/skyvue", label: "SkyVUE" },
   { href: "/pricing", label: "Pricing" },
   { href: "/industries", label: "Industries" },

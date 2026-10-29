@@ -55,7 +55,7 @@ export function SiteNav() {
                   key={n.href}
                   href={n.href}
                   className={cn(
-                    "rounded-full px-3.5 py-2 text-[13px] font-medium transition-colors",
+                    "whitespace-nowrap rounded-full px-2 py-2 text-[13px] font-medium transition-colors xl:px-3.5",
                     active ? "text-sunset" : "text-cream/75 hover:text-cream",
                   )}
                 >
@@ -67,7 +67,7 @@ export function SiteNav() {
           <div className="flex items-center gap-2">
             <Link
               href="/contact"
-              className="hidden rounded-full bg-gold-grad px-5 py-2.5 text-[13px] font-semibold text-midnight shadow-[0_8px_30px_-8px_rgba(245,158,76,0.6)] transition-transform hover:-translate-y-0.5 sm:inline-flex"
+              className="hidden whitespace-nowrap rounded-full bg-gold-grad px-5 py-2.5 text-[13px] font-semibold text-midnight shadow-[0_8px_30px_-8px_rgba(245,158,76,0.6)] transition-transform hover:-translate-y-0.5 sm:inline-flex"
             >
               Get a Quote
             </Link>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Check } from "lucide-react";
 import { CtaBand, PageHero, SiteIcon } from "@/components/site/bits";
 import { INDUSTRIES } from "@/lib/site-content";
@@ -47,6 +48,10 @@ export default function IndustriesPage() {
           </section>
         ))}
         <p className="text-center text-xs text-cream/40">Photographs are illustrative spaces, not client work.</p>
+        <p className="reveal pt-6 text-center text-sm text-cream/60">
+          Homestays, schools, hospitals, layouts, coworking, attractions and more —{" "}
+          <Link href="/features#who" className="font-semibold text-sunset hover:underline">see all 12 kinds of business we work with, and the features each one uses</Link>.
+        </p>
       </div>
       <CtaBand />
     </>
