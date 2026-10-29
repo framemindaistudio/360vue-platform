@@ -8,6 +8,10 @@ import { Logo } from "@/components/brand/Logo";
 import { NAV } from "@/lib/site-content";
 import { cn } from "@/lib/utils";
 
+/** The gold call-to-action pill (Pricing). */
+const GOLD =
+  "inline-flex whitespace-nowrap rounded-full bg-gold-grad px-5 py-2 text-[14px] font-semibold text-midnight shadow-[0_8px_30px_-8px_rgba(245,158,76,0.6)] transition-transform hover:-translate-y-0.5 sm:text-[15px] lg:mx-1";
+
 export function SiteNav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -50,6 +54,13 @@ export function SiteNav() {
             {NAV.map((n) => {
               const active =
                 pathname === n.href || pathname.startsWith(`${n.href}/`);
+              // Pricing is the call to action: the gold button
+              if (n.href === "/pricing")
+                return (
+                  <Link key={n.href} href={n.href} className={GOLD} aria-current={active ? "page" : undefined}>
+                    {n.label}
+                  </Link>
+                );
               return (
                 <Link
                   key={n.href}
@@ -64,12 +75,9 @@ export function SiteNav() {
               );
             })}
           </nav>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/contact"
-              className="hidden whitespace-nowrap rounded-full bg-gold-grad px-5 py-2.5 text-[13px] font-semibold text-midnight shadow-[0_8px_30px_-8px_rgba(245,158,76,0.6)] transition-transform hover:-translate-y-0.5 sm:inline-flex"
-            >
-              Get a Quote
+          <div className="flex items-center gap-2 lg:hidden">
+            <Link href="/pricing" onClick={() => setOpen(false)} className={cn(GOLD, "lg:hidden")}>
+              Pricing
             </Link>
             <button
               type="button"
@@ -94,7 +102,7 @@ export function SiteNav() {
         )}
       >
         <nav className="flex flex-col px-6 py-8" aria-label="Mobile">
-          {[{ href: "/", label: "Home" }, ...NAV].map((n) => (
+          {[{ href: "/", label: "Home" }, ...NAV.filter((n) => n.href !== "/pricing")].map((n) => (
             <Link
               key={n.href}
               href={n.href}
@@ -108,11 +116,11 @@ export function SiteNav() {
             </Link>
           ))}
           <Link
-            href="/contact"
+            href="/pricing"
             onClick={() => setOpen(false)}
             className="mt-8 rounded-full bg-gold-grad py-4 text-center font-semibold text-midnight"
           >
-            Get a Quote
+            Pricing
           </Link>
         </nav>
       </div>

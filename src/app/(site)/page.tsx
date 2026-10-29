@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { PanoViewer, DEMO_SCENES } from "@/components/site/PanoViewer";
 import { ReelCard } from "@/components/site/ReelCard";
 import { HeroVideo } from "@/components/site/HeroVideo";
+import { IndustryTicker } from "@/components/site/IndustryTicker";
 import { SKYVUE_LAUNCH } from "@/lib/content/catalog";
 import { CampaignBand } from "@/components/site/CampaignBand";
 import { liveCampaign } from "@/lib/campaign-server";
@@ -81,16 +82,7 @@ export default async function HomePage() {
 
         {/* industry strip, as on the brand board */}
         <div className="border-t border-cream/10 bg-midnight/60 backdrop-blur-md">
-          <ul className="no-scrollbar mx-auto flex max-w-7xl gap-8 overflow-x-auto px-4 py-5 sm:justify-between sm:px-6 lg:px-8">
-            {INDUSTRIES.map((i) => (
-              <li key={i.id}>
-                <Link href={`/industries#${i.id}`} className="flex shrink-0 items-center gap-2.5 text-xs font-medium text-cream/70 transition-colors hover:text-sunset">
-                  <SiteIcon name={i.icon} className="size-5 text-sunset" />
-                  {i.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <IndustryTicker items={INDUSTRIES.map(({ id, name, icon }) => ({ id, name, icon }))} />
         </div>
         <a href="#demo" className="absolute bottom-24 left-1/2 hidden -translate-x-1/2 text-cream/50 hover:text-sunset sm:block" aria-label="Scroll to the demo">
           <ChevronDown className="vue-float size-6" />
