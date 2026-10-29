@@ -106,6 +106,9 @@ export function Gold({ children }: { children: React.ReactNode }) {
   return <span style={{ color: C.gold }}>{children}</span>;
 }
 
+/** Soft edge for cover art drawn smaller than the page: solid in the middle, gone well before the edges. */
+const FADE = "radial-gradient(ellipse 50% 48% at 50% 44%, #000 58%, rgba(0,0,0,0.6) 78%, transparent 100%)";
+
 /**
  * A full-bleed photographic cover. The art is 2:3 and the page a little wider, so full-bleed art loses some height:
  * `focus` (object-position) picks which part stays — "50% 100%" crops the top and lifts the subject. When the subject
@@ -116,14 +119,19 @@ export function Cover({ image, kicker, title, sub, chips, preparedFor, focus = "
   return (
     <Page dark>
       {art ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={image}
-          alt=""
-          className="absolute left-1/2 h-auto max-w-none -translate-x-1/2"
-          style={{ width: `${art.width}%`, top: `${art.top}mm`, maskImage: "radial-gradient(ellipse 58% 52% at 50% 46%, #000 72%, transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 58% 52% at 50% 46%, #000 72%, transparent 100%)" }}
-          loading="eager"
-        />
+        <>
+          {/* the same art, blown up and blurred, as a glow behind it — so the smaller picture melts into the page */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={image} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "50% 45%", filter: "blur(14mm) saturate(1.15)", transform: "scale(1.15)", opacity: 0.55 }} loading="eager" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={image}
+            alt=""
+            className="absolute left-1/2 h-auto max-w-none -translate-x-1/2"
+            style={{ width: `${art.width}%`, top: `${art.top}mm`, maskImage: FADE, WebkitMaskImage: FADE }}
+            loading="eager"
+          />
+        </>
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: focus }} loading="eager" />
