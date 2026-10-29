@@ -228,6 +228,12 @@ export function LeadFinder() {
               </div>
             )}
           </div>
+          {store.writable && <AddBusiness key={city} onAdd={async (business) => {
+            await post({ action: "manual", business });
+            setMsg(`${String(business.name)} added to ${c.name}.`);
+            loadCity(city);
+            loadSummary();
+          }} />}
           <p className="mt-1 text-xs text-charcoal">CSV columns: name (required), phone, email, website, category, address, notes. Business data © Overture Maps Foundation and © OpenStreetMap contributors. Lists come preloaded from Overture; “Find businesses on the map” tops them up from OpenStreetMap (its public servers are sometimes busy — try again later if so).</p>
           {msg && <p className="mt-3 rounded border border-lime/50 bg-lime/10 px-3 py-2 text-sm">{msg}</p>}
           {error && <p className="mt-3 rounded border border-bad/30 bg-bad/10 px-3 py-2 text-sm text-bad">{error}</p>}
@@ -322,5 +328,61 @@ export function LeadFinder() {
         </section>
       </div>
     </div>
+  );
+}
+
+const KIND_OPTIONS = ["Homestay / guest house", "Hotel", "Resort", "Event / banquet venue", "Restaurant", "Café", "Real-estate agent", "Furniture / interiors showroom", "Retail showroom", "Vehicle showroom", "Co-working space", "Hospital", "Clinic", "College", "School", "Gym / fitness", "Spa / salon", "Bar / pub", "Architect", "Other"];
+
+/** Add one business by hand — for stays and shops your team finds on Google, Instagram or in person. */
+function AddBusiness({ onAdd }: { onAdd: (b: Record<string, string>) => Promise<void> }) {
+  const [open, setOpen] = useState(false);
+  const [b, setB] = useState<Record<string, string>>({ category: KIND_OPTIONS[0] });
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setB((x) => ({ ...x, [k]: e.target.value }));
+  if (!open)
+    return (
+      <button type="button" onClick={() => setOpen(true)} className="mt-3 text-sm font-semibold text-blueprint hover:underline">
+        + Add a business by hand
+      </button>
+    );
+  return (
+    <form
+      className="mt-3 grid gap-2 rounded-[var(--radius-md)] border border-graphite/15 bg-paper-50 p-3 sm:grid-cols-3"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        setBusy(true);
+        setErr("");
+        try {
+          await onAdd(b);
+          setB({ category: KIND_OPTIONS[0] });
+          setOpen(false);
+        } catch (x) {
+          setErr(x instanceof Error ? x.message.replace(/^Business not found: /, "") : "Could not add it.");
+        } finally {
+          setBusy(false);
+        }
+      }}
+    >
+      <Input required placeholder="Business name *" value={b.name ?? ""} onChange={set("name")} aria-label="Business name" />
+      <Select value={b.category} onChange={set("category")} aria-label="Kind of business">
+        {KIND_OPTIONS.map((k) => (
+          <option key={k}>{k}</option>
+        ))}
+      </Select>
+      <Input placeholder="Phone / WhatsApp" value={b.phone ?? ""} onChange={set("phone")} aria-label="Phone" />
+      <Input placeholder="Area / address" value={b.address ?? ""} onChange={set("address")} aria-label="Address" />
+      <Input placeholder="Website or Instagram" value={b.website ?? ""} onChange={set("website")} aria-label="Website" />
+      <Input placeholder="Notes (where you found it)" value={b.notes ?? ""} onChange={set("notes")} aria-label="Notes" />
+      {err && <p className="text-sm text-bad sm:col-span-3">{err}</p>}
+      <div className="flex gap-2 sm:col-span-3">
+        <Button size="sm" type="submit" disabled={busy}>
+          {busy ? <Loader2 className="size-4 animate-spin" /> : null} Add to the list
+        </Button>
+        <Button size="sm" variant="ghost" type="button" onClick={() => setOpen(false)}>
+          Cancel
+        </Button>
+      </div>
+    </form>
   );
 }

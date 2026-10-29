@@ -40,13 +40,13 @@ PLACES = {
 }
 # places where the map lookup lands on the district rather than the town: use the town's own centre
 CENTERS = {"udupi-manipal": (13.3409, 74.7421), "belagavi": (15.8497, 74.4977)}
-RADIUS_KM = {"bengaluru": 14, "chennai": 13, "hyderabad": 14, "kochi": 12, "coimbatore": 11, "north-goa": 13, "south-goa": 13, "coorg": 18, "chikkamagaluru": 16, "wayanad": 20, "munnar": 14, "araku-valley": 14, "ooty": 11}
+RADIUS_KM = {"hampi": 15, "bengaluru": 14, "chennai": 13, "hyderabad": 14, "kochi": 12, "coimbatore": 11, "north-goa": 13, "south-goa": 13, "coorg": 18, "chikkamagaluru": 16, "wayanad": 20, "munnar": 14, "araku-valley": 14, "ooty": 11}
 
 # Overture category (snake_case) → the lead finder's kind of business. First match wins.
 KINDS = [
     (r"resort", "Resort"),
     (r"^hotel|motel", "Hotel"),
-    (r"guest_house|bed_and_breakfast|homestay|hostel|cottage|vacation_rental|holiday_rental|lodge|^inn$|villa", "Homestay / guest house"),
+    (r"guest_house|bed_and_breakfast|homestay|hostel|cottage|vacation_rental|holiday_rental|lodg|^inn$|villa|campground|campsite|glamping|tent|farm_stay|farmstay|chalet|dormitory", "Homestay / guest house"),
     (r"wedding|banquet|event_venue|convention|party|conference|marriage", "Event / banquet venue"),
     (r"cafe|coffee|tea_room|juice", "Café"),
     (r"bar$|^bar_|pub|lounge|nightclub|brewery", "Bar / pub"),
@@ -145,7 +145,7 @@ def build(con, slug):
                (bbox.xmin + bbox.xmax) / 2 AS lon, (bbox.ymin + bbox.ymax) / 2 AS lat
         FROM read_parquet('{SRC}', hive_partitioning = 1)
         WHERE bbox.xmin BETWEEN ? AND ? AND bbox.ymin BETWEEN ? AND ?
-          AND names.primary IS NOT NULL AND confidence >= 0.5
+          AND names.primary IS NOT NULL AND confidence >= 0.35
           AND coalesce(operating_status, 'open') <> 'permanently_closed'
         """,
         [lon - dlon, lon + dlon, lat - dlat, lat + dlat],

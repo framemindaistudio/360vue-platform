@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { apiEditor, apiUser } from "@/lib/hq/auth";
 import { apiError } from "@/lib/hq/api";
 import { SALES_SIDE } from "@/lib/hq/roles";
-import { addFound, convertProspect, importCsv, placeCenter, readPlace, summary, updateProspect } from "@/lib/hq/prospects";
+import { addFound, addManual, convertProspect, importCsv, placeCenter, readPlace, summary, updateProspect } from "@/lib/hq/prospects";
 
 /** Saving a list to the data repository can take a few seconds. */
 export const maxDuration = 30;
@@ -37,6 +37,8 @@ export async function POST(req: Request) {
         return NextResponse.json(await placeCenter(city, user.name));
       case "add":
         return NextResponse.json(await addFound(city, body.found, user.name));
+      case "manual":
+        return NextResponse.json({ prospect: await addManual(city, (body.business as Record<string, unknown>) ?? {}, user.name) });
       case "import":
         return NextResponse.json(await importCsv(city, String(body.csv ?? "").slice(0, 2_000_000), user.name));
       case "update":

@@ -230,6 +230,26 @@ export async function importCsv(city: string, csv: string, by: string) {
   return { added, skipped, total: next.prospects.length };
 }
 
+/** Add one business by hand (found on Google, Instagram, a walk past…). Refused if it is already on the list. */
+export async function addManual(city: string, input: Record<string, unknown>, by: string) {
+  const name = s(input.name).slice(0, 160);
+  if (!name) throw new Error("Business not found: give it a name.");
+  const phone = s(input.phone).slice(0, 40);
+  const key = `${name.toLowerCase()}|${phone.replace(/\D/g, "").slice(-10)}`;
+  let out: Prospect | null = null;
+  await writePlace(
+    city,
+    (f) => {
+      if (f.prospects.some((p) => `${p.name.toLowerCase()}|${p.phone.replace(/\D/g, "").slice(-10)}` === key || (phone && p.phone.replace(/\D/g, "").slice(-10) === phone.replace(/\D/g, "").slice(-10)))) throw new Error("Business not found: it is already on this list (same name or phone).");
+      out = { id: uid("pro"), name, category: s(input.category).slice(0, 60) || "Homestay / guest house", phone, email: s(input.email).slice(0, 120), website: s(input.website).slice(0, 200), address: s(input.address).slice(0, 240), city, source: "manual", status: "new", notes: s(input.notes).slice(0, 1000), addedAt: new Date().toISOString(), updatedBy: by };
+      return { ...f, prospects: [out, ...f.prospects] };
+    },
+    `Lead finder: ${name} added by hand`,
+    by,
+  );
+  return out as unknown as Prospect;
+}
+
 /* ───────────────────────────── working the list ───────────────────────────── */
 
 export async function updateProspect(city: string, id: string, patch: { status?: string; notes?: string; owner?: string }, by: string) {
