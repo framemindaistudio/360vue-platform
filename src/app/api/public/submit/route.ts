@@ -97,6 +97,7 @@ export async function POST(req: Request) {
         ...(Object.keys(config).length ? { config } : {}),
         ...(Number.isFinite(estimate) && estimate > 0 ? { estimate: Math.round(estimate) } : {}),
         quoteNo: str("quoteNo", 40) || undefined,
+        ...(/^cmp_[\w-]{3,40}$/.test(str("campaignId", 60)) ? { campaignId: str("campaignId", 60) } : {}),
         message: str("message", 3000),
         page: str("page", 120),
         application,

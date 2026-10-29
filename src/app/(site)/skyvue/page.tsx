@@ -5,6 +5,7 @@ import { COMBINED_DEMO_SCENES, PanoViewer } from "@/components/site/PanoViewer";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead } from "@/components/site/bits";
 import { ServiceStory } from "@/components/site/ServiceStory";
 import { publicRateCard } from "@/lib/public-rates";
+import { SKYVUE_LAUNCH } from "@/lib/content/catalog";
 import { taxNote } from "@/lib/tax";
 
 export const metadata: Metadata = {
@@ -45,6 +46,7 @@ export default async function SkyVuePage() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-midnight via-transparent to-midnight/40" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Eyebrow>SkyVUE · Aerial 360°</Eyebrow>
+          <p className="mt-4 inline-flex rounded-full border border-sunset/50 bg-sunset/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-sunset">Launching {SKYVUE_LAUNCH} · pre-book now</p>
           <h1 className="mt-6 max-w-3xl text-balance text-4xl font-bold leading-[1.02] tracking-[-0.03em] text-cream sm:text-6xl lg:text-7xl">
             Show where you are, <span className="text-gold-grad">not just what&apos;s inside.</span>
           </h1>

@@ -223,7 +223,7 @@ export const SERVICES: Service[] = [
         id: "sky-extras",
         title: "SkyVUE extras",
         mode: "any",
-        note: "Flights happen only where airspace permits under India's Drone Rules, 2021. Near airports and other restricted zones we apply for permission first, or tell you before booking if it is not possible. Dates depend on the weather.",
+        note: "SkyVUE flights start in January 2027 — book now to reserve your date. Flights happen only where airspace permits under India's Drone Rules, 2021. Near airports and other restricted zones we apply for permission first, or tell you before booking if it is not possible. Dates depend on the weather.",
         options: [
           { id: "sky-extra-scene", label: "Extra aerial scenes", detail: "Another drone position, linked to the others", price: 2499, unit: "/scene" },
           { id: "sky-overlay", label: "Plot & boundary overlay", detail: "Your boundary outlined, and plot numbers, phases and measurements (plot size, road width) written onto the view", price: 4999 },
@@ -288,6 +288,9 @@ export const SERVICES: Service[] = [
 ];
 
 /** Plan lengths for monthly services (Hosting & Care) and their discount on the monthly fee. */
+/** SkyVUE drone flights start this month; until then the website takes pre-bookings. */
+export const SKYVUE_LAUNCH = "January 2027";
+
 export const SOCIAL_CONTRACTS: { months: number; label: string; discountPercent: number; badge?: string }[] = [
   { months: 1, label: "Month to month", discountPercent: 0 },
   { months: 12, label: "12 months", discountPercent: 15, badge: "Best value" },

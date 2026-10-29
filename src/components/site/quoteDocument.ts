@@ -17,6 +17,8 @@ export interface QuoteDoc {
   lines: { label: string; price: number }[];
   included: string[];
   discount: { label: string; amount: number } | null;
+  /** a launch campaign discount (e.g. Founding 100), shown before the multi-service discount */
+  campaignDiscount?: { label: string; amount: number } | null;
   taxable: number;
   gstPercent: number;
   gst: number;
@@ -29,7 +31,7 @@ export interface QuoteDoc {
 }
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
-const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
+const inr = (n: number) => `₹${n.toLocaleString("en-IN", { minimumFractionDigits: Number.isInteger(Math.round(n * 100) / 100) ? 0 : 2, maximumFractionDigits: 2 })}`;
 const day = (d: Date) => d.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
 
 export function quoteHtml(q: QuoteDoc, origin: string) {
@@ -106,6 +108,7 @@ li:before{content:"";position:absolute;left:0;top:2.6mm;width:2mm;height:2mm;bor
   <div class="space"><b>YOUR SPACE</b>${esc(q.space)}</div>
   <table><thead><tr><th>YOUR QUOTE</th><th class="r">AMOUNT</th></tr></thead><tbody>${rows}</tbody></table>
   <table class="tot"><tbody>
+   ${q.campaignDiscount ? `<tr class="disc"><td>${esc(q.campaignDiscount.label)}</td><td class="r">− ${inr(q.campaignDiscount.amount)}</td></tr>` : ""}
    ${q.discount ? `<tr class="disc"><td>${esc(q.discount.label)}</td><td class="r">− ${inr(q.discount.amount)}</td></tr>` : ""}
    ${q.gstPercent > 0 ? `<tr><td>Subtotal (before GST)</td><td class="r">${inr(q.taxable)}</td></tr>
    <tr><td>GST ${q.gstPercent}%</td><td class="r">${inr(q.gst)}</td></tr>` : `<tr><td>No GST — 360VUE is not GST-registered</td><td class="r">₹0</td></tr>`}

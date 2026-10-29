@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { lite as campaignLite } from "@/lib/campaigns";
+import { SERVICES } from "@/lib/content/catalog";
 import { AlertTriangle, ArrowDown, ArrowUp, ChevronDown, Copy, ExternalLink, FolderPlus, Loader2, Plus, Printer, RefreshCw, Save, Send, Trash2 } from "lucide-react";
 import type { ServiceId } from "@/lib/content/catalog";
 import { getCollection, type BaseRecord, type LineItem } from "@/lib/hq/collections";
@@ -79,6 +81,12 @@ function BuilderForm({ rates, initial, presetClient, presetLead, created }: { ra
 
   const [form, setForm] = useState<Record<string, unknown>>(() => (initial ? { ...initial } : blankQuote(rates, presetClient, presetLead)));
   const [snapshot, setSnapshot] = useState(() => JSON.stringify(initial ?? null));
+  const campaignsCol = useCollection("campaigns");
+  // campaigns a quote can be priced under: live ones, plus the one this quote already carries
+  const campaignChoices = useMemo(
+    () => campaignsCol.records.filter((c) => str(c.status) === "live" || c.id === str(form.campaignId)),
+    [campaignsCol.records, form.campaignId],
+  );
   const [persistedStatus, setPersistedStatus] = useState<string>(() => str(initial?.status));
   const [saving, setSaving] = useState<"save" | "pdf" | "send" | "book" | null>(null);
   const [error, setError] = useState("");
@@ -92,6 +100,17 @@ function BuilderForm({ rates, initial, presetClient, presetLead, created }: { ra
     gstDecided.current = true;
     setForm((f) => ({ ...f, gstPercent: settings.gstRegistered ? (rates?.gstPercent ?? 18) : 0 }));
   }, [settingsLoading, settings.gstRegistered, rates?.gstPercent]);
+
+  // a quote started from a website enquiry opens under the campaign the visitor priced with, if it is still live
+  const campaignDecided = useRef(!!initial || !presetLead?.campaignId);
+  useEffect(() => {
+    if (campaignDecided.current || campaignsCol.loading) return;
+    campaignDecided.current = true;
+    const c = campaignsCol.records.find((x) => x.id === str(presetLead?.campaignId) && str(x.status) === "live");
+    // one-time: applied once, when the campaigns list arrives (the same pattern as the GST default above)
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (c) setForm((f) => ({ ...f, campaignId: c.id, campaign: campaignLite(c) }));
+  }, [campaignsCol.loading, campaignsCol.records, presetLead?.campaignId]);
 
   const set = (patch: Record<string, unknown>) => {
     setForm((f) => ({ ...f, ...patch }));
@@ -232,6 +251,7 @@ function BuilderForm({ rates, initial, presetClient, presetLead, created }: { ra
             dueDate: addDays(today, 7),
             clientId: str(q.clientId),
             projectId: project.id,
+            ...(str(q.campaignId) ? { campaignId: str(q.campaignId) } : {}),
             milestone: `${first.label} (${first.percent}%)`,
             customerName: str(client?.name),
             customerGstin: str(client?.gstin),
@@ -435,6 +455,32 @@ function BuilderForm({ rates, initial, presetClient, presetLead, created }: { ra
                     </span>
                   }
                 />
+              </div>
+              <div className="sm:col-span-6">
+                <Label htmlFor="q-campaign">Campaign</Label>
+                <Select
+                  id="q-campaign"
+                  value={str(form.campaignId)}
+                  disabled={!canWrite}
+                  onChange={(e) => {
+                    const c = campaignsCol.records.find((x) => x.id === e.target.value);
+                    set(c ? { campaignId: c.id, campaign: campaignLite(c) } : { campaignId: "", campaign: null });
+                  }}
+                >
+                  <option value="">No campaign</option>
+                  {campaignChoices.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {str(c.name)} — {num(c.discountPercent)}% off {(Array.isArray(c.serviceIds) && c.serviceIds.length ? (c.serviceIds as string[]) : ["tours"]).map((x) => SERVICES.find((sv) => sv.id === x)?.name ?? x).join(", ")}
+                    </option>
+                  ))}
+                </Select>
+                <p className="mt-1 text-xs text-charcoal">
+                  {form.campaign
+                    ? "The project and its invoices carry this campaign; approving the advance (matching it to the bank) uses one of its slots."
+                    : campaignChoices.length
+                      ? "Price this quote under a live campaign, e.g. Founding 100."
+                      : "No live campaign. Create one in HQ → Campaigns."}
+                </p>
               </div>
               <div className="sm:col-span-2">
                 <Label htmlFor="q-discount">Extra discount %</Label>
@@ -832,6 +878,7 @@ export function QuoteSummary({ money: m, lines, extra, plan }: { money: QuoteMon
               ))}
             </div>
             <div className="py-2">
+              {m.campaignAmount > 0 && <Row label={`${m.campaignName} (${m.campaignPercent}% off)`} amount={`− ${formatINR(m.campaignAmount, { decimals: true })}`} negative />}
               {m.bundleAmount > 0 && <Row label={`Multi-service discount (${m.bundlePercent}%)`} amount={`− ${formatINR(m.bundleAmount)}`} negative />}
               {m.extraAmount > 0 && <Row label={`Discount (${m.extraPercent}%)`} amount={`− ${formatINR(m.extraAmount)}`} negative />}
               <Row label="Subtotal (ex-GST)" amount={formatINR(m.taxable)} strong />

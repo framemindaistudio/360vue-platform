@@ -177,7 +177,7 @@ export const INCOME_STREAMS = opts(
 );
 
 const PAY_MODES = opts(["upi", "UPI"], ["bank", "Bank transfer"], ["cheque", "Cheque"], ["card", "Card"], ["cash", "Cash"], ["gateway", "Payment gateway"], ["wise", "Wise (international)"]);
-const SOURCES = opts("Website", "Google Maps prospecting", "Referral partner", "Instagram", "LinkedIn", "WhatsApp", "Direct visit", "Cold outreach", "Event", "Existing network", "Repeat client", "Other");
+const SOURCES = opts("Website", "Lead finder", "Google Maps prospecting", "Referral partner", "Instagram", "LinkedIn", "WhatsApp", "Direct visit", "Cold outreach", "Event", "Existing network", "Repeat client", "Other");
 
 export const collections: CollectionDef[] = [
   /* ── Sales ───────────────────────────────────────────────────────────── */
@@ -272,7 +272,8 @@ export const collections: CollectionDef[] = [
       { key: "budget", label: "Budget mentioned", type: "text", width: "third" },
       { key: "timeline", label: "Timeline", type: "text", placeholder: "e.g. Live before the grand opening", width: "third" },
       { key: "spaceSize", label: "Approximate space size", type: "text", placeholder: "e.g. 2,500 sq ft, 3 areas", width: "third" },
-      { key: "estimate", label: "Website estimate (ex-GST)", type: "currency", width: "third", help: "What the price configurator showed them. New quote opens with the same choices." },
+      { key: "estimate", label: "Website estimate", type: "currency", width: "third", help: "What the price configurator showed them (after any campaign discount). New quote opens with the same choices." },
+      { key: "campaignId", label: "Campaign", type: "ref", ref: "campaigns", width: "third", help: "The offer they priced under on the website. A new quote from this enquiry opens with it." },
       { key: "quoteNo", label: "Website quote no.", type: "text", width: "third" },
       // the configurator's selections per service (read by New quote): set only by the website
       { key: "config", label: "Configured selections", type: "text", hidden: true },
@@ -314,6 +315,77 @@ export const collections: CollectionDef[] = [
 
   /* ── Delivery ────────────────────────────────────────────────────────── */
   {
+    name: "portalUpdates",
+    label: "Client updates",
+    singular: "Client update",
+    description: "Progress updates, previews and approval requests (brief, capture date, preview) published to a client in the portal.",
+    icon: "Megaphone",
+    titleField: "title",
+    subtitleField: "projectId",
+    sortField: "createdAt",
+    sortDir: "desc",
+    idPrefix: "upd",
+    read: STAFF,
+    write: OPS,
+    managed: true,
+    fields: [
+      { key: "title", label: "Update", type: "text", table: true },
+      { key: "projectId", label: "Project", type: "ref", ref: "projects", table: true },
+    ],
+  },
+  {
+    name: "portalTickets",
+    label: "Client tickets",
+    singular: "Client ticket",
+    description: "Support requests, revision requests, broken links and billing questions clients raise in the portal.",
+    icon: "LifeBuoy",
+    titleField: "subject",
+    subtitleField: "status",
+    sortField: "updatedAt",
+    sortDir: "desc",
+    idPrefix: "tkt",
+    read: STAFF,
+    write: OPS,
+    managed: true,
+    fields: [
+      { key: "subject", label: "Subject", type: "text", table: true },
+      { key: "kind", label: "Kind", type: "text", table: true },
+      { key: "status", label: "Status", type: "text", table: true },
+      { key: "projectId", label: "Project", type: "ref", ref: "projects", table: true },
+      { key: "clientId", label: "Client", type: "ref", ref: "clients" },
+    ],
+  },
+  {
+    name: "campaigns",
+    label: "Campaigns",
+    singular: "Campaign",
+    description: "Launch offers like Founding 100 — a discount on chosen services for a limited number of slots, counted live on the website.",
+    icon: "Megaphone",
+    titleField: "name",
+    subtitleField: "status",
+    sortField: "startDate",
+    sortDir: "desc",
+    idPrefix: "cmp",
+    read: SALES_SIDE,
+    write: OPS,
+    fields: [
+      { key: "name", label: "Campaign name", type: "text", required: true, placeholder: "Founding 100", table: true, width: "half" },
+      { key: "status", label: "Status", type: "select", options: opts("draft", "live", "paused", "ended"), default: "draft", table: true, width: "third", help: "Only one live campaign shows on the website at a time (the newest)." },
+      { key: "slug", label: "Web address", type: "text", placeholder: "founding-100", width: "third", help: "The offer page: 360vue.website/offers/<this>" },
+      { key: "discountPercent", label: "Discount %", type: "percent", required: true, default: 40, table: true, width: "third" },
+      { key: "serviceIds", label: "Discount applies to", type: "multiselect", options: SERVICE_OPTS, default: ["tours"], width: "full", help: "360° virtual tour = the tour plan and all its add-ons. Monthly hosting is never discounted." },
+      { key: "totalSlots", label: "Slots", type: "number", default: 100, table: true, width: "third", help: "How many clients get the offer" },
+      { key: "usedBefore", label: "Slots used before HQ tracked them", type: "number", default: 0, width: "third", help: "Usually 0. Every approved advance on a campaign project is counted automatically." },
+      { key: "showOnWebsite", label: "Show on the website", type: "boolean", default: true, width: "third" },
+      { key: "startDate", label: "Starts", type: "date", width: "third" },
+      { key: "endDate", label: "Ends (optional)", type: "date", width: "third", help: "Leave empty to run until the slots are filled" },
+      { key: "headline", label: "Headline", type: "text", placeholder: "Be among our first 100 tour projects", width: "full" },
+      { key: "tagline", label: "Line under the headline", type: "text", placeholder: "Give your property a powerful digital presence with 360VUE.", width: "full" },
+      { key: "terms", label: "Offer terms (shown on the website and quotes)", type: "textarea", width: "full", placeholder: "40% off eligible service charges before tax, for the first 100 tour projects to pay their advance. One offer per property. Cannot be combined with other discounts." },
+      { key: "notes", label: "Internal notes", type: "textarea", width: "full" },
+    ],
+  },
+  {
     name: "projects",
     label: "Projects",
     singular: "Project",
@@ -328,6 +400,7 @@ export const collections: CollectionDef[] = [
     write: OPS,
     fields: [
       { key: "title", label: "Project", type: "text", required: true, placeholder: "e.g. Café — 360° virtual tour", table: true, width: "full" },
+      { key: "campaignId", label: "Campaign", type: "ref", ref: "campaigns", width: "half", help: "Sold under a campaign (e.g. Founding 100): its approved advance uses a slot." },
       { key: "clientId", label: "Client", type: "ref", ref: "clients", table: true, width: "half" },
       { key: "service", label: "Main service", type: "select", options: SERVICE_OPTS, default: "tours", table: true, width: "half" },
       { key: "services", label: "All services in it", type: "multiselect", options: SERVICE_OPTS, width: "full" },
@@ -352,6 +425,7 @@ export const collections: CollectionDef[] = [
       { key: "taskPrefix", label: "Task ID prefix", type: "text", width: "third", placeholder: "e.g. JHM", help: "Task IDs look like JHM-12. Set before the first task; leave empty to use the project's initials." },
       { key: "stagingUrl", label: "Preview link (for client review)", type: "url", width: "half" },
       { key: "liveUrl", label: "Live tour link", type: "url", width: "half" },
+      { key: "hostingSuspended", label: "Hosting suspended", type: "boolean", width: "third", help: "Tick when the tour is set to Inactive in Panocool for an unpaid renewal. The client still signs in and sees invoices; the portal shows that hosting is suspended and how to renew." },
       { key: "feedbackScore", label: "Client rating (1–5)", type: "number", width: "third" },
       { key: "notes", label: "Internal notes", type: "textarea", staffOnly: true, width: "full" },
       // milestones, checklist, handover and the content list are kept on the record by the project screens
@@ -538,6 +612,7 @@ export const collections: CollectionDef[] = [
       { key: "clientId", label: "Client", type: "ref", ref: "clients", width: "half" },
       { key: "projectId", label: "Project", type: "ref", ref: "projects", width: "half" },
       { key: "milestone", label: "Milestone billed", type: "text", placeholder: "e.g. Advance — to confirm the booking (50%)", width: "full" },
+      { key: "campaignId", label: "Campaign", type: "ref", ref: "campaigns", width: "half", help: "Set automatically from the project. When an advance on this invoice is approved (matched to the bank), it uses one of the campaign's slots." },
       { key: "leadId", label: "Lead (for commission)", type: "ref", ref: "leads", width: "half", help: "The registered lead this work came from. Payments on this invoice then count toward that lead owner's commission, once the founder has accepted the lead." },
       { key: "excludedAmount", label: "Pass-through / reimbursable charges (₹, before GST)", type: "currency", width: "half", help: "Third-party costs billed at cost (hosting, ad spend, travel). They never count toward incentives." },
       { key: "customerName", label: "Bill to (name)", type: "text", required: true, table: true, width: "half" },
@@ -970,6 +1045,14 @@ export function invoiceTotals(inv: Record<string, unknown>) {
   const total = Math.round((taxable + gst) * 100) / 100;
   const paid = Number(inv.amountPaid) || 0;
   return { subtotal, discount, taxable, gstPercent, gst, cgst: gst / 2, sgst: gst / 2, total, paid, balance: Math.max(0, total - paid) };
+}
+
+/** Invoice totals counting the recorded payment entries (net received + TDS, refunds excluded) when there are any. */
+export function invoiceTotalsWithPayments(inv: Record<string, unknown>) {
+  const pays = Array.isArray(inv.payments) ? (inv.payments as Record<string, unknown>[]).filter((p) => p && p.refunded !== true) : [];
+  if (!pays.length) return invoiceTotals(inv);
+  const paid = pays.reduce((sum, p) => sum + (Number(p.amount) || 0) + (Number(p.tds) || 0), 0);
+  return invoiceTotals({ ...inv, amountPaid: Math.round(paid * 100) / 100 });
 }
 
 export function payrollNet(p: Record<string, unknown>) {

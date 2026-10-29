@@ -65,3 +65,14 @@ test("options sold by the unit are priced by their quantity", () => {
   assert.equal(r.subtotal, 12999 + 799 * 5 + 1499);
   assert.equal(r.items[1].label, "Extra scenes × 5");
 });
+
+test("a campaign discounts only its services' one-time lines, before the bundle", () => {
+  const tour: QuoteLine = { kind: "service", key: "t", serviceId: "tours", title: "Tour", selections: {}, items: [], amount: 6999, billing: "project" };
+  const sky: QuoteLine = { kind: "service", key: "s", serviceId: "aerial", title: "SkyVUE", selections: {}, items: [], amount: 7999, billing: "project" };
+  const m = quoteMoney([tour, sky], { applyBundle: true, bundleSteps: [{ services: 2, discountPercent: 5 }], extraPercent: 0, gstPercent: 0, campaign: { name: "Founding 100", percent: 40, serviceIds: ["tours"] } });
+  assert.equal(m.campaignAmount, 2799.6, "40% of the ₹6,999 tour, to the paisa");
+  assert.equal(m.bundleAmount, Math.round((14998 - 2799.6) * 0.05));
+  assert.equal(m.taxable, Math.round((14998 - 2799.6 - m.bundleAmount) * 100) / 100);
+  const solo = quoteMoney([tour], { applyBundle: false, bundleSteps: [], extraPercent: 0, gstPercent: 0, campaign: { name: "F", percent: 40, serviceIds: ["tours"] } });
+  assert.equal(solo.taxable, 4199.4, "₹6,999 → ₹4,199.40, as on the poster");
+});

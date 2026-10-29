@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/lib/site";
 import { CITIES } from "@/lib/locations";
+import { liveCampaign } from "@/lib/campaign-server";
 
 /** Every public page. HQ, papers sent to sign and the APIs are not for search engines. */
 const PAGES: { path: string; priority: number; changeFrequency: "weekly" | "monthly" }[] = [
@@ -18,6 +19,9 @@ const PAGES: { path: string; priority: number; changeFrequency: "weekly" | "mont
   { path: "/about", priority: 0.6, changeFrequency: "monthly" },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return PAGES.map((p) => ({ url: `${site.url}${p.path}`, changeFrequency: p.changeFrequency, priority: p.priority }));
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const pages = PAGES.map((p) => ({ url: `${site.url}${p.path}`, changeFrequency: p.changeFrequency, priority: p.priority }));
+  // the live launch offer (e.g. /offers/founding-100), while it runs
+  const c = await liveCampaign();
+  return c && !c.full ? [...pages, { url: `${site.url}/offers/${c.slug}`, changeFrequency: "daily", priority: 0.9 }] : pages;
 }

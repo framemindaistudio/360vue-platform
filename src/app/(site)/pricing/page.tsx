@@ -4,6 +4,8 @@ import { PriceConfigurator } from "@/components/site/PriceConfigurator";
 import { PricingFromQuery } from "@/components/site/PricingFromQuery";
 import { CtaBand, PageHero } from "@/components/site/bits";
 import { publicRateCard } from "@/lib/public-rates";
+import { liveCampaign } from "@/lib/campaign-server";
+import { CampaignBand } from "@/components/site/CampaignBand";
 
 export const metadata: Metadata = {
   title: "Pricing — build your 360° tour quote",
@@ -14,7 +16,7 @@ export const metadata: Metadata = {
 export const revalidate = 600;
 
 export default async function PricingPage() {
-  const rates = await publicRateCard();
+  const [rates, campaign] = await Promise.all([publicRateCard(), liveCampaign()]);
   return (
     <>
       <PageHero
@@ -22,10 +24,11 @@ export default async function PricingPage() {
         title={<>Your space. <span className="text-gold-grad">Your exact price.</span></>}
         intro="Tell us the size of your space, how many floors and rooms it has, and pick what you need. The price updates as you go — then download your quote as a PDF."
       />
-      <section className="pb-24">
+      {campaign && <CampaignBand c={campaign} rates={rates} compact />}
+      <section className={campaign ? "pb-24 pt-14" : "pb-24"}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={<PriceConfigurator rates={rates} />}>
-            <PricingFromQuery rates={rates} />
+          <Suspense fallback={<PriceConfigurator rates={rates} campaign={campaign} />}>
+            <PricingFromQuery rates={rates} campaign={campaign} />
           </Suspense>
         </div>
       </section>

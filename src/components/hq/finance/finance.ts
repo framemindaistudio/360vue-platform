@@ -412,6 +412,7 @@ export function invoiceFromProject(
     dueDate: addDays(today, DUE_DAYS),
     clientId: str(client?.id) || str(p.clientId),
     projectId: p.id,
+    ...(str(p.campaignId) ? { campaignId: str(p.campaignId) } : {}),
     milestone: milestone ? `${milestone.label}${milestone.percent ? ` (${milestone.percent}%)` : ""}` : "",
     customerName: str(client?.name) || str(p.title),
     customerAddress: address,

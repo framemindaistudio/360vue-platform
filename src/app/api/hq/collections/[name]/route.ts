@@ -6,6 +6,7 @@ import { deleteRecord, getRecord, listRecords, upsertMany, upsertRecord } from "
 import { can, LEADERSHIP, OPS, STAFF } from "@/lib/hq/roles";
 import { storeInfo } from "@/lib/store";
 import { deleteProject, ProjectHasInvoices } from "@/lib/hq/project-delete";
+import { afterSave } from "@/lib/hq/after-save";
 
 type Ctx = { params: Promise<{ name: string }> };
 
@@ -104,10 +105,13 @@ export async function POST(req: Request, ctx: Ctx) {
     if (Array.isArray(body.records)) {
       const list = await Promise.all((body.records as Record<string, unknown>[]).map((r) => guarded(name, r, user.name)));
       const records = await upsertMany(name, list, user.name);
+      await afterSave(name, records.map((saved) => ({ prev: null, saved })), user.name);
       return NextResponse.json({ records });
     }
     if (!body.record || typeof body.record !== "object") return NextResponse.json({ error: "Missing record" }, { status: 400 });
+    const prev = body.record.id ? await getRecord(name, String(body.record.id)) : null;
     const record = await upsertRecord(name, await guarded(name, body.record, user.name), user.name);
+    await afterSave(name, [{ prev, saved: record }], user.name);
     return NextResponse.json({ record });
   } catch (e) {
     return apiError(e);
@@ -128,9 +132,11 @@ export async function DELETE(req: Request, ctx: Ctx) {
     // a project takes its deliverables and shoots with it, and unlinks the rest (lib/hq/project-delete.ts)
     if (name === "projects") {
       const { removed } = await deleteProject(id, user.name);
+      await afterSave(name, [{ prev: null, saved: null }], user.name);
       return NextResponse.json({ ok: true, removed });
     }
     await deleteRecord(name, id, user.name);
+    await afterSave(name, [{ prev: null, saved: null }], user.name);
     return NextResponse.json({ ok: true });
   } catch (e) {
     if (e instanceof ProjectHasInvoices) return NextResponse.json({ error: e.message, invoices: e.invoices }, { status: 409 });

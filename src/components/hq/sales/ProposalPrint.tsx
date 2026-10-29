@@ -258,6 +258,12 @@ function InvestmentPage({ c, page }: { c: Ctx; page: string }) {
                 <td className="tabular py-[2mm] text-right">{formatINR(m.monthly * m.months)}</td>
               </tr>
             )}
+            {m.campaignAmount > 0 && (
+              <tr className="border-b border-graphite/12 text-charcoal">
+                <td className="py-[2mm] pr-3">{m.campaignName} — {m.campaignPercent}% off</td>
+                <td className="tabular py-[2mm] text-right">− {formatINR(m.campaignAmount, { decimals: true })}</td>
+              </tr>
+            )}
             {m.bundleAmount > 0 && (
               <tr className="border-b border-graphite/12 text-charcoal">
                 <td className="py-[2mm] pr-3">Multi-service discount — {m.serviceCount} services ({m.bundlePercent}% off)</td>

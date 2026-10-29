@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ExternalLink, PenTool, FolderOpen, GitBranch, Globe, Minus, MonitorPlay, Pencil, Plus, Trash2 } from "lucide-react";
 import { getCollection, PROJECT_STAGES, type BaseRecord } from "@/lib/hq/collections";
-import { can } from "@/lib/hq/roles";
+import { can, STAFF } from "@/lib/hq/roles";
 import { Button } from "@/components/ui/Button";
 import { ConfirmButton } from "@/components/ui/Overlay";
 import { Select } from "@/components/ui/form";
@@ -20,9 +20,10 @@ import { DueChip, ProgressBar, ServiceChips, StageBadge } from "./bits";
 import { checklistOf, inputsOf, longDate, num, progressOf, projectMoney, str, type Rec } from "./logic";
 import { ProjectFormDrawer } from "./ProjectFormDrawer";
 import { ChecklistTab, DeliverablesTab, HandoverTab, InputsTab, MilestonesTab, ShootsTab } from "./ProjectTabs";
+import { PortalTab } from "./PortalTab";
 
 const projectsDef = getCollection("projects")!;
-type Tab = "overview" | "payments" | "deliverables" | "checklist" | "inputs" | "shoots" | "handover";
+type Tab = "overview" | "payments" | "deliverables" | "checklist" | "inputs" | "shoots" | "handover" | "portal";
 
 /** The project record and a way to change part of it, shared by every tab. */
 export function useProject(id: string) {
@@ -60,7 +61,7 @@ export function ProjectDetail({ id }: { id: string }) {
   const { records: shoots } = useCollection(can(user, getCollection("shoots")!.read) ? "shoots" : "__none");
   const [tab, setTab] = useState<Tab>(() => {
     const t = params.get("tab");
-    return (["overview", "payments", "deliverables", "checklist", "inputs", "shoots", "handover"] as Tab[]).includes(t as Tab) ? (t as Tab) : "overview";
+    return (["overview", "payments", "deliverables", "checklist", "inputs", "shoots", "handover", "portal"] as Tab[]).includes(t as Tab) ? (t as Tab) : "overview";
   });
   const [draft, setDraft] = useState<Record<string, unknown> | null>(null);
 
@@ -93,6 +94,7 @@ export function ProjectDetail({ id }: { id: string }) {
     { value: "inputs", label: "From the client", count: pendingInputs || undefined },
     ...(can(user, getCollection("shoots")!.read) ? [{ value: "shoots" as Tab, label: "Shoots", count: myShoots.length || undefined }] : []),
     { value: "handover", label: "Handover" },
+    ...(can(user, STAFF) ? [{ value: "portal" as Tab, label: "Client portal" }] : []),
   ];
 
   const links: { label: string; href: string; Icon: typeof Globe }[] = [
@@ -263,6 +265,7 @@ export function ProjectDetail({ id }: { id: string }) {
         {tab === "inputs" && <InputsTab project={project} client={client} canWrite={canWrite} patch={patch} />}
         {tab === "shoots" && <ShootsTab project={project} shoots={myShoots} />}
         {tab === "handover" && <HandoverTab project={project} client={client} canWrite={canWrite} patch={patch} />}
+        {tab === "portal" && <PortalTab project={project} client={client} canWrite={canWrite} />}
       </div>
 
       <ProjectFormDrawer value={draft} onChange={setDraft} onClose={() => setDraft(null)} />

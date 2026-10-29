@@ -40,6 +40,7 @@ export function moneyOf(r: Record<string, unknown>, rates: Pick<RateCard, "bundl
     applyBundle: r.applyBundle === true,
     bundleSteps: rates?.bundleSteps ?? [],
     extraPercent: num(r.discountPercent),
+    campaign: r.campaign && typeof r.campaign === "object" ? (r.campaign as { name: string; percent: number; serviceIds: string[] }) : null,
     gstPercent: r.gstPercent === undefined || r.gstPercent === "" ? (rates?.gstPercent ?? 18) : num(r.gstPercent),
   });
 }
@@ -139,6 +140,7 @@ export function projectFromQuote(q: BaseRecord, money: QuoteMoney, fallbackMiles
   return {
     title: str(q.title) || `${str(client?.name) || "Client"} — project`,
     clientId: str(q.clientId),
+    ...(str(q.campaignId) ? { campaignId: str(q.campaignId) } : {}),
     service: services.find((s) => s !== "other") ?? "other",
     services,
     stage: "kickoff",

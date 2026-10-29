@@ -5,7 +5,7 @@ import { ArrowRight, Check, MapPin, Plane, Rotate3d, ShieldCheck } from "lucide-
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead } from "@/components/site/bits";
 import { CITIES, cityBySlug, stateOf } from "@/lib/locations";
 import { publicRateCard } from "@/lib/public-rates";
-import { SERVICES } from "@/lib/content/catalog";
+import { SERVICES, SKYVUE_LAUNCH } from "@/lib/content/catalog";
 import { site } from "@/lib/site";
 import { ORG_ID, ldScript } from "@/lib/seo";
 import { taxNote } from "@/lib/tax";
@@ -117,7 +117,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {[
               { Icon: Rotate3d, t: "360° virtual tour", p: `from ${inr(tourFrom)}`, d: "Every room in 360°, arrows to walk through, a contact panel with your phone and email, published on Google Maps and shared as one link.", href: "/services" },
-              { Icon: Plane, t: "SkyVUE aerial 360°", p: `from ${inr(skyFrom)}`, d: c.sky, href: "/skyvue" },
+              { Icon: Plane, t: "SkyVUE aerial 360°", p: `from ${inr(skyFrom)} · flights from ${SKYVUE_LAUNCH}`, d: c.sky, href: "/skyvue" },
               { Icon: MapPin, t: "Tour + SkyVUE in one link", p: "linking included", d: "Start from the sky with landmarks and distances labelled, tap a building and walk inside — one link to share.", href: "/pricing?need=both" },
             ].map(({ Icon, t, p, d, href }) => (
               <Link key={t} href={href} className="reveal group flex flex-col rounded-3xl border border-cream/10 bg-night/70 p-7 transition-colors hover:border-sunset/50">

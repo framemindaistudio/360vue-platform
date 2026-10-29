@@ -103,6 +103,10 @@ export interface QuoteMoney {
   months: number;
   /** distinct studio services on the quote (custom lines do not count) */
   serviceCount: number;
+  /** a launch campaign (e.g. Founding 100) on the services it covers, before the bundle discount */
+  campaignName: string;
+  campaignPercent: number;
+  campaignAmount: number;
   bundlePercent: number;
   bundleAmount: number;
   extraPercent: number;
@@ -117,7 +121,10 @@ export interface QuoteMoney {
 }
 
 /** Monthly lines are worked out per month (after their contract discount); everything else is one-time. */
-export function quoteMoney(lines: QuoteLine[], o: { applyBundle: boolean; bundleSteps: BundleStep[]; extraPercent: number; gstPercent: number }): QuoteMoney {
+export function quoteMoney(
+  lines: QuoteLine[],
+  o: { applyBundle: boolean; bundleSteps: BundleStep[]; extraPercent: number; gstPercent: number; campaign?: { name: string; percent: number; serviceIds: string[] } | null },
+): QuoteMoney {
   let oneTime = 0;
   let monthly = 0;
   let months = 0;
@@ -133,12 +140,18 @@ export function quoteMoney(lines: QuoteLine[], o: { applyBundle: boolean; bundle
   }
   if (monthly > 0 && months === 0) months = 1;
   const gross = oneTime + monthly * months;
+  // a campaign discounts the one-time lines of the services it covers (monthly hosting is never discounted)
+  const cPct = o.campaign ? Math.min(100, Math.max(0, o.campaign.percent || 0)) : 0;
+  const eligible = cPct
+    ? lines.reduce((sum, l) => sum + (l.kind === "service" && l.billing !== "month" && o.campaign!.serviceIds.includes(l.serviceId) ? l.amount : 0), 0)
+    : 0;
+  const campaignAmount = Math.round(eligible * cPct) / 100;
   const bPct = o.applyBundle ? bundlePercent(services.size, o.bundleSteps) : 0;
   // the bundle discount is on one-time work only: monthly retainers already carry their contract-length discount
-  const bundleAmount = Math.round((oneTime * bPct) / 100);
+  const bundleAmount = Math.round(((oneTime - campaignAmount) * bPct) / 100);
   const extraPercent = Math.min(100, Math.max(0, o.extraPercent || 0));
-  const extraAmount = Math.round(((gross - bundleAmount) * extraPercent) / 100);
-  const taxable = Math.max(0, gross - bundleAmount - extraAmount);
+  const extraAmount = Math.round(((gross - campaignAmount - bundleAmount) * extraPercent) / 100);
+  const taxable = Math.max(0, Math.round((gross - campaignAmount - bundleAmount - extraAmount) * 100) / 100);
   const gst = Math.round((taxable * o.gstPercent) / 100);
   const keep = 1 - extraPercent / 100;
   return {
@@ -146,6 +159,9 @@ export function quoteMoney(lines: QuoteLine[], o: { applyBundle: boolean; bundle
     monthly,
     months,
     serviceCount: services.size,
+    campaignName: cPct ? o.campaign!.name : "",
+    campaignPercent: cPct,
+    campaignAmount,
     bundlePercent: bPct,
     bundleAmount,
     extraPercent,

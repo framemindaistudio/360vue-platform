@@ -8,6 +8,8 @@ import type { PublicRates } from "@/lib/public-rates";
 import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 import { openQuoteDocument, type QuoteDoc } from "./quoteDocument";
+import { discountOf, type PublicCampaign } from "@/lib/campaigns";
+import { SKYVUE_LAUNCH } from "@/lib/content/catalog";
 
 /** VUE-W-261027-K3QZ: the website quote number, also stored on the HQ enquiry. */
 function newQuoteNo(d: Date) {
@@ -15,7 +17,7 @@ function newQuoteNo(d: Date) {
   return `VUE-W-${String(d.getFullYear()).slice(2)}${String(d.getMonth() + 1).padStart(2, "0")}${String(d.getDate()).padStart(2, "0")}-${code}`;
 }
 
-const inr = (n: number) => `₹${Math.round(n).toLocaleString("en-IN")}`;
+const inr = (n: number) => `₹${n.toLocaleString("en-IN", { minimumFractionDigits: Number.isInteger(Math.round(n * 100) / 100) ? 0 : 2, maximumFractionDigits: 2 })}`;
 
 const SPACE_TYPES = ["Restaurant / café", "Hotel / resort", "Banquet hall / venue", "Showroom / retail", "Real estate", "Gym / clinic / office", "Other"];
 
@@ -71,7 +73,7 @@ const card = "rounded-3xl border border-cream/10 bg-night/80 p-5 sm:p-7";
 
 const ONE_LINK = "One link: aerial and ground scenes joined with hotspots (no extra charge for linking)";
 
-export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: PublicRates; initialMode?: "tour" | "sky" | "both" }) {
+export function PriceConfigurator({ rates, initialMode = "tour", campaign = null }: { rates: PublicRates; initialMode?: "tour" | "sky" | "both"; campaign?: PublicCampaign | null }) {
   const tour = rates.services.find((s) => s.id === "tours") as Service | undefined;
   const spatial = rates.services.find((s) => s.id === "spatial") as Service | undefined;
   const hosting = rates.services.find((s) => s.id === "hosting") as Service | undefined;
@@ -146,8 +148,12 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
   let bundlePct = 0;
   for (const s of [...rates.bundleSteps].sort((a, b) => a.services - b.services)) if (services >= s.services) bundlePct = s.discountPercent;
   const oneTime = tourPrice.subtotal + skyPrice.subtotal + spatialPrice;
-  const discount = Math.round((oneTime * bundlePct) / 100);
-  const taxable = oneTime - discount;
+  // a live campaign (e.g. Founding 100) takes its percent off the services it covers, before the multi-service discount
+  const offer = campaign && !campaign.full && campaign.percent > 0 ? campaign : null;
+  const eligible = offer ? (offer.serviceIds.includes("tours") ? tourPrice.subtotal : 0) + (offer.serviceIds.includes("aerial") ? skyPrice.subtotal : 0) + (offer.serviceIds.includes("spatial") ? spatialPrice : 0) : 0;
+  const campaignOff = offer ? discountOf(eligible, offer.percent) : 0;
+  const discount = Math.round(((oneTime - campaignOff) * bundlePct) / 100);
+  const taxable = Math.round((oneTime - campaignOff - discount) * 100) / 100;
   const gst = Math.round((taxable * rates.gstPercent) / 100);
   const total = taxable + gst;
 
@@ -197,6 +203,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
       lines,
       included: [...(withTour && withSky ? [ONE_LINK] : []), ...(withTour ? tour?.included ?? [] : []), ...(withSky ? (sky?.included ?? []).filter((x) => !withTour || !/^Contact panel|^With a ground tour/.test(x)) : []), ...included.filter((x) => !/google/i.test(x))],
       discount: discount ? { label: `Multi-service discount (${bundlePct}%)`, amount: discount } : null,
+      campaignDiscount: campaignOff ? { label: `${offer!.name} — ${offer!.percent}% off (${offer!.left} of ${offer!.total} slots left)`, amount: campaignOff } : null,
       taxable,
       gstPercent: rates.gstPercent,
       gst,
@@ -228,6 +235,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
           spaceSize: withTour ? `${areaLabel}, ${floors} floor${floors === 1 ? "" : "s"}, ${rooms} rooms/areas, ${scenes} scenes` : "SkyVUE aerial only",
           estimate: taxable,
           quoteNo,
+          ...(campaignOff ? { campaignId: offer!.id } : {}),
           config: {
             ...(withTour ? { tours: { selections: tourSelections } } : {}),
             ...(withSky ? { aerial: { selections: skySelections } } : {}),
@@ -480,7 +488,7 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
         {/* SkyVUE */}
         {withSky && sky && (
           <section className={card}>
-            <StepHead n={withTour ? 4 : 1} title="SkyVUE aerial 360°" sub="Your property from up to 120 m. Nearby places are labelled with distances, and your buildings and amenities are labelled too — with a ground tour, tapping one opens its 360°." />
+            <StepHead n={withTour ? 4 : 1} title={`SkyVUE aerial 360° — from ${SKYVUE_LAUNCH}`} sub="Pre-book now: flights start in January 2027. Your property from up to 120 m. Nearby places are labelled with distances, and your buildings and amenities are labelled too — with a ground tour, tapping one opens its 360°." />
             <div className="mt-6 grid gap-3 sm:grid-cols-3">
               {skyPlans.map((p) => {
                 const on = p.id === skyPlan?.id;
@@ -622,6 +630,17 @@ export function PriceConfigurator({ rates, initialMode = "tour" }: { rates: Publ
                 <span className="tabular shrink-0 font-semibold text-cream">{inr(l.price)}</span>
               </li>
             ))}
+            {campaignOff > 0 && (
+              <li className="flex justify-between gap-4 py-2.5 text-sunset">
+                <span>
+                  {offer!.name} — {offer!.percent}% off
+                  <span className="block text-xs text-cream/45">
+                    {offer!.left} of {offer!.total} slots left
+                  </span>
+                </span>
+                <span className="tabular shrink-0 font-semibold">− {inr(campaignOff)}</span>
+              </li>
+            )}
             {discount > 0 && (
               <li className="flex justify-between gap-4 py-2.5 text-sunset">
                 <span>Multi-service discount ({bundlePct}%)</span>

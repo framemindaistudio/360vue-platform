@@ -4,6 +4,10 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { PanoViewer, DEMO_SCENES } from "@/components/site/PanoViewer";
 import { ReelCard } from "@/components/site/ReelCard";
 import { HeroVideo } from "@/components/site/HeroVideo";
+import { SKYVUE_LAUNCH } from "@/lib/content/catalog";
+import { CampaignBand } from "@/components/site/CampaignBand";
+import { liveCampaign } from "@/lib/campaign-server";
+import { publicRateCard } from "@/lib/public-rates";
 import { Packages } from "@/components/site/Packages";
 import { ServiceStory } from "@/components/site/ServiceStory";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, SectionHead, SiteIcon } from "@/components/site/bits";
@@ -28,7 +32,8 @@ const REELS = [
 
 const STEPS = TERMS.process;
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [rates, campaign] = await Promise.all([publicRateCard(), liveCampaign()]);
   return (
     <>
       {/* ── hero ─────────────────────────────────────────── */}
@@ -90,6 +95,9 @@ export default function HomePage() {
           <ChevronDown className="vue-float size-6" />
         </a>
       </section>
+
+      {/* ── launch campaign (Founding 100), when one is live ── */}
+      {campaign && <CampaignBand c={campaign} rates={rates} />}
 
       {/* ── live demo ─────────────────────────────────────── */}
       <section id="demo" className="scroll-mt-20 py-24 sm:py-32">
@@ -157,7 +165,7 @@ export default function HomePage() {
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-midnight via-midnight/80 to-midnight/10" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="reveal max-w-xl">
-            <Eyebrow>New · SkyVUE aerial 360°</Eyebrow>
+            <Eyebrow>New · SkyVUE aerial 360° · from {SKYVUE_LAUNCH}</Eyebrow>
             <h2 className="mt-5 text-balance text-4xl font-semibold leading-[1.05] text-cream sm:text-5xl">
               Show where you are, <span className="text-gold-grad">from 120 m up.</span>
             </h2>

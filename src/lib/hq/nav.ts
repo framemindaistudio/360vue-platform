@@ -26,9 +26,11 @@ export const hqNav: HqNavGroup[] = [
   {
     title: "Sales",
     items: [
+      { label: "Lead finder", href: "/hq/lead-finder", icon: "MapPinned", roles: SALES_SIDE, description: "Businesses in every place we serve, to contact and convert" },
       { label: "Enquiries", href: "/hq/leads", icon: "Inbox", roles: SALES_SIDE, description: "Website, WhatsApp, Instagram and referral enquiries" },
       { label: "Clients CRM", href: "/hq/crm", icon: "Building2", roles: SALES_SIDE, description: "Pipeline from lead to repeat client" },
       { label: "Quotes", href: "/hq/proposals", icon: "FileSignature", roles: SALES_SIDE, description: "Tour packages and add-ons from the rate card, print, book" },
+      { label: "Campaigns", href: "/hq/campaigns", icon: "Megaphone", roles: SALES_SIDE, description: "Launch offers like Founding 100, with live slot counts" },
     ],
   },
   {
@@ -49,6 +51,7 @@ export const hqNav: HqNavGroup[] = [
     title: "Money",
     items: [
       { label: "Finance", href: "/hq/finance", icon: "ReceiptIndianRupee", roles: OPS, description: "P&L, invoices, expenses, income" },
+      { label: "Payment approvals", href: "/hq/payments", icon: "ShieldCheck", roles: OPS, description: "Verify payments; approving an advance opens the client portal" },
       { label: "Rate Card", href: "/hq/prices", icon: "BadgeIndianRupee", roles: OPS, description: "Every package, add-on and price 360VUE quotes" },
       { label: "Team & Payroll", href: "/hq/team", icon: "Users", roles: STAFF, description: "People, salaries, freelance pay, payslips" },
       { label: "Business Planner", href: "/hq/planner", icon: "Calculator", roles: OPS, description: "Monthly costs, targets, the 90-day plan in numbers" },
