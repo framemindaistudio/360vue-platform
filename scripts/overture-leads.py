@@ -38,6 +38,8 @@ PLACES = {
     "north-goa": ("Calangute", "Goa"), "panaji": ("Panaji", "Goa"), "south-goa": ("Margao", "Goa"),
     "puducherry": ("Puducherry", "Puducherry"),
 }
+# places where the map lookup lands on the district rather than the town: use the town's own centre
+CENTERS = {"udupi-manipal": (13.3409, 74.7421), "belagavi": (15.8497, 74.4977)}
 RADIUS_KM = {"bengaluru": 14, "chennai": 13, "hyderabad": 14, "kochi": 12, "coimbatore": 11, "north-goa": 13, "south-goa": 13, "coorg": 18, "chikkamagaluru": 16, "wayanad": 20, "munnar": 14, "araku-valley": 14, "ooty": 11}
 
 # Overture category (snake_case) → the lead finder's kind of business. First match wins.
@@ -89,7 +91,7 @@ def connect():
 
 def build(con, slug):
     name, state = PLACES[slug]
-    lat, lon = geocode(name, state)
+    lat, lon = CENTERS.get(slug) or geocode(name, state)
     r = RADIUS_KM.get(slug, 10)
     dlat = r / 111.0
     dlon = r / (111.0 * math.cos(math.radians(lat)))
