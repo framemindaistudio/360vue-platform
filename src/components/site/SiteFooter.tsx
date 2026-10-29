@@ -60,7 +60,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2.5 text-sm">
             <li>
               <Link href="/contact" className="text-cream/70 hover:text-sunset">
-                Get a quote
+                Send an enquiry
               </Link>
             </li>
             {contact.map((c) => (

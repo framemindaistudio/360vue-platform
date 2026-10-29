@@ -56,7 +56,7 @@ export default async function HomePage() {
               360° virtual tours and immersive experiences for your business — so customers can explore your space before they visit.
             </p>
             <div className="reveal reveal-d3 mt-9 flex flex-wrap gap-3">
-              <GoldButton href="/contact">Get a Quote</GoldButton>
+              <GoldButton href="/pricing">Pricing</GoldButton>
               <GhostButton href="#demo">View Demo</GhostButton>
             </div>
           </div>

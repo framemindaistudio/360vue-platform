@@ -260,7 +260,7 @@ export function PriceConfigurator({ rates, initialMode = "tour", campaign = null
     }
   }
 
-  if (!tour || !plans.length) return <p className="text-cream/60">Pricing is being updated. Please use Get a Quote.</p>;
+  if (!tour || !plans.length) return <p className="text-cream/60">Pricing is being updated. Please send us an enquiry.</p>;
 
   return (
     <div className="grid gap-8 pb-24 lg:grid-cols-[1fr_400px] lg:items-start lg:pb-0">
