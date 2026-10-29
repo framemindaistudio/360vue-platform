@@ -1,3 +1,5 @@
+import { TERMS } from "@/lib/content/catalog";
+
 /**
  * The words of the public website. Everything here comes from the 360VUE company profile; nothing claims a client,
  * a result, a registration or a number that does not exist. The pictures are illustrative (generated) and the
@@ -7,79 +9,132 @@
 export const NAV = [
   { href: "/services", label: "Services" },
   { href: "/features", label: "Features" },
-  { href: "/skyvue", label: "SkyVUE" },
   { href: "/pricing", label: "Pricing" },
   { href: "/industries", label: "Industries" },
-  { href: "/portfolio", label: "Demo tours" },
-  { href: "/how-it-works", label: "How it works" },
   { href: "/about", label: "About" },
   { href: "/faq", label: "FAQs" },
 ] as const;
 
 export interface Industry {
   id: string;
-  name: string;
-  short: string;
-  image: string;
   icon: string;
-  priority: string;
-  points: string[];
+  name: string;
+  hook: string;
+  shows: string;
+  uses: string[];
+  /** illustrative photo: <image>.webp and <image>-sm.webp in /public */
+  image: string;
 }
 
+/** Who a tour pays off for — the businesses we go after first. Shown on /industries, the home page and the booklets. */
 export const INDUSTRIES: Industry[] = [
   {
-    id: "restaurants",
-    name: "Restaurants & cafés",
-    short: "Seating, ambience, interiors and private rooms.",
-    image: "/media/cafe",
-    icon: "UtensilsCrossed",
-    priority: "Very high",
-    points: ["Let diners see the seating and ambience before they book", "Show private dining, terraces and party areas", "A tour on your website and your Maps listing"],
+    id: "stays",
+    image: "/media/aerial-resort",
+    icon: "TreePalm",
+    name: "Homestays, resorts & eco-stays",
+    hook: "Guests book the room they have already walked into.",
+    shows: "Cottages, room types, pool, dining, the view from the balcony — and where it all sits from the sky.",
+    uses: ["Aerial opening with nearby sights", "Location map", "WhatsApp & booking buttons", "More languages"],
   },
   {
     id: "hotels",
-    name: "Hotels & resorts",
-    short: "Rooms, lobbies, banquet halls and amenities.",
     image: "/media/hotel",
     icon: "Hotel",
-    priority: "High",
-    points: ["Every room type, walked through", "Lobbies, pools, spas and amenities", "SkyVUE aerial opening scene showing the property and what is nearby"],
+    name: "Hotels",
+    hook: "Every room type, compared before checking in.",
+    shows: "Lobby, each room category, banquet and meeting rooms, spa, gym and restaurant.",
+    uses: ["Scene menu by area", "Room-type switch", "Book from the room", "Google Maps"],
   },
   {
-    id: "banquets",
-    name: "Banquet halls & venues",
-    short: "Halls, lawns and stages, walked before the event.",
+    id: "food",
+    image: "/media/cafe",
+    icon: "UtensilsCrossed",
+    name: "Restaurants, cafés & bars",
+    hook: "People choose a table before they choose a dish.",
+    shows: "Seating, ambience, private dining, terrace and the kitchen you are proud of.",
+    uses: ["Menu PDF inside the tour", "Day and night", "WhatsApp table booking", "Google Maps"],
+  },
+  {
+    id: "venues",
     image: "/media/capture-banquet",
     icon: "PartyPopper",
-    priority: "High",
-    points: ["Families and planners walk the hall remotely", "Show stage, seating and décor positions", "Fewer site visits that go nowhere"],
+    name: "Banquet halls & wedding venues",
+    hook: "Families from three cities walk the hall together, on one call.",
+    shows: "Hall, stage, lawns, dining, rooms for the families, parking.",
+    uses: ["Day and night", "Albums of past events", "Festive effects", "Videos inside the tour"],
   },
   {
-    id: "showrooms",
-    name: "Showrooms & retail",
-    short: "Layouts, display areas and the shopping experience.",
-    image: "/media/showroom",
-    icon: "Store",
-    priority: "High",
-    points: ["Customers explore the floor from home", "Display areas and collections, in context", "Virtual showroom with product hotspots"],
-  },
-  {
-    id: "realestate",
-    name: "Real estate",
-    short: "Virtual property previews for developers and agents.",
+    id: "property",
     image: "/media/realestate",
     icon: "Building",
-    priority: "High",
-    points: ["Show-flats and furnished rentals online", "Commercial spaces for remote buyers", "SkyVUE aerial 360° with plot numbers and distances to landmarks"],
+    name: "Real-estate developers & agents",
+    hook: "Buyers shortlist from home and visit only to sign.",
+    shows: "Show flats, amenities, the clubhouse and the view from the balcony.",
+    uses: ["Floor plans with \"you are here\"", "3D dollhouse", "Virtual staging", "Book a site visit"],
   },
   {
-    id: "others",
-    name: "Gyms, clinics & offices",
-    short: "Facilities and layouts, with care for private areas.",
+    id: "land",
+    image: "/media/aerial-hero",
+    icon: "LandPlot",
+    name: "Plotted layouts, farmland & villa projects",
+    hook: "Location sells land — so show the location.",
+    shows: "Every plot from above, roads, boundaries and the distance to the highway, schools and hospitals.",
+    uses: ["Plot & boundary overlays", "Labels that appear as you zoom", "Construction progress", "Private investor previews"],
+  },
+  {
+    id: "retail",
+    image: "/media/showroom",
+    icon: "Store",
+    name: "Showrooms & retail",
+    hook: "Browse the floor at 11 pm, walk in at 11 am to buy.",
+    shows: "Furniture, sarees, jewellery, tiles, sanitaryware, vehicles — in context, with prices.",
+    uses: ["Tap a product", "Enquire about this", "Share one product", "Multi-location tours"],
+  },
+  {
+    id: "education",
+    image: "/media/school",
+    icon: "GraduationCap",
+    name: "Schools, colleges & preschools",
+    hook: "Parents see the classrooms before admission day.",
+    shows: "Classrooms, labs, library, playground, hostel and transport — without opening the gates.",
+    uses: ["Location map of the campus", "More languages", "Info points per facility", "QR on the prospectus"],
+  },
+  {
+    id: "health",
+    image: "/media/clinic",
+    icon: "Stethoscope",
+    name: "Hospitals, clinics & wellness",
+    hook: "A nervous patient walks in already knowing the way.",
+    shows: "Reception, waiting areas, rooms and treatment spaces — private areas never captured.",
+    uses: ["Info points per department", "Directions button", "Google Maps", "More languages"],
+  },
+  {
+    id: "fitness",
     image: "/media/gym",
     icon: "Dumbbell",
-    priority: "Secondary",
-    points: ["Facilities and equipment, explored before joining", "Clinics and offices that put visitors at ease", "Private and sensitive areas never captured"],
+    name: "Gyms, studios & sports clubs",
+    hook: "Show the equipment, not just the logo.",
+    shows: "Floors, equipment, studios, courts, pool and changing rooms.",
+    uses: ["Videos of classes", "WhatsApp trial booking", "Labels on equipment", "Google Maps"],
+  },
+  {
+    id: "work",
+    image: "/media/office",
+    icon: "Briefcase",
+    name: "Coworking, offices & factories",
+    hook: "Clients and new hires see the place before the first meeting.",
+    shows: "Desks, cabins, meeting rooms, the shop floor and the quality lab.",
+    uses: ["Floor plans", "Private tours", "Info points", "Website embed"],
+  },
+  {
+    id: "tourism",
+    image: "/media/pano-aerial",
+    icon: "Mountain",
+    name: "Attractions, estates & tourism",
+    hook: "Travellers plan the trip around what they have already seen.",
+    shows: "Viewpoints, trails, coffee and spice estates, lakes, heritage walks and adventure parks.",
+    uses: ["Aerial opening", "Location map", "Info points with history", "More languages"],
   },
 ];
 
@@ -149,6 +204,11 @@ export const DIVISIONS = [
 ] as const;
 
 export const FAQS: { q: string; a: string; group: string }[] = [
+  { group: "How it works", q: "What happens from the first call to a live tour?", a: TERMS.process.map((p, i) => `${i + 1}. ${p.title} — ${p.detail}`).join(" ") },
+  { group: "How it works", q: "How do I get my space ready for the capture day?", a: "Four things make the difference. Lights on: every light working, and blinds set the same way in every room. Clutter cleared: bags, boxes, cables and paperwork out of sight. People informed: staff and guests know a capture is happening. Private areas listed: tell us what not to capture, and we never do." },
+  { group: "How it works", q: "Do I need to be there during the capture?", a: "Someone who can open every room and switch the lights on should be there at the start. After that we work quietly, viewpoint by viewpoint, around your opening hours." },
+  { group: "How it works", q: "What do I get at the end?", a: "Delivered: a shareable link and code to put the tour on your website, plus anything else agreed in the quote. Published: eligible panoramas published to Google Maps and Street View, under Google's own rules. Hosted: the tour kept online for 12 months; renewal after that is your choice, never automatic." },
+  { group: "How it works", q: "Can I see the tour before it goes live?", a: "Yes. We test it on a phone first — navigation, image clarity, loading and links — then send you a preview link. Your revision rounds are written on the quote." },
   { group: "About 360VUE", q: "Who is behind 360VUE?", a: "360VUE was founded by Hrishikesh Kulkarni (Founder) with Chinmay R M (Co-Founder). 360VUE is a FrameMind AI Studio company: FrameMind AI Studio is our parent company, founded by Chinmay R M." },
   { group: "About 360VUE", q: "Can you also do our photography, video, social media or website?", a: "Yes — through our parent company, FrameMind AI Studio, which delivers photography, videography, social media management, websites, brand identity, custom software, automations and more in-house. See framemindaistudio.com for its full list of services and prices." },
   { group: "Tours", q: "What exactly is a 360° virtual tour?", a: "A set of 360° photographs taken at chosen points in your space, connected so a visitor can look in every direction and move from one point to the next — on a phone, a laptop or a VR headset — as if walking through." },

@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     qualities: [60, 75, 85, 90],
   },
+  async redirects() {
+    return [
+      { source: "/skyvue", destination: "/services#skyvue", permanent: true },
+      { source: "/portfolio", destination: "/", permanent: true },
+      { source: "/how-it-works", destination: "/faq#how-it-works", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

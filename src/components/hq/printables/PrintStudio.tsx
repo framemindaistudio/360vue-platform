@@ -55,6 +55,23 @@ const GENERATORS: Gen[] = [
       { k: "services", label: "Services to include", t: "services", help: "Leave all unticked to include every service." },
     ],
   },
+  ...([
+    ["pricing", "Pricing booklet", "Every plan, add-on, SkyVUE and 3D price, hosting and the multi-service saving — read from the live Rate Card, so it always matches the website."],
+    ["features", "Features booklet", "All 47 tour features in 8 groups, each marked In every tour / Add-on / plan, with the Friday-night customer story, the vision and how a project runs."],
+    ["industries", "Industries booklet", "The 12 kinds of business a tour pays off for, with photos, what each one shows and the features it uses, plus which plan fits which space."],
+  ] as const).map(([kind, title, blurb]): Gen => ({
+    id: `booklet-${kind}`,
+    group: "sales",
+    title,
+    blurb,
+    route: `/hq/print/brochures/booklet/${kind}`,
+    sheet: "8 A4 pages · 2 A3 sheets, folded",
+    fields: [
+      { k: "mode", label: "Print as", t: "select", options: [["print", "Booklet — A3 sheets, both sides, fold & staple"], ["read", "A4 pages in order — for a PDF on WhatsApp / email"]], help: "Booklet: print double-sided on A3, flip on short edge, scale 100%. Fold the stack in half and staple the fold." },
+      { k: "for", label: "Prepared for (optional)", t: "text", ph: "e.g. the client's business", help: "Printed on the cover. Leave empty for a general copy." },
+    ],
+    defaults: { mode: "print" },
+  })),
   {
     id: "id-cards",
     group: "badges",
@@ -264,7 +281,7 @@ export function PrintStudio() {
         icon="Printer"
         eyebrow="Print Studio"
         title="Printables"
-        description="Everything 360VUE prints, in one place: the rate card for client meetings, team IDs, visiting cards and letterhead. Pick a template, fill in a few details, and print or save as PDF. All sheets are laid out in millimetres, so they come out as they preview."
+        description="Everything 360VUE prints, in one place: the rate card and three folded booklets for client meetings, team IDs, visiting cards and letterhead. Pick a template, fill in a few details, and print or save as PDF. All sheets are laid out in millimetres, so they come out as they preview."
         actions={
           <Button href="/hq/settings" variant="secondary" size="sm">
             Company details &amp; letterhead data

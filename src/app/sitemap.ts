@@ -9,13 +9,10 @@ const PAGES: { path: string; priority: number; changeFrequency: "weekly" | "mont
   { path: "/services", priority: 0.9, changeFrequency: "monthly" },
   { path: "/features", priority: 0.9, changeFrequency: "monthly" },
   { path: "/pricing", priority: 0.9, changeFrequency: "monthly" },
-  { path: "/skyvue", priority: 0.9, changeFrequency: "monthly" },
   { path: "/locations", priority: 0.8, changeFrequency: "monthly" },
   ...CITIES.map((c) => ({ path: `/locations/${c.slug}`, priority: 0.8, changeFrequency: "monthly" as const })),
   { path: "/contact", priority: 0.9, changeFrequency: "monthly" },
-  { path: "/portfolio", priority: 0.8, changeFrequency: "weekly" },
   { path: "/industries", priority: 0.8, changeFrequency: "monthly" },
-  { path: "/how-it-works", priority: 0.7, changeFrequency: "monthly" },
   { path: "/faq", priority: 0.7, changeFrequency: "monthly" },
   { path: "/about", priority: 0.6, changeFrequency: "monthly" },
 ];

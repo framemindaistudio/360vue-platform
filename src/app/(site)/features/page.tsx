@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  BookOpen, Briefcase, Building, Check, Dumbbell, Footprints, GraduationCap, Hotel, LandPlot, Map, MessageCircle, Mountain,
-  Palette, PartyPopper, Search, ShoppingBag, Sparkles, Stethoscope, Store, TreePalm, UtensilsCrossed, type LucideIcon,
-} from "lucide-react";
+import { BookOpen, Footprints, Map, MessageCircle, Palette, Search, ShoppingBag, Sparkles, type LucideIcon } from "lucide-react";
 import { CtaBand, Eyebrow, GhostButton, GoldButton, PageHero, SectionHead } from "@/components/site/bits";
-import { AUDIENCES, FEATURE_GROUPS, HOW_LABEL, VISION, type How } from "@/lib/content/tour-features";
+import { FEATURE_GROUPS, HOW_LABEL, VISION, type How } from "@/lib/content/tour-features";
 
 export const metadata: Metadata = {
   title: "Tour features — what your 360° virtual tour can do",
@@ -14,10 +10,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/features" },
 };
 
-const ICONS: Record<string, LucideIcon> = {
-  BookOpen, Briefcase, Building, Dumbbell, Footprints, GraduationCap, Hotel, LandPlot, Map, MessageCircle, Mountain, Palette,
-  PartyPopper, Search, ShoppingBag, Sparkles, Stethoscope, Store, TreePalm, UtensilsCrossed,
-};
+const ICONS: Record<string, LucideIcon> = { BookOpen, Footprints, Map, MessageCircle, Palette, Search, ShoppingBag, Sparkles };
 
 function Icon({ name, className }: { name: string; className?: string }) {
   const I = ICONS[name] ?? Sparkles;
@@ -49,7 +42,7 @@ export default function FeaturesPage() {
       <PageHero
         eyebrow="Tour features"
         title={<>Not a photo gallery. <span className="text-gold-grad">A front door that never closes.</span></>}
-        intro={`A 360VUE tour lets customers walk through your space, ask it questions and reach you — from any phone, at any hour. Here are all ${total} things it can do, and who each one is for.`}
+        intro={`A 360VUE tour lets customers walk through your space, ask it questions and reach you — from any phone, at any hour. Here are all ${total} things it can do.`}
         image="/media/pano-lobby.webp"
       />
 
@@ -136,38 +129,9 @@ export default function FeaturesPage() {
         ))}
         <div className="reveal flex flex-wrap justify-center gap-3 pt-4">
           <GoldButton href="/pricing">Build your tour &amp; see the price</GoldButton>
-          <GhostButton href="/portfolio">Try a demo tour</GhostButton>
+          <GhostButton href="/industries">Who it is for</GhostButton>
         </div>
       </div>
-
-      {/* ── who it is for ──────────────────────────────────── */}
-      <section id="who" className="scroll-mt-24 border-y border-cream/10 bg-night/60 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead eyebrow="Who it is for" title={<>If customers need to <span className="text-gold-grad">see it to choose it,</span> a tour pays off.</>} intro="These are the businesses we work with first — and the features each of them leans on most." />
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {AUDIENCES.map((a, i) => (
-              <article key={a.id} id={a.id} className={`reveal reveal-d${(i % 3) + 1} flex flex-col rounded-3xl border border-cream/10 bg-midnight p-6 sm:p-7`}>
-                <span className="grid size-11 place-items-center rounded-2xl border border-sunset/30 bg-sunset/10">
-                  <Icon name={a.icon} className="size-5 text-sunset" />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold text-cream">{a.name}</h3>
-                <p className="mt-1 text-sm font-medium text-sand">{a.hook}</p>
-                <p className="mt-3 text-sm leading-relaxed text-cream/60">{a.shows}</p>
-                <ul className="mt-5 space-y-2 border-t border-cream/10 pt-4">
-                  {a.uses.map((u) => (
-                    <li key={u} className="flex gap-2 text-[13px] text-cream/75">
-                      <Check className="mt-0.5 size-3.5 shrink-0 text-sunset" aria-hidden /> {u}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-          <p className="reveal mt-8 text-center text-sm text-cream/50">
-            Not on the list? If your space helps people decide, <Link href="/contact" className="text-sunset hover:underline">tell us about it</Link>.
-          </p>
-        </div>
-      </section>
 
       {/* ── vision ──────────────────────────────────────────── */}
       <section className="relative isolate overflow-hidden py-24 sm:py-32">

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, Box, Building, Camera, Dumbbell, Globe, Hotel, MapPin, Navigation, PartyPopper, Plane, Rotate3d, Store, UtensilsCrossed, type LucideIcon } from "lucide-react";
+import { ArrowRight, Box, Briefcase, Building, Camera, Dumbbell, Globe, GraduationCap, Hotel, LandPlot, MapPin, Mountain, Navigation, PartyPopper, Plane, Rotate3d, Stethoscope, Store, TreePalm, UtensilsCrossed, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const ICONS: Record<string, LucideIcon> = { Box, Building, Camera, Dumbbell, Globe, Hotel, MapPin, Navigation, PartyPopper, Plane, Rotate3d, Store, UtensilsCrossed };
+const ICONS: Record<string, LucideIcon> = { Box, Briefcase, Building, Camera, Dumbbell, Globe, GraduationCap, Hotel, LandPlot, MapPin, Mountain, Navigation, PartyPopper, Plane, Rotate3d, Stethoscope, Store, TreePalm, UtensilsCrossed };
 
 export function SiteIcon({ name, className }: { name: string; className?: string }) {
   const I = ICONS[name] ?? Rotate3d;
@@ -82,7 +82,7 @@ export function CtaBand() {
           <p className="mt-5 text-lg text-cream/65">Tell us about your space. You get a written scope, a capture date and a clear price before anything starts.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <GoldButton href="/contact">Get a Quote</GoldButton>
-            <GhostButton href="/portfolio">Try a demo tour</GhostButton>
+            <GhostButton href="/pricing">See prices</GhostButton>
           </div>
         </div>
       </div>

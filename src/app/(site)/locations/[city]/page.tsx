@@ -105,7 +105,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-cream/70 sm:text-lg">{c.intro}</p>
           <div className="mt-9 flex flex-wrap gap-3">
             <GoldButton href="/pricing">Price your tour</GoldButton>
-            <GhostButton href="/skyvue">See SkyVUE aerial</GhostButton>
+            <GhostButton href="/services#skyvue">See SkyVUE aerial</GhostButton>
           </div>
         </div>
       </section>
@@ -117,7 +117,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {[
               { Icon: Rotate3d, t: "360° virtual tour", p: `from ${inr(tourFrom)}`, d: "Every room in 360°, arrows to walk through, a contact panel with your phone and email, published on Google Maps and shared as one link.", href: "/services" },
-              { Icon: Plane, t: "SkyVUE aerial 360°", p: `from ${inr(skyFrom)} · flights from ${SKYVUE_LAUNCH}`, d: c.sky, href: "/skyvue" },
+              { Icon: Plane, t: "SkyVUE aerial 360°", p: `from ${inr(skyFrom)} · flights from ${SKYVUE_LAUNCH}`, d: c.sky, href: "/services#skyvue" },
               { Icon: MapPin, t: "Tour + SkyVUE in one link", p: "linking included", d: "Start from the sky with landmarks and distances labelled, tap a building and walk inside — one link to share.", href: "/pricing?need=both" },
             ].map(({ Icon, t, p, d, href }) => (
               <Link key={t} href={href} className="reveal group flex flex-col rounded-3xl border border-cream/10 bg-night/70 p-7 transition-colors hover:border-sunset/50">

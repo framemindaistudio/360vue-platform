@@ -105,9 +105,6 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHead eyebrow="Try it now" title={<>Don&apos;t describe your space. <span className="text-gold-grad">Let them walk in.</span></>} intro="Drag to look around, pinch or scroll to zoom. This is what your customers get — on your website, in a WhatsApp link and on your Maps listing." />
-            <Link href="/portfolio" className="reveal inline-flex items-center gap-1.5 text-sm font-semibold text-sunset hover:underline">
-              More demo tours <ArrowUpRight className="size-4" />
-            </Link>
           </div>
           <div className="reveal mt-12 overflow-hidden rounded-3xl border border-cream/10 shadow-[0_40px_120px_-40px_rgba(245,158,76,0.35)]">
             <PanoViewer scenes={DEMO_SCENES} className="aspect-[4/5] w-full sm:aspect-[16/9]" />
@@ -137,7 +134,7 @@ export default async function HomePage() {
           </ol>
           <div className="reveal mt-10 flex flex-wrap gap-3">
             <GoldButton href="/features">See everything a tour can do</GoldButton>
-            <GhostButton href="/features#who">Who it is for</GhostButton>
+            <GhostButton href="/industries">Who it is for</GhostButton>
           </div>
         </div>
       </section>
@@ -203,7 +200,7 @@ export default async function HomePage() {
               A drone 360° of your property with the highway, schools, hospital and lake labelled with distances. Your buildings are labelled too: tap the clubhouse, the café or the entrance and its 360° opens, so people walk inside. All in one link.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <GoldButton href="/skyvue">Explore SkyVUE</GoldButton>
+              <GoldButton href="/services#skyvue">Explore SkyVUE</GoldButton>
               <GhostButton href="/pricing?need=sky">See prices</GhostButton>
             </div>
           </div>
@@ -253,7 +250,7 @@ export default async function HomePage() {
                 <div className="flex h-full flex-col justify-end p-6">
                   <SiteIcon name={ind.icon} className="size-6 text-sunset" />
                   <h3 className="mt-3 text-xl font-semibold text-cream">{ind.name}</h3>
-                  <p className="mt-1 text-sm text-cream/65">{ind.short}</p>
+                  <p className="mt-1 text-sm text-cream/65">{ind.hook}</p>
                 </div>
               </Link>
             ))}
@@ -298,7 +295,7 @@ export default async function HomePage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[1fr_1.4fr] lg:px-8">
           <SectionHead eyebrow="FAQs" title="Questions owners ask first." intro={<Link href="/faq" className="text-sunset hover:underline">See every answer →</Link>} />
           <div className="divide-y divide-cream/10 border-y border-cream/10">
-            {FAQS.filter((_, i) => [0, 4, 6, 8].includes(i)).map((f) => (
+            {FAQS.filter((f) => ["What happens from the first call to a live tour?", "How much does a tour cost?", "Can the tour appear on Google Maps?", "How is the tour hosted? Is hosting forever?"].includes(f.q)).map((f) => (
               <details key={f.q} className="reveal group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-cream">
                   {f.q}

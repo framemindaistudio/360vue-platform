@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Check } from "lucide-react";
-import { CtaBand, PageHero, SiteIcon } from "@/components/site/bits";
+import { CtaBand, GhostButton, GoldButton, PageHero, SiteIcon } from "@/components/site/bits";
 import { INDUSTRIES } from "@/lib/site-content";
 
 export const metadata: Metadata = {
-  title: "Industries",
-  description: "Virtual tours for restaurants and cafés, hotels and resorts, banquet halls, showrooms, real estate, gyms, clinics and offices.",
+  title: "Industries — who a 360° virtual tour is for",
+  description:
+    "360° virtual tours for homestays and resorts, hotels, restaurants, wedding venues, real-estate developers, plotted layouts, showrooms, schools, hospitals, gyms, offices and tourism — and the features each one uses.",
   alternates: { canonical: "/industries" },
 };
 
@@ -15,43 +15,60 @@ export default function IndustriesPage() {
     <>
       <PageHero
         eyebrow="Industries"
-        title={<>Where the space <span className="text-gold-grad">is the decision.</span></>}
-        intro="We work with businesses whose physical environment matters when a customer chooses: an attractive, well-kept space, customers who visit in person, and several rooms or areas worth exploring."
+        title={<>If customers need to <span className="text-gold-grad">see it to choose it,</span> a tour pays off.</>}
+        intro="Twelve kinds of business we work with — what each one shows in its tour, and the features it uses most."
         image="/media/hotel.webp"
       />
-      <div className="mx-auto max-w-7xl space-y-6 px-4 pb-24 sm:px-6 lg:px-8">
+
+      {/* quick jump: every industry on one line */}
+      <nav aria-label="Industries" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <ul className="flex flex-wrap gap-2">
+          {INDUSTRIES.map((ind) => (
+            <li key={ind.id}>
+              <a href={`#${ind.id}`} className="inline-flex items-center gap-2 rounded-full border border-cream/15 px-3.5 py-2 text-xs font-medium text-cream/75 transition-colors hover:border-sunset hover:text-sunset">
+                <SiteIcon name={ind.icon} className="size-4 text-sunset" />
+                {ind.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div className="mx-auto mt-12 grid max-w-7xl gap-5 px-4 pb-20 sm:grid-cols-2 sm:px-6 lg:grid-cols-3 lg:px-8">
         {INDUSTRIES.map((ind, i) => (
-          <section key={ind.id} id={ind.id} className="reveal scroll-mt-24 overflow-hidden rounded-3xl border border-cream/10 bg-night/70">
-            <div className={`grid lg:grid-cols-2 ${i % 2 ? "lg:[&>*:first-child]:order-2" : ""}`}>
-              <div className="relative min-h-[260px]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`${ind.image}.webp`} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-              </div>
-              <div className="p-8 sm:p-12">
-                <div className="flex items-center gap-3">
-                  <span className="grid size-11 place-items-center rounded-2xl border border-sunset/30 bg-sunset/10">
-                    <SiteIcon name={ind.icon} className="size-5 text-sunset" />
-                  </span>
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.25em] text-sand/60">Priority · {ind.priority}</span>
-                </div>
-                <h2 className="mt-6 text-3xl font-semibold text-cream sm:text-4xl">{ind.name}</h2>
-                <p className="mt-3 text-cream/65">{ind.short}</p>
-                <ul className="mt-7 space-y-3">
-                  {ind.points.map((p) => (
-                    <li key={p} className="flex gap-3 text-sm text-cream/75">
-                      <Check className="mt-0.5 size-4 shrink-0 text-sunset" aria-hidden /> {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <article key={ind.id} id={ind.id} className={`reveal reveal-d${(i % 3) + 1} flex scroll-mt-24 flex-col overflow-hidden rounded-3xl border border-cream/10 bg-night/70`}>
+            <div className="relative aspect-[16/10]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`${ind.image}-sm.webp`} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-night via-night/20 to-transparent" />
+              <span className="absolute bottom-4 left-5 grid size-11 place-items-center rounded-2xl border border-sunset/40 bg-midnight/80 backdrop-blur">
+                <SiteIcon name={ind.icon} className="size-5 text-sunset" />
+              </span>
             </div>
-          </section>
+            <div className="flex flex-1 flex-col p-6">
+              <h2 className="text-xl font-semibold text-cream">{ind.name}</h2>
+              <p className="mt-1.5 text-sm font-medium text-sand">{ind.hook}</p>
+              <p className="mt-3 text-sm leading-relaxed text-cream/60">{ind.shows}</p>
+              <p className="mt-5 border-t border-cream/10 pt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-cream/40">Features they use most</p>
+              <ul className="mt-3 space-y-2">
+                {ind.uses.map((u) => (
+                  <li key={u} className="flex gap-2 text-[13px] text-cream/75">
+                    <Check className="mt-0.5 size-3.5 shrink-0 text-sunset" aria-hidden /> {u}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </article>
         ))}
-        <p className="text-center text-xs text-cream/40">Photographs are illustrative spaces, not client work.</p>
-        <p className="reveal pt-6 text-center text-sm text-cream/60">
-          Homestays, schools, hospitals, layouts, coworking, attractions and more —{" "}
-          <Link href="/features#who" className="font-semibold text-sunset hover:underline">see all 12 kinds of business we work with, and the features each one uses</Link>.
-        </p>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 pb-24 text-center sm:px-6 lg:px-8">
+        <p className="text-sm text-cream/60">Not on the list? If your space helps people decide, it is a fit.</p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <GoldButton href="/contact">Tell us about your space</GoldButton>
+          <GhostButton href="/features">See every feature</GhostButton>
+        </div>
+        <p className="mt-8 text-xs text-cream/40">Photographs are illustrative spaces, not client work.</p>
       </div>
       <CtaBand />
     </>

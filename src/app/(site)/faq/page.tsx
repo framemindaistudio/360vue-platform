@@ -4,7 +4,7 @@ import { FAQS } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "FAQs",
-  description: "Hosting, Google Maps, privacy, turnaround and pricing — answers about 360VUE virtual tours.",
+  description: "How it works, hosting, Google Maps, privacy, turnaround and pricing — answers about 360VUE virtual tours.",
   alternates: { canonical: "/faq" },
 };
 
@@ -18,11 +18,11 @@ export default function FaqPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
-      <PageHero eyebrow="FAQs" title={<>Straight <span className="text-gold-grad">answers.</span></>} intro="Hosting, Google Maps, privacy, turnaround and pricing. If your question is not here, ask us — we reply to every message." />
+      <PageHero eyebrow="FAQs" title={<>Straight <span className="text-gold-grad">answers.</span></>} intro="How it works, hosting, Google Maps, privacy and pricing. If your question is not here, ask us — we reply to every message." />
       <section className="pb-24">
         <div className="mx-auto max-w-4xl space-y-14 px-4 sm:px-6 lg:px-8">
           {groups.map((g) => (
-            <div key={g}>
+            <div key={g} id={g.toLowerCase().replace(/[^a-z0-9]+/g, "-")} className="scroll-mt-24">
               <h2 className="reveal text-[11px] font-semibold uppercase tracking-[0.3em] text-sunset">{g}</h2>
               <div className="mt-4 divide-y divide-cream/10 border-y border-cream/10">
                 {FAQS.filter((f) => f.group === g).map((f) => (

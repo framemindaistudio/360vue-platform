@@ -9,6 +9,8 @@ import { CtaBand, PageHero, SectionHead } from "@/components/site/bits";
 import { DIVISIONS } from "@/lib/site-content";
 import { publicRateCard } from "@/lib/public-rates";
 import { formatINR } from "@/lib/utils";
+import { SKYVUE_LAUNCH } from "@/lib/content/catalog";
+import { COMBINED_DEMO_SCENES, PanoViewer } from "@/components/site/PanoViewer";
 
 export const metadata: Metadata = {
   title: "Services & packages",
@@ -45,6 +47,12 @@ export default async function ServicesPage() {
                   </li>
                 ))}
               </ul>
+              {d.id === "skyvue" && (
+                <p className="reveal mt-6 rounded-2xl border border-sunset/25 bg-sunset/5 px-5 py-4 text-sm leading-relaxed text-cream/70">
+                  Drone flights start in <strong className="text-sunset">{SKYVUE_LAUNCH}</strong>. Pre-book now to lock today&apos;s price.{" "}
+                  <Link href="/pricing?need=sky" className="font-semibold text-sunset hover:underline">Price your SkyVUE →</Link>
+                </p>
+              )}
               {d.id === "visuals" && (
                 <p className="reveal mt-6 rounded-2xl border border-sunset/25 bg-sunset/5 px-5 py-4 text-sm leading-relaxed text-cream/70">
                   Photography, videography and social media are delivered in-house by our parent company,{" "}
@@ -56,6 +64,15 @@ export default async function ServicesPage() {
               )}
             </div>
           </div>
+          {d.id === "skyvue" && (
+            <div className="mx-auto mt-14 max-w-7xl px-4 sm:px-6 lg:px-8">
+              <p className="reveal text-center text-sm font-semibold text-cream">Try it: tap a building in the aerial view to go inside, then fly back up.</p>
+              <div className="reveal mt-5 overflow-hidden rounded-3xl border border-cream/10">
+                <PanoViewer scenes={COMBINED_DEMO_SCENES} className="aspect-[4/5] w-full sm:aspect-[16/9]" />
+              </div>
+              <p className="mt-3 text-center text-xs text-cream/40">Demo of an illustrative space, not a client project.</p>
+            </div>
+          )}
         </section>
       ))}
 
