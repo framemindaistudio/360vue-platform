@@ -31,7 +31,7 @@ export function usePrintPeople() {
   const people = useMemo(() => {
     const team = records.filter((r) => r.status !== "inactive");
     const founders: BaseRecord[] = site.founders
-      .filter((f) => !team.some((m) => norm(m.name) === norm(f.name)))
+      .filter((f) => !records.some((m) => m.founderId === f.id || norm(m.name) === norm(f.name)))
       .map((f) => ({ id: `founder-${f.id}`, name: f.name, role: f.role, type: "Full-time", status: "active" }) as BaseRecord);
     return [...founders, ...team];
   }, [records]);

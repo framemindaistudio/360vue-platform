@@ -48,7 +48,8 @@ function PayrollInner() {
 
   const memberMap = useMemo(() => new Map(team.map((m) => [m.id, m])), [team]);
   const slips = useMemo(() => payroll.filter((p) => str(p.month) === month), [payroll, month]);
-  const missing = useMemo(() => team.filter((m) => str(m.status) === "active" && !slips.some((p) => p.memberId === m.id)), [team, slips]);
+  // founders draw no payslip until a salary is set on their record
+  const missing = useMemo(() => team.filter((m) => str(m.status) === "active" && !slips.some((p) => p.memberId === m.id) && !(m.founderId && !num(m.monthlyPay) && !num(m.unitRate))), [team, slips]);
 
   const totals = useMemo(() => {
     const net = slips.reduce((s, p) => s + payrollNet(p), 0);

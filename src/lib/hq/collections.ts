@@ -707,6 +707,8 @@ export const collections: CollectionDef[] = [
         table: true,
         width: "half",
       },
+      { key: "founderId", label: "Founder", type: "select", options: opts(["hrishikesh", "Hrishikesh Kulkarni"], ["chinmay", "Chinmay R M"]), width: "third", help: "Links this record to a founder in the company profile: visiting cards, ID cards and the website use it. Only one record per founder." },
+      { key: "login", label: "HQ login", type: "text", placeholder: "e.g. chinmay", width: "third", help: "The username this person signs in to HQ with (Settings → Logins)." },
       { key: "type", label: "Engagement", type: "select", options: opts("Full-time", "Part-time", "Freelance", "Intern"), default: "Intern", table: true, width: "third" },
       { key: "status", label: "Status", type: "select", options: opts("onboarding", "active", "inactive"), default: "active", table: true, width: "third" },
       { key: "joinDate", label: "Joined", type: "date", width: "third" },

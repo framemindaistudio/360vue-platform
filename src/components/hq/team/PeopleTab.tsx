@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { Check, ClipboardCheck, Loader2, Mail, Pencil, Phone, X } from "lucide-react";
 import { CollectionManager } from "@/components/hq/CollectionManager";
+import { site } from "@/lib/site";
 import { useCollection, useHq } from "@/components/hq/data";
 import { EmptyState, Loading, StatCard } from "@/components/hq/ui";
 import { Badge, statusTone } from "@/components/ui/Badge";
@@ -27,11 +28,22 @@ export function PeopleTab() {
   const [openId, setOpenId] = useState<string | null>(null);
   const [checklistId, setChecklistId] = useState<string | null>(null);
 
+  // founders first (in the company profile's order), then everyone else by status and name
+  const founderRank = (m: Rec) => {
+    const i = site.founders.findIndex((f) => f.id === str(m.founderId));
+    return i < 0 ? 99 : i;
+  };
   const members = useMemo(
     () =>
-      [...team].sort((a, b) => (STATUS_ORDER[str(a.status)] ?? 3) - (STATUS_ORDER[str(b.status)] ?? 3) || str(a.name).localeCompare(str(b.name))),
+      [...team].sort((a, b) => founderRank(a) - founderRank(b) || (STATUS_ORDER[str(a.status)] ?? 3) - (STATUS_ORDER[str(b.status)] ?? 3) || str(a.name).localeCompare(str(b.name))),
     [team],
   );
+  // a founder without a record yet (e.g. a fresh HQ): offer to add their details — never created behind your back
+  const missingFounders = site.founders.filter((f) => !team.some((m) => str(m.founderId) === f.id || str(m.name).trim().toLowerCase() === f.name.toLowerCase()));
+  const addFounder = async (f: (typeof site.founders)[number]) => {
+    const rec = await save({ name: f.name, role: f.role, founderId: f.id, login: f.id, type: "Full-time", status: "active" });
+    setOpenId(rec.id);
+  };
 
   const stats = useMemo(() => {
     const active = team.filter((m) => str(m.status) === "active").length;
@@ -53,6 +65,20 @@ export function PeopleTab() {
         <StatCard label="Onboarding" value={stats.onboarding} sub="Still finishing the onboarding checklist" />
         <StatCard label="Live projects" value={stats.live} sub="Across the whole team" tone="dark" />
       </div>
+
+      {!loading && canEdit && missingFounders.length > 0 && (
+        <div className="rounded-[var(--radius-md)] border border-dashed border-graphite/30 p-4">
+          <p className="text-sm font-semibold">Founders not in Team &amp; Payroll yet</p>
+          <p className="mt-1 text-xs text-charcoal">Add their record once — visiting cards, ID cards and payroll then use it, linked to their HQ login.</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {missingFounders.map((f) => (
+              <button key={f.id} type="button" onClick={() => void addFounder(f)} className="rounded border border-graphite/25 px-3 py-1.5 text-sm font-semibold hover:bg-graphite/5">
+                Add {f.name}&apos;s details
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {loading ? (
         <Loading label="Loading team…" />
@@ -126,6 +152,7 @@ function MemberCard({ member, projects, shoots, year, today, canEdit, onEdit, on
           <h3 className="truncate text-[17px] font-bold leading-tight tracking-tight">{name}</h3>
           <p className="truncate text-sm text-charcoal">{str(member.role) || "Role not set"}</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
+            {str(member.founderId) && <Badge tone="dark">Founder</Badge>}
             {str(member.type) && <Badge tone="outline">{str(member.type)}</Badge>}
             <Badge tone={statusTone(status)} dot>
               {status}
@@ -136,6 +163,11 @@ function MemberCard({ member, projects, shoots, year, today, canEdit, onEdit, on
       </div>
 
       <div className="flex flex-1 flex-col gap-4 px-5 pb-5">
+        {str(member.login) && (
+          <p className="text-xs text-blueprint">
+            HQ login: <span className="font-mono font-semibold text-graphite">{str(member.login)}</span>
+          </p>
+        )}
         {(phone || email) && (
           <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-sm">
             {phone && (

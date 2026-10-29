@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { apiEditor, apiUser } from "@/lib/hq/auth";
 import { apiError } from "@/lib/hq/api";
 import { getCollection } from "@/lib/hq/collections";
-import { deleteRecord, getRecord, listRecords, upsertMany, upsertRecord } from "@/lib/hq/records";
+import { deleteRecord, getRecord, listRecords, upsertMany, upsertRecord, ValidationError } from "@/lib/hq/records";
+import { site } from "@/lib/site";
 import { can, LEADERSHIP, OPS, STAFF } from "@/lib/hq/roles";
 import { storeInfo } from "@/lib/store";
 import { deleteProject, ProjectHasInvoices } from "@/lib/hq/project-delete";
@@ -70,6 +71,24 @@ function stampPayments(next: Record<string, unknown>, prev: Record<string, unkno
   return { ...next, payments };
 }
 
+/**
+ * A founder has exactly one Team & Payroll record. A new member with a founder's name is linked to that founder (so
+ * cards and ID cards use it instead of the profile entry), and a second record for the same founder is refused.
+ */
+async function linkFounder(record: Record<string, unknown>) {
+  const norm = (v: unknown) => String(v ?? "").trim().toLowerCase().replace(/\s+/g, " ");
+  const out = { ...record };
+  const byName = site.founders.find((f) => norm(f.name) === norm(out.name));
+  if (!out.founderId && byName) out.founderId = byName.id;
+  if (out.founderId) {
+    const f = site.founders.find((x) => x.id === out.founderId);
+    if (f && !String(out.login ?? "").trim()) out.login = f.id;
+    const other = (await listRecords("team")).find((m) => m.id !== out.id && (m.founderId === out.founderId || (!m.founderId && norm(m.name) === norm(f?.name))));
+    if (other) throw new ValidationError([`${f?.name ?? "This founder"} already has a Team & Payroll record (“${String(other.name)}”). Edit that one instead.`]);
+  }
+  return out;
+}
+
 async function guarded(name: string, record: Record<string, unknown>, by: string) {
   const prev = record.id ? await getRecord(name, String(record.id)) : null;
   if (name === "leads") {
@@ -81,6 +100,7 @@ async function guarded(name: string, record: Record<string, unknown>, by: string
     return out;
   }
   if (name === "invoices") return stampPayments(record, prev, by);
+  if (name === "team") return linkFounder(record);
   const keep = name === "tasks" ? DEV_TASK_KEYS : name === "projects" ? DEV_PROJECT_KEYS : null;
   if (keep) {
     const out = { ...record };
