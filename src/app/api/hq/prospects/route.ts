@@ -2,15 +2,16 @@ import { NextResponse } from "next/server";
 import { apiEditor, apiUser } from "@/lib/hq/auth";
 import { apiError } from "@/lib/hq/api";
 import { SALES_SIDE } from "@/lib/hq/roles";
-import { convertProspect, fetchFromOsm, importCsv, readPlace, summary, updateProspect } from "@/lib/hq/prospects";
+import { addFound, convertProspect, importCsv, placeCenter, readPlace, summary, updateProspect } from "@/lib/hq/prospects";
 
-/** OpenStreetMap can take a while to answer for a big city. */
-export const maxDuration = 60;
+/** Saving a list to the data repository can take a few seconds. */
+export const maxDuration = 30;
 
 /**
  * Lead finder.
  * GET → counts for every place · GET ?city= → that place's list
- * POST { action: "fetch" | "import" | "update" | "convert", city, … }
+ * POST { action: "center" | "add" | "import" | "update" | "convert", city, … }
+ *   (the browser searches OpenStreetMap itself — see lib/osm-leads.ts — and sends what it found with "add")
  */
 export async function GET(req: Request) {
   const { error } = await apiUser(SALES_SIDE);
@@ -32,8 +33,10 @@ export async function POST(req: Request) {
     const body = (await req.json()) as Record<string, unknown>;
     const city = String(body.city ?? "");
     switch (body.action) {
-      case "fetch":
-        return NextResponse.json(await fetchFromOsm(city, user.name));
+      case "center":
+        return NextResponse.json(await placeCenter(city, user.name));
+      case "add":
+        return NextResponse.json(await addFound(city, body.found, user.name));
       case "import":
         return NextResponse.json(await importCsv(city, String(body.csv ?? "").slice(0, 2_000_000), user.name));
       case "update":
@@ -49,6 +52,6 @@ export async function POST(req: Request) {
 }
 
 function fail(e: unknown) {
-  if (e instanceof Error && /^(Unknown location|Business not found|No “name”|The file needs|Could not locate|OpenStreetMap is busy)/.test(e.message)) return NextResponse.json({ error: e.message }, { status: 400 });
+  if (e instanceof Error && /^(Unknown location|Business not found|Nothing to add|No “name”|The file needs|Could not locate|OpenStreetMap is busy)/.test(e.message)) return NextResponse.json({ error: e.message }, { status: 400 });
   return apiError(e);
 }

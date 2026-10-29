@@ -7,6 +7,7 @@ import { Input, Select } from "@/components/ui/form";
 import { PageHeader } from "@/components/hq/ui";
 import { api, useHq } from "@/components/hq/data";
 import { CITIES, STATES } from "@/lib/locations";
+import { runSearch, searchQuery, SEARCHES, type FoundBusiness } from "@/lib/osm-leads";
 import { cn } from "@/lib/utils";
 
 interface Prospect {
@@ -88,12 +89,32 @@ export function LeadFinder() {
     setError("");
     setMsg("");
     try {
-      const j = await post({ action: "fetch" });
-      setMsg(`OpenStreetMap had ${j.foundOnMap} matching businesses here; ${j.added} new added (${j.total} on the list).`);
+      // 1 · where to search (HQ looks the place up once)
+      const { center, radius } = (await post({ action: "center" })) as unknown as { center: { lat: number; lon: number }; radius: number };
+      // 2 · five small searches from this browser, each trying the map servers in turn (no time limit from HQ)
+      const found: FoundBusiness[] = [];
+      const skipped: string[] = [];
+      for (let i = 0; i < SEARCHES.length; i++) {
+        setMsg(`Searching OpenStreetMap — ${SEARCHES[i].label} (${i + 1} of ${SEARCHES.length})…${found.length ? ` ${found.length} found so far.` : ""}`);
+        try {
+          found.push(...(await runSearch(searchQuery(i, center.lat, center.lon, radius))));
+        } catch {
+          skipped.push(SEARCHES[i].label);
+        }
+      }
+      if (!found.length && skipped.length === SEARCHES.length) throw new Error("The OpenStreetMap servers are all busy right now. Try again in a few minutes.");
+      // 3 · HQ saves the new ones
+      setMsg(`Saving ${found.length} businesses…`);
+      const j = await post({ action: "add", found });
+      setMsg(
+        `Found ${found.length} businesses on the map; ${j.added} new added (${j.total} on the list).` +
+          (skipped.length ? ` Skipped because the map servers were busy: ${skipped.join(", ")} — run it again later to add them.` : ""),
+      );
       loadCity(city);
       loadSummary();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not fetch.");
+      setMsg("");
+      setError(e instanceof Error ? e.message : "Could not search the map.");
     } finally {
       setBusy("");
     }
@@ -207,7 +228,7 @@ export function LeadFinder() {
               </div>
             )}
           </div>
-          <p className="mt-1 text-xs text-charcoal">CSV columns: name (required), phone, email, website, category, address, notes. Map data © OpenStreetMap contributors (ODbL). Smaller towns have fewer businesses mapped — add your own lists for them.</p>
+          <p className="mt-1 text-xs text-charcoal">CSV columns: name (required), phone, email, website, category, address, notes. Business data © Overture Maps Foundation and © OpenStreetMap contributors. Lists come preloaded from Overture; “Find businesses on the map” tops them up from OpenStreetMap (its public servers are sometimes busy — try again later if so).</p>
           {msg && <p className="mt-3 rounded border border-lime/50 bg-lime/10 px-3 py-2 text-sm">{msg}</p>}
           {error && <p className="mt-3 rounded border border-bad/30 bg-bad/10 px-3 py-2 text-sm text-bad">{error}</p>}
 

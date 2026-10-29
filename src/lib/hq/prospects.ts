@@ -3,12 +3,15 @@ import { store, StoreConflictError } from "@/lib/store";
 import { CITIES, cityBySlug, stateOf } from "@/lib/locations";
 import { upsertRecord } from "./records";
 import { uid } from "@/lib/utils";
+import { radiusOf } from "@/lib/osm-leads";
 
 /*
  * Lead finder: businesses in each place 360VUE serves, to contact and turn into clients.
  *
- * Source: OpenStreetMap (© OpenStreetMap contributors, ODbL) through the Overpass API — free, and legal to store and
- * use with attribution. Google Maps is not scraped: it breaks Google's terms, and the Places API forbids keeping its
+ * Sources: Overture Maps places (© Overture Maps Foundation, CDLA-Permissive-2.0 — the best coverage of Indian
+ * businesses, built offline with scripts/overture-leads.py and uploaded with scripts/upload-leads.py), and
+ * OpenStreetMap (© OpenStreetMap contributors, ODbL) searched from the browser to top a list up. Both are free and
+ * legal to store and use with attribution. Google Maps is not scraped: it breaks Google's terms, and the Places API forbids keeping its
  * results as a list. Teams can also import their own CSV lists (Justdial, IndiaMART, events, referrals).
  *
  * Storage: one file per place (data/prospects/<city>.json), so each list stays small and quick to save.
@@ -34,7 +37,9 @@ export interface Prospect {
   website: string;
   address: string;
   city: string;
-  source: "openstreetmap" | "csv" | "manual";
+  source: "openstreetmap" | "overture" | "csv" | "manual";
+  /** Overture Maps place id (lists built with scripts/overture-leads.py) */
+  overtureId?: string;
   osmId?: string;
   lat?: number;
   lon?: number;
@@ -110,98 +115,31 @@ async function geocode(city: string) {
   return { lat: Number(hit.lat), lon: Number(hit.lon) };
 }
 
-/** OpenStreetMap tags → the kind of business, in 360VUE's words. Only kinds that buy tours are fetched. */
-const KINDS: [RegExp, string][] = [
-  [/^tourism=(hotel|motel)$/, "Hotel"],
-  [/^tourism=(resort)$|^leisure=resort$/, "Resort"],
-  [/^tourism=(guest_house|chalet|apartment|hostel)$/, "Homestay / guest house"],
-  [/^amenity=(restaurant|fast_food)$/, "Restaurant"],
-  [/^amenity=(cafe)$/, "Café"],
-  [/^amenity=(bar|pub|nightclub)$/, "Bar / pub"],
-  [/^amenity=(events_venue|conference_centre)$/, "Event / banquet venue"],
-  [/^amenity=(hospital)$/, "Hospital"],
-  [/^amenity=(clinic|dentist|doctors)$|^healthcare=/, "Clinic"],
-  [/^amenity=(college|university)$/, "College"],
-  [/^amenity=(school|kindergarten)$/, "School"],
-  [/^leisure=(fitness_centre|sports_centre)$/, "Gym / fitness"],
-  [/^leisure=(spa)$|^shop=(beauty|hairdresser)$/, "Spa / salon"],
-  [/^shop=(furniture|interior_decoration|kitchen|bathroom_furnishing|lighting|tiles|bed)$/, "Furniture / interiors showroom"],
-  [/^shop=(jewelry|clothes|boutique|department_store|mall)$/, "Retail showroom"],
-  [/^shop=(car|motorcycle)$/, "Vehicle showroom"],
-  [/^office=(estate_agent)$/, "Real-estate agent"],
-  [/^office=(coworking)$|^amenity=(coworking_space)$/, "Co-working space"],
-  [/^office=(architect)$/, "Architect"],
-];
-
-function kindOf(tags: Record<string, string>) {
-  for (const k of ["tourism", "amenity", "leisure", "shop", "office", "healthcare"]) {
-    if (!tags[k]) continue;
-    const hit = KINDS.find(([re]) => re.test(`${k}=${tags[k]}`));
-    if (hit) return hit[1];
-  }
-  return "";
+/** Where to search: the place's centre (looked up once, then kept in its file) and how far around it. */
+export async function placeCenter(city: string, by: string) {
+  const { file } = await readPlace(city);
+  if (file.center) return { center: file.center, radius: radiusOf(city) };
+  const center = await geocode(city);
+  await writePlace(city, (f) => ({ ...f, center }), `Lead finder: locate ${cityBySlug(city)!.name}`, by);
+  return { center, radius: radiusOf(city) };
 }
 
-const QUERY = (lat: number, lon: number, r: number) => `[out:json][timeout:60];
-(
-  nwr["name"]["tourism"~"^(hotel|motel|resort|guest_house|chalet|apartment|hostel)$"](around:${r},${lat},${lon});
-  nwr["name"]["amenity"~"^(restaurant|cafe|bar|pub|nightclub|fast_food|events_venue|conference_centre|hospital|clinic|dentist|doctors|college|university|school|kindergarten|coworking_space)$"](around:${r},${lat},${lon});
-  nwr["name"]["leisure"~"^(fitness_centre|sports_centre|spa|resort)$"](around:${r},${lat},${lon});
-  nwr["name"]["shop"~"^(furniture|interior_decoration|kitchen|bathroom_furnishing|lighting|tiles|bed|jewelry|clothes|boutique|department_store|mall|car|motorcycle|beauty)$"](around:${r},${lat},${lon});
-  nwr["name"]["office"~"^(estate_agent|coworking|architect)$"](around:${r},${lat},${lon});
-  nwr["name"]["healthcare"](around:${r},${lat},${lon});
-);
-out center tags 4000;`;
-
-/** Bigger cities get a wider net. */
-const RADIUS: Record<string, number> = { bengaluru: 18000, chennai: 16000, hyderabad: 18000, kochi: 14000, coimbatore: 12000, "north-goa": 15000, "south-goa": 15000, coorg: 20000, chikkamagaluru: 18000, wayanad: 22000, munnar: 15000, "araku-valley": 15000, ooty: 12000, kodaikanal: 10000, thekkady: 10000 };
-
 /**
- * Fetch businesses near a place from OpenStreetMap and add the ones not on the list yet (matched by OSM id, or by
- * name + phone). Businesses with a phone or website come first; the list stops at 500. Statuses and notes of
- * existing entries are never touched.
+ * Save businesses the browser found on OpenStreetMap: add the ones not on the list yet (matched by OSM id, or by
+ * name + phone), the most contactable first, up to 500 per place. Statuses and notes of existing entries are never
+ * touched.
  */
-export async function fetchFromOsm(city: string, by: string) {
-  const { file } = await readPlace(city);
-  const center = file.center ?? (await geocode(city));
-  const r = RADIUS[city] ?? 10000;
-  const res = await fetch("https://overpass-api.de/api/interpreter", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded", "User-Agent": UA },
-    body: `data=${encodeURIComponent(QUERY(center.lat, center.lon, r))}`,
-    cache: "no-store",
-  });
-  if (!res.ok) throw new Error(`OpenStreetMap is busy (${res.status}). Try again in a minute.`);
-  const json = (await res.json()) as { elements: { type: string; id: number; lat?: number; lon?: number; center?: { lat: number; lon: number }; tags?: Record<string, string> }[] };
+export async function addFound(city: string, input: unknown, by: string) {
+  if (!Array.isArray(input)) throw new Error("Nothing to add.");
   const now = new Date().toISOString();
-  const found: Prospect[] = [];
-  for (const el of json.elements ?? []) {
-    const t = el.tags ?? {};
-    const category = kindOf(t);
-    if (!t.name || !category) continue;
-    const phone = s(t["contact:phone"] || t.phone || t["contact:mobile"] || t.mobile).split(";")[0].trim();
-    const website = s(t["contact:website"] || t.website).split(";")[0].trim();
-    const email = s(t["contact:email"] || t.email).split(";")[0].trim();
-    const address = [t["addr:housenumber"], t["addr:street"], t["addr:suburb"] || t["addr:neighbourhood"], t["addr:city"]].filter(Boolean).join(", ");
-    found.push({
-      id: uid("pro"),
-      name: t.name,
-      category,
-      phone,
-      email,
-      website,
-      address,
-      city,
-      source: "openstreetmap",
-      osmId: `${el.type}/${el.id}`,
-      lat: el.lat ?? el.center?.lat,
-      lon: el.lon ?? el.center?.lon,
-      status: "new",
-      notes: "",
-      addedAt: now,
-    });
-  }
-  // most contactable first
+  const clip = (v: unknown, n: number) => s(v).slice(0, n);
+  const found: Prospect[] = input.slice(0, 3000).flatMap((x) => {
+    const r = x as Record<string, unknown>;
+    const name = clip(r.name, 160);
+    const osmId = clip(r.osmId, 40);
+    if (!name || !/^(node|way|relation)\/\d+$/.test(osmId)) return [];
+    return [{ id: uid("pro"), name, category: clip(r.category, 60) || "Other", phone: clip(r.phone, 40), email: clip(r.email, 120), website: clip(r.website, 200), address: clip(r.address, 240), city, source: "openstreetmap" as const, osmId, lat: Number(r.lat) || undefined, lon: Number(r.lon) || undefined, status: "new" as const, notes: "", addedAt: now }];
+  });
   const score = (p: Prospect) => (p.phone ? 4 : 0) + (p.website ? 2 : 0) + (p.email ? 2 : 0) + (p.address ? 1 : 0);
   found.sort((a, b) => score(b) - score(a));
   let added = 0;
@@ -217,14 +155,15 @@ export async function fetchFromOsm(city: string, by: string) {
         if ((p.osmId && have.has(p.osmId)) || keys.has(key)) continue;
         list.push(p);
         keys.add(key);
+        if (p.osmId) have.add(p.osmId);
         added++;
       }
-      return { ...f, center, fetchedAt: now, prospects: list };
+      return { ...f, fetchedAt: now, prospects: list };
     },
     `Lead finder: ${cityBySlug(city)!.name} from OpenStreetMap`,
     by,
   );
-  return { added, total: next.prospects.length, foundOnMap: found.length };
+  return { added, total: next.prospects.length, received: found.length };
 }
 
 /* ───────────────────────────── your own lists ───────────────────────────── */
