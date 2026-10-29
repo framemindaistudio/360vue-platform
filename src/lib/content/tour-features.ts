@@ -43,7 +43,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
       { title: "Gyroscope & VR mode", text: "Move the phone to look around, or drop it into a VR headset for the full feeling of being there.", how: "included" },
       { title: "Full screen & share", text: "One tap to go full screen, one tap to send the tour to family or a partner on WhatsApp.", how: "included" },
       { title: "Several floors", text: "A level switcher and stair connections, so a villa, hotel or school reads as one building.", how: "addon" },
-      { title: "360° video scenes", text: "Moving water, a busy dining room, a live kitchen — up to 8K 360° video placed inside the tour.", how: "request" },
+      { title: "360° video scenes", text: "Moving water, a busy dining room, a live kitchen — up to 8K 360° video placed inside the tour.", how: "addon" },
     ],
   },
   {
@@ -59,8 +59,8 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
       { title: "Your videos, inside the tour", text: "A play button that opens your YouTube or Instagram film — a reel, a chef's story, a client testimonial.", how: "addon" },
       { title: "Brochures & menus", text: "A PDF menu, price list, site plan or brochure opens right where it is relevant.", how: "addon" },
       { title: "Day and night", text: "Switch the same room between daylight and evening lights — the terrace at sunset, the hall lit for a reception.", how: "addon" },
-      { title: "Room-type switch", text: "Show a double and a twin set-up of the same room, or two décor options of the same hall, without a second tour.", how: "request" },
-      { title: "Festive effects", text: "Gentle falling hearts, stars or snow over a scene — for wedding venues, festive offers and seasonal campaigns.", how: "request" },
+      { title: "Room-type switch", text: "Show a double and a twin set-up of the same room, or two décor options of the same hall, without a second tour.", how: "addon" },
+      { title: "Festive effects", text: "Gentle falling hearts, stars or snow over a scene — for wedding venues, festive offers and seasonal campaigns.", how: "addon" },
     ],
   },
   {
@@ -117,7 +117,7 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
       { title: "Music or a voice welcome", text: "Soft background music, or a recorded welcome in your own voice. Visitors can mute it.", how: "addon" },
       { title: "More languages", text: "The whole tour in Kannada, Tamil, Telugu, Malayalam, Hindi or English — up to five languages, chosen by the visitor.", how: "addon" },
       { title: "QR posters & standees", text: "Print-ready QR artwork for the reception desk, menus, brochures and visiting cards.", how: "addon" },
-      { title: "Private tours", text: "Password protection for unreleased projects, investor previews or members-only spaces.", how: "request" },
+      { title: "Private tours", text: "Password protection for unreleased projects, investor previews or members-only spaces.", how: "addon" },
     ],
   },
   {
@@ -144,8 +144,8 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
       { title: "Tripod and camera removed", text: "The floor under the camera is cleaned up, so every scene looks natural.", how: "included" },
       { title: "Faces and number plates blurred", text: "Guests, staff and parked cars stay private.", how: "included" },
       { title: "Colour and light corrected", text: "Windows that are not blown out, rooms that are not dark, colours that match real life.", how: "included" },
-      { title: "AI clean-up", text: "Remove a stray bin, a cable or passers-by from a scene.", how: "request" },
-      { title: "Virtual staging", text: "Furnish an empty flat or dress a hall for an occasion — always marked as staged, never passed off as real.", how: "request" },
+      { title: "AI clean-up", text: "Remove a stray bin, a cable or passers-by from a scene.", how: "addon" },
+      { title: "Virtual staging", text: "Furnish an empty flat or dress a hall for an occasion — always marked as staged, never passed off as real.", how: "addon" },
     ],
   },
 ];

@@ -81,9 +81,9 @@ export default function FeaturesPage() {
       {/* ── jump list + legend ─────────────────────────────── */}
       <section className="py-16 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHead eyebrow="Everything a tour can do" title="Eight jobs your tour does for you." intro="Each feature is marked with how you get it. Prices for add-ons are on the pricing page; anything on request we quote with your plan." />
+          <SectionHead eyebrow="Everything a tour can do" title="Eight jobs your tour does for you." intro="Each feature is marked with how you get it. Every add-on has a fixed price on the pricing page — pick what you need and see your total." />
           <div className="reveal mt-8 flex flex-wrap gap-2">
-            {(Object.keys(HOW_LABEL) as How[]).map((h) => (
+            {(Object.keys(HOW_LABEL) as How[]).filter((h) => FEATURE_GROUPS.some((g) => g.features.some((f) => f.how === h))).map((h) => (
               <HowTag key={h} how={h} />
             ))}
           </div>

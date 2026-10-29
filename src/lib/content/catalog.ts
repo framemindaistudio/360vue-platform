@@ -133,6 +133,7 @@ export const SERVICES: Service[] = [
           { id: "extra-scene", label: "Extra scenes", detail: "Beyond the scenes in your plan", price: 799, unit: "/scene" },
           { id: "extra-floor", label: "Additional floors", detail: "Level switcher and stair connections for each floor after the first", price: 1499, unit: "/floor" },
           { id: "aerial", label: "SkyVUE aerial opening scene", detail: "A drone 360° with landmark labels as the first scene of your tour, in the same link with hotspots down into the space — same visit", price: 3999, unit: "/scene" },
+          { id: "video-scene", label: "360° video scenes", detail: "A moving 360° scene, up to 8K — flowing water, a busy dining room, a live kitchen", price: 2999, unit: "/scene" },
         ],
       },
       {
@@ -148,6 +149,8 @@ export const SERVICES: Service[] = [
           { id: "audio", label: "Music or voice welcome", detail: "Background music, or a recorded welcome in your own voice", price: 1999 },
           { id: "mapbox", label: "Location map in the tour", detail: "A small map with every 360° point on it; tap a point to jump there — for campuses, resorts and large sites", price: 1499 },
           { id: "language", label: "Second language", detail: "The whole tour in Kannada, Hindi or another language as well", price: 2499, unit: "/language" },
+          { id: "variant", label: "Room-type or décor switch", detail: "Switch one scene between two set-ups — a double and a twin room, or a hall dressed two ways", price: 999, unit: "/switch" },
+          { id: "effects", label: "Festive effects", detail: "Gentle falling hearts, stars or snow over your scenes — for weddings, festivals and seasonal offers", price: 499 },
         ],
       },
       {
@@ -158,6 +161,7 @@ export const SERVICES: Service[] = [
           { id: "google", label: "Google Maps & Street View publishing", detail: "Included in every plan, for eligible content", price: 0 },
           { id: "embed", label: "Website embed set-up", detail: "We place the tour on your website with your developer", price: 999 },
           { id: "qr", label: "QR standee artwork", detail: "Print-ready QR code linking to your tour", price: 499 },
+          { id: "private", label: "Password-protected tour", detail: "Only people with the password can open it — unreleased projects, investor previews, members-only spaces", price: 999 },
         ],
       },
       {
@@ -169,6 +173,16 @@ export const SERVICES: Service[] = [
           { id: "after-hours", label: "Early-morning or after-hours capture", detail: "Before you open or after you close", price: 1999 },
           { id: "twilight", label: "Twilight capture", detail: "A second visit after sunset, with the lights on", price: 2999 },
           { id: "express", label: "Express delivery", detail: "Live within 72 hours of the capture", price: 2999 },
+        ],
+      },
+      {
+        id: "retouch",
+        title: "Photo finishing",
+        mode: "any",
+        help: "Every tour already has the tripod removed, faces and number plates blurred, and colour corrected.",
+        options: [
+          { id: "ai-cleanup", label: "AI clean-up", detail: "Remove a stray bin, cables or passers-by from a scene", price: 299, unit: "/scene" },
+          { id: "staging", label: "Virtual staging", detail: "Furnish an empty room or dress a hall for an occasion — always marked as staged", price: 1499, unit: "/scene" },
         ],
       },
     ],
