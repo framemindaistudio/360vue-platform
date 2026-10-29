@@ -1,3 +1,4 @@
+import { Check } from "lucide-react";
 import type { Metadata } from "next";
 import { CtaBand, PageHero, SectionHead } from "@/components/site/bits";
 import { ReelCard } from "@/components/site/ReelCard";
@@ -80,15 +81,28 @@ export default function AboutPage() {
       <section className="border-t border-cream/10 bg-night/60 py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHead eyebrow="Founders" title="The people behind the camera." />
-          <ul className="mt-12 grid gap-5 sm:grid-cols-2">
+          <ul className="mt-12 grid gap-5 lg:grid-cols-2">
             {site.founders.map((f) => (
-              <li key={f.id} className="reveal flex items-center gap-6 rounded-3xl border border-cream/10 bg-midnight/70 p-7">
-                <span className="grid size-20 shrink-0 place-items-center rounded-full bg-gold-grad font-display text-2xl font-bold text-midnight">{f.initials}</span>
-                <div>
-                  <p className="font-display text-2xl font-semibold text-cream">{f.name}</p>
-                  <p className="mt-1 text-sm font-medium uppercase tracking-[0.2em] text-sunset">{f.role}, 360VUE</p>
-                  {f.also && <p className="mt-1 text-sm text-cream/55">{f.also}</p>}
+              <li key={f.id} className="reveal flex flex-col rounded-3xl border border-cream/10 bg-midnight/70 p-7 sm:p-9">
+                <div className="flex items-center gap-6">
+                  <span className="grid size-20 shrink-0 place-items-center rounded-full bg-gold-grad font-display text-2xl font-bold text-midnight">{f.initials}</span>
+                  <div>
+                    <p className="font-display text-2xl font-semibold text-cream">{f.name}</p>
+                    <p className="mt-1 text-sm font-medium uppercase tracking-[0.2em] text-sunset">{f.role}, 360VUE</p>
+                    {f.also && <p className="mt-1 text-sm text-cream/55">{f.also}</p>}
+                  </div>
                 </div>
+                {f.focus && <p className="mt-7 font-display text-lg font-semibold text-sand">{f.focus}</p>}
+                {f.bio && <p className="mt-2 text-sm leading-relaxed text-cream/60">{f.bio}</p>}
+                {f.duties.length > 0 && (
+                  <ul className="mt-5 space-y-3 border-t border-cream/10 pt-5">
+                    {f.duties.map((d) => (
+                      <li key={d} className="flex gap-3 text-sm leading-relaxed text-cream/80">
+                        <Check className="mt-0.5 size-4 shrink-0 text-sunset" aria-hidden /> {d}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             ))}
           </ul>
