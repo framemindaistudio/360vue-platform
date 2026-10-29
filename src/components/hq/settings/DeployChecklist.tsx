@@ -84,7 +84,7 @@ export function DeployChecklist({ sys }: { sys: SystemInfo }) {
     {
       title: "Before the first client",
       items: [
-        { id: "enquiry", label: "A test enquiry from the website's Get a Quote form appears in Enquiries" },
+        { id: "enquiry", label: "A test quote sent from the website's price calculator appears in Enquiries" },
         { id: "quote", label: "A test quote prints cleanly and the bank details on it are right" },
         { id: "profile", label: "Company profile, tax and bank details saved above" },
         { id: "clean", label: "Test records deleted from the CRM, quotes, projects and invoices" },

@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/skyvue", destination: "/services#skyvue", permanent: true },
       { source: "/portfolio", destination: "/", permanent: true },
+      { source: "/contact", destination: "/pricing", permanent: true },
       { source: "/how-it-works", destination: "/faq#how-it-works", permanent: true },
     ];
   },

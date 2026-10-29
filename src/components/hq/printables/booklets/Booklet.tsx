@@ -106,13 +106,30 @@ export function Gold({ children }: { children: React.ReactNode }) {
   return <span style={{ color: C.gold }}>{children}</span>;
 }
 
-/** A full-bleed photographic cover. */
-export function Cover({ image, kicker, title, sub, chips, preparedFor }: { image: string; kicker: string; title: React.ReactNode; sub: string; chips?: string[]; preparedFor?: string }) {
+/**
+ * A full-bleed photographic cover. The art is 2:3 and the page a little wider, so full-bleed art loses some height:
+ * `focus` (object-position) picks which part stays — "50% 100%" crops the top and lifts the subject. When the subject
+ * is too tall for the space between the logo and the title, `art` draws it smaller instead ({ width % of the page,
+ * top in mm }) with its edges faded into the dark page.
+ */
+export function Cover({ image, kicker, title, sub, chips, preparedFor, focus = "50% 50%", art, titlePt = 40 }: { image: string; kicker: string; title: React.ReactNode; sub: string; chips?: string[]; preparedFor?: string; focus?: string; art?: { width: number; top: number }; titlePt?: number }) {
   return (
     <Page dark>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" loading="eager" />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(14,11,8,0.55) 0%, rgba(14,11,8,0.15) 32%, rgba(14,11,8,0.7) 62%, #0e0b08 88%)" }} />
+      {art ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={image}
+          alt=""
+          className="absolute left-1/2 h-auto max-w-none -translate-x-1/2"
+          style={{ width: `${art.width}%`, top: `${art.top}mm`, maskImage: "radial-gradient(ellipse 58% 52% at 50% 46%, #000 72%, transparent 100%)", WebkitMaskImage: "radial-gradient(ellipse 58% 52% at 50% 46%, #000 72%, transparent 100%)" }}
+          loading="eager"
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: focus }} loading="eager" />
+      )}
+      {/* the cover art leaves dark space at the top (logo) and the foot (title); this only deepens those bands */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(14,11,8,0.45) 0%, rgba(14,11,8,0) 18%, rgba(14,11,8,0) 56%, rgba(14,11,8,0.8) 70%, #0e0b08 86%)" }} />
       <div className="absolute left-[16mm] top-[16mm]">
         <Wordmark mm={58} white />
       </div>
@@ -131,7 +148,7 @@ export function Cover({ image, kicker, title, sub, chips, preparedFor }: { image
       </svg>
       <div className="absolute inset-x-[16mm] bottom-[18mm]">
         <Kicker light>{kicker}</Kicker>
-        <h1 className="mt-[5mm] font-display text-[40pt] font-bold leading-[0.98] tracking-[-0.03em]" style={{ color: C.cream }}>
+        <h1 className="mt-[5mm] font-display font-bold leading-[0.98] tracking-[-0.03em]" style={{ color: C.cream, fontSize: `${titlePt}pt` }}>
           {title}
         </h1>
         <p className="mt-[5mm] max-w-[150mm] text-[11.5pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.8)" }}>
@@ -195,7 +212,7 @@ export function BackCover({ headline, line, qrPath, qrLabel }: { headline: React
 
       <div className="absolute inset-x-[16mm] top-[118mm] grid grid-cols-3 gap-[4mm]">
         {[
-          ["1", "Tell us about your space", "Call, WhatsApp or fill the form on our website."],
+          ["1", "Tell us about your space", "Call, WhatsApp, or price your tour on our website."],
           ["2", "Get a written quote", "Scope, capture date and price — before anything starts."],
           ["3", "Go live in a week", "Your tour on Google Maps, your website and WhatsApp."],
         ].map(([n, t, d]) => (

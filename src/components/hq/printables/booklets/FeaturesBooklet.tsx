@@ -73,9 +73,11 @@ export function FeaturesBooklet({ mode, preparedFor }: { mode: BookletMode; prep
   const pages: ((n: number) => React.ReactNode)[] = [
     () => (
       <Cover
-        image="/media/phone-tour.webp"
+        image="/media/booklet/cover-features.webp"
         kicker="Tour features"
-        title={<>Not a photo gallery.<br /><Gold>A front door that never closes.</Gold></>}
+        title={<>Not a photo gallery.<br /><Gold>A front door, open 24×7.</Gold></>}
+        titlePt={36}
+        art={{ width: 78, top: -2 }}
         sub={`A 360VUE tour lets customers walk through your space, ask it questions and reach you — from any phone, at any hour. Here are all ${total} things it can do.`}
         chips={["Walk room to room", "WhatsApp from the tour", "Google Maps", "Aerial to inside"]}
         preparedFor={preparedFor}

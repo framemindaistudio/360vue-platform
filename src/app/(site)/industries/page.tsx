@@ -65,7 +65,7 @@ export default function IndustriesPage() {
       <div className="mx-auto max-w-7xl px-4 pb-24 text-center sm:px-6 lg:px-8">
         <p className="text-sm text-cream/60">Not on the list? If your space helps people decide, it is a fit.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <GoldButton href="/contact">Tell us about your space</GoldButton>
+          <GoldButton href="/pricing">Price your space</GoldButton>
           <GhostButton href="/features">See every feature</GhostButton>
         </div>
         <p className="mt-8 text-xs text-cream/40">Photographs are illustrative spaces, not client work.</p>

@@ -59,7 +59,8 @@ export function IndustriesBooklet({ mode, preparedFor }: { mode: BookletMode; pr
   const pages: ((n: number) => React.ReactNode)[] = [
     () => (
       <Cover
-        image="/media/hotel.webp"
+        image="/media/booklet/cover-industries.webp"
+        focus="50% 100%"
         kicker="Who it is for"
         title={<>Where the space<br /><Gold>is the decision.</Gold></>}
         sub="Twelve kinds of business a 360° tour pays off for — what each one shows, and the features it uses most."

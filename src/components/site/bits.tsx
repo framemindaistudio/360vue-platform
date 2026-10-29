@@ -79,10 +79,10 @@ export function CtaBand() {
           <h2 className="mt-5 text-4xl font-semibold leading-[1.05] text-cream sm:text-5xl">
             Your space, from <span className="text-gold-grad">every angle.</span>
           </h2>
-          <p className="mt-5 text-lg text-cream/65">Tell us about your space. You get a written scope, a capture date and a clear price before anything starts.</p>
+          <p className="mt-5 text-lg text-cream/65">Enter your area, floors and rooms and see your exact price in two minutes. Then pick a capture date.</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <GoldButton href="/pricing">Pricing</GoldButton>
-            <GhostButton href="/contact">Talk to us</GhostButton>
+            <GhostButton href="/features">See every feature</GhostButton>
           </div>
         </div>
       </div>

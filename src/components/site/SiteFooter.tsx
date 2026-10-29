@@ -58,11 +58,6 @@ export function SiteFooter() {
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-sand/70">Talk to us</p>
           <ul className="mt-4 space-y-2.5 text-sm">
-            <li>
-              <Link href="/contact" className="text-cream/70 hover:text-sunset">
-                Send an enquiry
-              </Link>
-            </li>
             {contact.map((c) => (
               <li key={c.href}>
                 <a href={c.href} className="text-cream/70 hover:text-sunset">

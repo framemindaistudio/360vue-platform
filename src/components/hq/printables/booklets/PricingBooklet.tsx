@@ -77,7 +77,8 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
     // 1 — cover
     () => (
       <Cover
-        image="/media/pano-lobby.webp"
+        image="/media/booklet/cover-pricing.webp"
+        focus="50% 100%"
         kicker="Price list"
         title={<>Clear prices.<br /><Gold>Every angle.</Gold></>}
         sub="360° virtual tours, SkyVUE aerial views and 3D walkthroughs — every plan and add-on with its price, written down before anything starts."
