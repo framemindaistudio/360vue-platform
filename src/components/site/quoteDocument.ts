@@ -64,7 +64,7 @@ body{font-family:Montserrat,'Segoe UI',Helvetica,Arial,sans-serif;color:#1a140e;
 .space b{font-size:7pt;letter-spacing:.2em;color:#9a5a31;display:block;margin-bottom:1mm}
 table{width:100%;border-collapse:collapse;margin-top:7mm}
 th{text-align:left;font-size:7pt;letter-spacing:.2em;color:#84705c;border-bottom:1.5px solid #1a140e;padding:0 0 2mm}
-td{padding:1.8mm 0;border-bottom:1px solid #eee3d3;font-size:10.5pt}
+td{padding:1.5mm 0;border-bottom:1px solid #eee3d3;font-size:10.5pt}
 .r{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .tot td{border:none;padding:1.4mm 0}
 .tot .big td{font-size:14pt;font-weight:800;border-top:1.5px solid #1a140e;padding-top:3mm}
