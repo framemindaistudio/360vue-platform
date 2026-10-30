@@ -59,7 +59,7 @@ export function Inside({ n, section, children, dark }: { n: number; section: str
   const even = n % 2 === 0;
   return (
     <Page dark={dark}>
-      <div className={cn("absolute inset-x-[14mm] top-[10mm] flex items-center justify-between text-[6.5pt] font-semibold uppercase tracking-[0.3em]", even && "flex-row-reverse")} style={{ color: dark ? C.sand : C.bronze }}>
+      <div className={cn("absolute inset-x-[14mm] top-[10mm] flex items-center justify-between text-[8pt] font-semibold uppercase tracking-[0.3em]", even && "flex-row-reverse")} style={{ color: dark ? C.sand : C.bronze }}>
         <span className="flex items-center gap-[2.5mm]">
           <span className="inline-block h-px w-[8mm]" style={{ background: C.gold }} />
           {section}
@@ -67,9 +67,9 @@ export function Inside({ n, section, children, dark }: { n: number; section: str
         <span style={{ opacity: 0.8 }}>360VUE</span>
       </div>
       <div className="absolute inset-x-[14mm] bottom-[14mm] top-[19mm] flex flex-col">{children}</div>
-      <div className={cn("absolute inset-x-[14mm] bottom-[7mm] flex items-center justify-between text-[6.5pt] tracking-[0.15em]", even && "flex-row-reverse")} style={{ color: dark ? "rgba(249,245,237,0.5)" : "rgba(14,11,8,0.45)" }}>
+      <div className={cn("absolute inset-x-[14mm] bottom-[7mm] flex items-center justify-between text-[8pt] tracking-[0.15em]", even && "flex-row-reverse")} style={{ color: dark ? "rgba(249,245,237,0.5)" : "rgba(14,11,8,0.45)" }}>
         <span>{site.website.replace(/^https?:\/\//, "")}</span>
-        <span className="font-display text-[9pt] font-bold" style={{ color: C.gold }}>{String(n).padStart(2, "0")}</span>
+        <span className="font-display text-[10.5pt] font-bold" style={{ color: C.gold }}>{String(n).padStart(2, "0")}</span>
       </div>
     </Page>
   );
@@ -94,7 +94,7 @@ export function FillPhoto({ src, children, min = 40 }: { src: string; children?:
 /** Small uppercase label with a gold rule. */
 export function Kicker({ children, light }: { children: React.ReactNode; light?: boolean }) {
   return (
-    <p className="flex items-center gap-[2.5mm] text-[7pt] font-semibold uppercase tracking-[0.3em]" style={{ color: light ? C.sunset : C.bronze }}>
+    <p className="flex items-center gap-[2.5mm] text-[8.5pt] font-semibold uppercase tracking-[0.3em]" style={{ color: light ? C.sunset : C.bronze }}>
       <span className="inline-block h-px w-[8mm]" style={{ background: light ? C.sunset : C.gold }} />
       {children}
     </p>
@@ -159,20 +159,20 @@ export function Cover({ image, kicker, title, sub, chips, preparedFor, focus = "
         <h1 className="mt-[5mm] font-display font-bold leading-[0.98] tracking-[-0.03em]" style={{ color: C.cream, fontSize: `${titlePt}pt` }}>
           {title}
         </h1>
-        <p className="mt-[5mm] max-w-[150mm] text-[11.5pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.8)" }}>
+        <p className="mt-[5mm] max-w-[150mm] text-[12.5pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.8)" }}>
           {sub}
         </p>
         {chips && (
           <div className="mt-[7mm] flex flex-wrap gap-[2mm]">
             {chips.map((c) => (
-              <span key={c} className="rounded-full border px-[3.5mm] py-[1.2mm] text-[7.5pt] font-semibold uppercase tracking-[0.14em]" style={{ borderColor: "rgba(245,158,76,0.5)", color: C.sand }}>
+              <span key={c} className="rounded-full border px-[3.5mm] py-[1.2mm] text-[9pt] font-semibold uppercase tracking-[0.14em]" style={{ borderColor: "rgba(245,158,76,0.5)", color: C.sand }}>
                 {c}
               </span>
             ))}
           </div>
         )}
         {preparedFor && (
-          <p className="mt-[7mm] border-t pt-[3mm] text-[9pt]" style={{ borderColor: "rgba(249,245,237,0.2)", color: "rgba(249,245,237,0.75)" }}>
+          <p className="mt-[7mm] border-t pt-[3mm] text-[10.5pt]" style={{ borderColor: "rgba(249,245,237,0.2)", color: "rgba(249,245,237,0.75)" }}>
             Prepared for <strong style={{ color: C.cream }}>{preparedFor}</strong>
           </p>
         )}
@@ -213,7 +213,7 @@ export function BackCover({ headline, line, qrPath, qrLabel }: { headline: React
         <h2 className="mt-[5mm] font-display text-[30pt] font-bold leading-[1.02] tracking-[-0.02em]" style={{ color: C.cream }}>
           {headline}
         </h2>
-        <p className="mt-[5mm] max-w-[150mm] text-[11pt] leading-[1.55]" style={{ color: "rgba(249,245,237,0.75)" }}>
+        <p className="mt-[5mm] max-w-[150mm] text-[12pt] leading-[1.55]" style={{ color: "rgba(249,245,237,0.75)" }}>
           {line}
         </p>
       </div>
@@ -226,8 +226,8 @@ export function BackCover({ headline, line, qrPath, qrLabel }: { headline: React
         ].map(([n, t, d]) => (
           <div key={n} className="rounded-[3mm] border p-[4mm]" style={{ borderColor: "rgba(249,245,237,0.14)", background: "rgba(23,18,13,0.75)" }}>
             <p className="font-display text-[20pt] font-bold leading-none" style={{ color: C.gold }}>{n}</p>
-            <p className="mt-[2.5mm] text-[9.5pt] font-semibold" style={{ color: C.cream }}>{t}</p>
-            <p className="mt-[1.2mm] text-[8pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.6)" }}>{d}</p>
+            <p className="mt-[2.5mm] text-[11pt] font-semibold" style={{ color: C.cream }}>{t}</p>
+            <p className="mt-[1.2mm] text-[9.5pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.6)" }}>{d}</p>
           </div>
         ))}
       </div>
@@ -235,13 +235,13 @@ export function BackCover({ headline, line, qrPath, qrLabel }: { headline: React
       <div className="absolute inset-x-[16mm] bottom-[20mm] flex items-end justify-between gap-[8mm]">
         <div>
           <Wordmark mm={62} white />
-          <div className="mt-[7mm] space-y-[1.6mm] text-[10.5pt]" style={{ color: C.cream }}>
-            {phone && <p><span className="inline-block w-[16mm] text-[7pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Call</span>{phone}</p>}
-            {email && <p><span className="inline-block w-[16mm] text-[7pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Email</span>{email}</p>}
-            <p><span className="inline-block w-[16mm] text-[7pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Web</span>{web}</p>
-            {addr && <p className="text-[8.5pt]" style={{ color: "rgba(249,245,237,0.6)" }}><span className="inline-block w-[16mm] text-[7pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Visit</span>{addr}</p>}
+          <div className="mt-[7mm] space-y-[1.6mm] text-[12pt]" style={{ color: C.cream }}>
+            {phone && <p><span className="inline-block w-[16mm] text-[8.5pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Call</span>{phone}</p>}
+            {email && <p><span className="inline-block w-[16mm] text-[8.5pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Email</span>{email}</p>}
+            <p><span className="inline-block w-[16mm] text-[8.5pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Web</span>{web}</p>
+            {addr && <p className="text-[10pt]" style={{ color: "rgba(249,245,237,0.6)" }}><span className="inline-block w-[16mm] text-[8.5pt] uppercase tracking-[0.2em]" style={{ color: C.sand }}>Visit</span>{addr}</p>}
           </div>
-          <p className="mt-[7mm] text-[7pt] tracking-[0.08em]" style={{ color: "rgba(249,245,237,0.45)" }}>
+          <p className="mt-[7mm] text-[8.5pt] tracking-[0.08em]" style={{ color: "rgba(249,245,237,0.45)" }}>
             360VUE is a {site.parent.name} company.
           </p>
         </div>
@@ -249,7 +249,7 @@ export function BackCover({ headline, line, qrPath, qrLabel }: { headline: React
           <div className="rounded-[3mm] p-[2.5mm]" style={{ background: "#ffffff" }}>
             <Qr url={`${site.website}${qrPath}`} mm={32} />
           </div>
-          <p className="mt-[2.5mm] text-[7pt] font-semibold uppercase tracking-[0.2em]" style={{ color: C.sand }}>{qrLabel}</p>
+          <p className="mt-[2.5mm] text-[8.5pt] font-semibold uppercase tracking-[0.2em]" style={{ color: C.sand }}>{qrLabel}</p>
         </div>
       </div>
     </Page>

@@ -16,7 +16,7 @@ const TAG: Record<How, { bg: string; fg: string }> = {
 
 function Tag({ how }: { how: How }) {
   return (
-    <span className="inline-block shrink-0 rounded-full px-[2mm] py-[0.5mm] text-[5.8pt] font-bold uppercase tracking-[0.12em]" style={{ background: TAG[how].bg, color: TAG[how].fg }}>
+    <span className="inline-block shrink-0 rounded-full px-[2mm] py-[0.5mm] text-[7.5pt] font-bold uppercase tracking-[0.12em]" style={{ background: TAG[how].bg, color: TAG[how].fg }}>
       {HOW_LABEL[how]}
     </span>
   );
@@ -31,7 +31,7 @@ function Group({ g, i }: { g: FeatureGroup; i: number }) {
           <I className="size-[5.5mm]" style={{ color: C.sunset }} strokeWidth={1.6} />
         </span>
         <div>
-          <p className="text-[7pt] font-semibold uppercase tracking-[0.25em]" style={{ color: C.bronze }}>
+          <p className="text-[8.5pt] font-semibold uppercase tracking-[0.25em]" style={{ color: C.bronze }}>
             {String(i + 1).padStart(2, "0")} · {g.eyebrow}
           </p>
           <h2 className="mt-[1.2mm] font-display text-[15pt] font-bold leading-[1.12] tracking-[-0.01em]">{g.title}</h2>
@@ -41,10 +41,10 @@ function Group({ g, i }: { g: FeatureGroup; i: number }) {
         {g.features.map((f, fi) => (
           <div key={f.title} className={`rounded-[2.5mm] p-[3.2mm] ${g.features.length % 2 && fi === g.features.length - 1 ? "col-span-2" : ""}`} style={{ background: "#ffffff", border: `0.25mm solid ${C.line}` }}>
             <div className="flex items-start justify-between gap-[2mm]">
-              <p className="text-[9pt] font-bold leading-tight">{f.title}</p>
+              <p className="text-[10.5pt] font-bold leading-tight">{f.title}</p>
               <Tag how={f.how} />
             </div>
-            <p className="mt-[1.2mm] text-[7.6pt] leading-[1.42]" style={{ opacity: 0.68 }}>{f.text}</p>
+            <p className="mt-[1.2mm] text-[9pt] leading-[1.42]" style={{ opacity: 0.68 }}>{f.text}</p>
           </div>
         ))}
       </div>
@@ -90,28 +90,28 @@ export function FeaturesBooklet({ mode, preparedFor }: { mode: BookletMode; prep
         <h2 className="mt-[4mm] font-display text-[26pt] font-bold leading-[1.04] tracking-[-0.02em]">
           The booking happened <Gold>before anyone visited.</Gold>
         </h2>
-        <p className="mt-[3mm] max-w-[165mm] text-[10pt] leading-[1.55]" style={{ opacity: 0.7 }}>
+        <p className="mt-[3mm] max-w-[165mm] text-[11.5pt] leading-[1.55]" style={{ opacity: 0.7 }}>
           This is how people choose now: late at night, on a phone, comparing you with three others. The business that lets them look around wins the booking.
         </p>
         <ol className="relative mt-[7mm] space-y-[5mm] border-l-[0.4mm] pl-[7mm]" style={{ borderColor: C.gold }}>
           {STORY.map(([t, d]) => (
             <li key={t} className="relative">
               <span className="absolute -left-[9.3mm] top-[1mm] size-[3.6mm] rounded-full" style={{ background: C.gold, boxShadow: `0 0 0 1.2mm ${C.paper}` }} />
-              <p className="font-mono text-[8pt] font-semibold" style={{ color: C.bronze }}>{t}</p>
-              <p className="mt-[1mm] text-[9.5pt] leading-[1.5]">{d}</p>
+              <p className="font-mono text-[9.5pt] font-semibold" style={{ color: C.bronze }}>{t}</p>
+              <p className="mt-[1mm] text-[11pt] leading-[1.5]">{d}</p>
             </li>
           ))}
         </ol>
-        <p className="mt-[3mm] text-[7pt] italic" style={{ opacity: 0.45 }}>An illustrative story, not a client case.</p>
-        <FillPhoto src="/media/aerial-resort.webp" min={30} />
+        <p className="mt-[3mm] text-[8.5pt] italic" style={{ opacity: 0.45 }}>An illustrative story, not a client case.</p>
+        <FillPhoto src="/media/aerial-resort.webp" min={14} />
         <div className="mt-[6mm] rounded-[4mm] p-[6mm]" style={{ background: C.ink, color: C.cream }}>
           <Kicker light>Our vision</Kicker>
           <p className="mt-[3mm] font-display text-[17pt] font-bold leading-[1.15]" style={{ color: C.sunset }}>{VISION.line}</p>
           <div className="mt-[4mm] grid grid-cols-2 gap-x-[6mm] gap-y-[3mm]">
             {VISION.beats.map((b) => (
               <div key={b.title}>
-                <p className="text-[8.5pt] font-bold" style={{ color: C.cream }}>{b.title}</p>
-                <p className="mt-[0.8mm] text-[7.6pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.65)" }}>{b.text}</p>
+                <p className="text-[10pt] font-bold" style={{ color: C.cream }}>{b.title}</p>
+                <p className="mt-[0.8mm] text-[9pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.65)" }}>{b.text}</p>
               </div>
             ))}
           </div>
@@ -122,7 +122,7 @@ export function FeaturesBooklet({ mode, preparedFor }: { mode: BookletMode; prep
     ...pairs.map((pair, pi) => function FeaturePage(n: number) { return (
       <Inside n={n} section={`Features · ${pi * 2 + 1}–${pi * 2 + 2} of 8`}>
         {pi === 0 && (
-          <div className="mb-[5mm] flex flex-wrap items-center gap-[2mm] text-[7pt]" style={{ opacity: 0.8 }}>
+          <div className="mb-[5mm] flex flex-wrap items-center gap-[2mm] text-[8.5pt]" style={{ opacity: 0.8 }}>
             <span className="mr-[1mm] font-semibold">How you get each feature:</span>
             {(["included", "addon", "plan"] as How[]).map((h) => <Tag key={h} how={h} />)}
           </div>
@@ -133,7 +133,7 @@ export function FeaturesBooklet({ mode, preparedFor }: { mode: BookletMode; prep
             <p className="font-display text-[17pt] font-bold leading-[1.15]">
               {pi === 2 ? <>Your shop floor, <span style={{ color: C.sunset }}>open at midnight.</span></> : <>Found on Google Maps. <span style={{ color: C.sunset }}>Walked from the sofa.</span></>}
             </p>
-            <p className="mt-[2mm] max-w-[130mm] text-[8.5pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.75)" }}>
+            <p className="mt-[2mm] max-w-[130mm] text-[10pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.75)" }}>
               {pi === 2 ? "Customers browse, tap a product and send you a WhatsApp about exactly that piece." : "One capture works on your Maps listing, your website, Instagram, WhatsApp and every printed QR code."}
             </p>
           </FillPhoto>
@@ -152,8 +152,8 @@ export function FeaturesBooklet({ mode, preparedFor }: { mode: BookletMode; prep
             <li key={s.title} className="flex gap-[3.5mm] rounded-[3mm] p-[4mm]" style={{ background: "#ffffff", border: `0.25mm solid ${C.line}` }}>
               <span className="font-display text-[18pt] font-bold leading-none" style={{ color: C.gold }}>{String(i + 1).padStart(2, "0")}</span>
               <div>
-                <p className="text-[9.5pt] font-bold">{s.title}</p>
-                <p className="mt-[1mm] text-[7.8pt] leading-[1.45]" style={{ opacity: 0.68 }}>{s.detail}</p>
+                <p className="text-[11pt] font-bold">{s.title}</p>
+                <p className="mt-[1mm] text-[9.2pt] leading-[1.45]" style={{ opacity: 0.68 }}>{s.detail}</p>
               </div>
             </li>
           ))}
@@ -168,8 +168,8 @@ export function FeaturesBooklet({ mode, preparedFor }: { mode: BookletMode; prep
             <ul className="mt-[3mm] space-y-[2.5mm]">
               {PREP.map(([t, d]) => (
                 <li key={t}>
-                  <p className="text-[9pt] font-bold" style={{ color: C.sand }}>{t}</p>
-                  <p className="text-[7.8pt] leading-[1.4]" style={{ color: "rgba(249,245,237,0.65)" }}>{d}</p>
+                  <p className="text-[10.5pt] font-bold" style={{ color: C.sand }}>{t}</p>
+                  <p className="text-[9.2pt] leading-[1.4]" style={{ color: "rgba(249,245,237,0.65)" }}>{d}</p>
                 </li>
               ))}
             </ul>

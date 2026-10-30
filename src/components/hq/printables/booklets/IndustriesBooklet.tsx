@@ -26,12 +26,12 @@ function Card({ ind, i }: { ind: Industry; i: number }) {
       </div>
       <div className="flex flex-col p-[5mm]">
         <h3 className="font-display text-[13pt] font-bold leading-tight">{ind.name}</h3>
-        <p className="mt-[1.2mm] text-[9pt] font-semibold leading-snug" style={{ color: C.bronze }}>{ind.hook}</p>
-        <p className="mt-[2mm] text-[8pt] leading-[1.45]" style={{ opacity: 0.68 }}>{ind.shows}</p>
-        <p className="mt-auto border-t pt-[2mm] text-[6pt] font-semibold uppercase tracking-[0.2em]" style={{ borderColor: C.line, opacity: 0.5 }}>Features they use most</p>
+        <p className="mt-[1.2mm] text-[10.5pt] font-semibold leading-snug" style={{ color: C.bronze }}>{ind.hook}</p>
+        <p className="mt-[2mm] text-[9.5pt] leading-[1.45]" style={{ opacity: 0.68 }}>{ind.shows}</p>
+        <p className="mt-auto border-t pt-[2mm] text-[7.5pt] font-semibold uppercase tracking-[0.2em]" style={{ borderColor: C.line, opacity: 0.5 }}>Features they use most</p>
         <ul className="mt-[1.5mm] grid grid-cols-2 gap-x-[3mm] gap-y-[1mm]">
           {ind.uses.map((u) => (
-            <li key={u} className="flex gap-[1.5mm] text-[7.4pt] leading-[1.3]">
+            <li key={u} className="flex gap-[1.5mm] text-[9pt] leading-[1.3]">
               <Check className="mt-[0.3mm] size-[3mm] shrink-0" style={{ color: C.gold }} strokeWidth={2.6} /> {u}
             </li>
           ))}
@@ -79,8 +79,8 @@ export function IndustriesBooklet({ mode, preparedFor }: { mode: BookletMode; pr
           {FIT.map(([t, d], i) => (
             <div key={t} className="rounded-[3.5mm] p-[5mm]" style={{ background: "#ffffff", border: `0.25mm solid ${C.line}` }}>
               <p className="font-display text-[18pt] font-bold leading-none" style={{ color: C.gold }}>{String(i + 1).padStart(2, "0")}</p>
-              <p className="mt-[2.5mm] text-[10.5pt] font-bold">{t}</p>
-              <p className="mt-[1.2mm] text-[8.3pt] leading-[1.45]" style={{ opacity: 0.68 }}>{d}</p>
+              <p className="mt-[2.5mm] text-[12pt] font-bold">{t}</p>
+              <p className="mt-[1.2mm] text-[10pt] leading-[1.45]" style={{ opacity: 0.68 }}>{d}</p>
             </div>
           ))}
         </div>
@@ -92,7 +92,7 @@ export function IndustriesBooklet({ mode, preparedFor }: { mode: BookletMode; pr
             <p className="font-display text-[17pt] font-bold leading-[1.15]" style={{ color: C.cream }}>
               Two or more ticks? <span style={{ color: C.sunset }}>You are losing customers to photos.</span>
             </p>
-            <p className="mt-[2.5mm] text-[8.5pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.75)" }}>
+            <p className="mt-[2.5mm] text-[10pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.75)" }}>
               Over the next pages: twelve businesses, what they show and the features they lean on.
             </p>
           </div>
@@ -121,9 +121,9 @@ export function IndustriesBooklet({ mode, preparedFor }: { mode: BookletMode; pr
               <div key={o.id} className="grid grid-cols-[38mm_1fr_32mm] items-center gap-[4mm] px-[5mm] py-[4mm]" style={{ background: i % 2 ? "#ffffff" : "rgba(235,214,181,0.25)" }}>
                 <div>
                   <p className="font-display text-[12pt] font-bold">{o.label}</p>
-                  <p className="text-[7pt] font-semibold uppercase tracking-[0.12em]" style={{ color: C.bronze }}>{scenes}</p>
+                  <p className="text-[8.5pt] font-semibold uppercase tracking-[0.12em]" style={{ color: C.bronze }}>{scenes}</p>
                 </div>
-                <p className="text-[8.5pt] leading-[1.4]" style={{ opacity: 0.75 }}>{suits.join(" · ")}</p>
+                <p className="text-[10pt] leading-[1.4]" style={{ opacity: 0.75 }}>{suits.join(" · ")}</p>
                 <p className="text-right font-display text-[15pt] font-bold" style={{ color: C.gold }}>{formatINR(o.price)}</p>
               </div>
             );
@@ -132,16 +132,16 @@ export function IndustriesBooklet({ mode, preparedFor }: { mode: BookletMode; pr
         <div className="mt-[6mm] grid grid-cols-2 gap-[5mm]">
           <div className="rounded-[4mm] p-[5mm]" style={{ background: C.ink, color: C.cream }}>
             <Kicker light>Land, resorts & campuses</Kicker>
-            <p className="mt-[3mm] text-[11pt] font-bold">SkyVUE aerial 360°</p>
-            <p className="mt-[1.5mm] text-[8pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.68)" }}>
+            <p className="mt-[3mm] text-[12pt] font-bold">SkyVUE aerial 360°</p>
+            <p className="mt-[1.5mm] text-[9.5pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.68)" }}>
               Plots, boundaries and nearby landmarks from 120 m up. Flights from {SKYVUE_LAUNCH}.
             </p>
             {sky[0] && <p className="mt-[3mm] font-display text-[15pt] font-bold" style={{ color: C.sunset }}>from {formatINR(Math.min(...sky.map((o) => o.price)))}</p>}
           </div>
           <div className="rounded-[4mm] p-[5mm]" style={{ background: C.ink, color: C.cream }}>
             <Kicker light>Developers & showrooms</Kicker>
-            <p className="mt-[3mm] text-[11pt] font-bold">Floor plans, 3D & virtual showrooms</p>
-            <p className="mt-[1.5mm] text-[8pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.68)" }}>
+            <p className="mt-[3mm] text-[12pt] font-bold">Floor plans, 3D & virtual showrooms</p>
+            <p className="mt-[1.5mm] text-[9.5pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.68)" }}>
               Measured plans, 3D dollhouse walkthroughs and products you can tap to buy.
             </p>
             {spatial[0] && <p className="mt-[3mm] font-display text-[15pt] font-bold" style={{ color: C.sunset }}>from {formatINR(Math.min(...spatial.map((o) => o.price)))}</p>}
@@ -151,7 +151,7 @@ export function IndustriesBooklet({ mode, preparedFor }: { mode: BookletMode; pr
           <p className="font-display text-[16pt] font-bold leading-[1.15]">
             Every plan, <span style={{ color: C.sunset }}>the same promises.</span>
           </p>
-          <p className="mt-[2mm] max-w-[140mm] text-[8.5pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.78)" }}>
+          <p className="mt-[2mm] max-w-[140mm] text-[10pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.78)" }}>
             Google Maps publishing, a contact panel with a Call button, one link and website code, and 12 months of hosting — in every plan. The price list has every add-on.
           </p>
         </FillPhoto>

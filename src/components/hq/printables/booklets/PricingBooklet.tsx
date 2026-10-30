@@ -14,12 +14,12 @@ function Row({ o, dark }: { o: ServiceOption; dark?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-[5mm] border-b py-[2.1mm]" style={{ borderColor: dark ? "rgba(249,245,237,0.12)" : C.line, breakInside: "avoid" }}>
       <div>
-        <p className="text-[9.5pt] font-semibold leading-tight">{o.label}</p>
-        {o.detail && <p className="mt-[0.8mm] text-[7.5pt] leading-[1.4]" style={{ opacity: 0.62 }}>{o.detail}</p>}
+        <p className="text-[11pt] font-semibold leading-tight">{o.label}</p>
+        {o.detail && <p className="mt-[0.8mm] text-[9pt] leading-[1.4]" style={{ opacity: 0.62 }}>{o.detail}</p>}
       </div>
-      <p className="shrink-0 whitespace-nowrap text-right font-display text-[11pt] font-bold leading-tight" style={{ color: o.price ? C.gold : dark ? C.sand : C.bronze }}>
+      <p className="shrink-0 whitespace-nowrap text-right font-display text-[12pt] font-bold leading-tight" style={{ color: o.price ? C.gold : dark ? C.sand : C.bronze }}>
         {price(o)}
-        {o.unit && o.price ? <span className="text-[7.5pt] font-medium" style={{ opacity: 0.75 }}>{o.unit}</span> : null}
+        {o.unit && o.price ? <span className="text-[9pt] font-medium" style={{ opacity: 0.75 }}>{o.unit}</span> : null}
       </p>
     </div>
   );
@@ -29,13 +29,13 @@ function GroupBlock({ g, dark, intro }: { g: ServiceGroup; dark?: boolean; intro
   return (
     <section className="mb-[6mm]">
       <h3 className="font-display text-[14pt] font-bold tracking-[-0.01em]">{g.title}</h3>
-      {(intro || g.help) && <p className="mt-[1mm] text-[8pt] leading-[1.45]" style={{ opacity: 0.6 }}>{intro || g.help}</p>}
+      {(intro || g.help) && <p className="mt-[1mm] text-[9.5pt] leading-[1.45]" style={{ opacity: 0.6 }}>{intro || g.help}</p>}
       <div className="mt-[2mm]">
         {g.options.map((o) => (
           <Row key={o.id} o={o} dark={dark} />
         ))}
       </div>
-      {g.note && <p className="mt-[1.5mm] text-[7pt] italic" style={{ opacity: 0.55 }}>{g.note}</p>}
+      {g.note && <p className="mt-[1.5mm] text-[8.5pt] italic" style={{ opacity: 0.55 }}>{g.note}</p>}
     </section>
   );
 }
@@ -46,14 +46,14 @@ function PlanCard({ o, accent }: { o: ServiceOption; accent?: boolean }) {
   return (
     <div className="relative flex flex-col rounded-[4mm] border p-[5mm]" style={{ borderColor: accent ? C.gold : C.line, background: accent ? C.ink : "#ffffff", color: accent ? C.cream : C.ink }}>
       {o.badge && (
-        <span className="absolute -top-[2.6mm] left-[5mm] rounded-full px-[2.5mm] py-[0.6mm] text-[6.5pt] font-bold uppercase tracking-[0.15em]" style={{ background: C.sunset, color: C.ink }}>
+        <span className="absolute -top-[2.6mm] left-[5mm] rounded-full px-[2.5mm] py-[0.6mm] text-[8pt] font-bold uppercase tracking-[0.15em]" style={{ background: C.sunset, color: C.ink }}>
           {o.badge}
         </span>
       )}
       <p className="font-display text-[15pt] font-bold">{o.label}</p>
-      <p className="mt-[1mm] text-[8pt] font-semibold uppercase tracking-[0.14em]" style={{ color: accent ? C.sand : C.bronze }}>{scenes}</p>
+      <p className="mt-[1mm] text-[9.5pt] font-semibold uppercase tracking-[0.14em]" style={{ color: accent ? C.sand : C.bronze }}>{scenes}</p>
       <p className="mt-[4mm] font-display text-[24pt] font-bold leading-none" style={{ color: C.gold }}>{formatINR(o.price)}</p>
-      {suits.length > 0 && <p className="mt-[3mm] text-[8.5pt] leading-[1.45]" style={{ opacity: 0.7 }}>{suits.join(" · ")}</p>}
+      {suits.length > 0 && <p className="mt-[3mm] text-[10pt] leading-[1.45]" style={{ opacity: 0.7 }}>{suits.join(" · ")}</p>}
     </div>
   );
 }
@@ -101,8 +101,8 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
           ].map(([k, t, d]) => (
             <div key={k} className="rounded-[3.5mm] p-[5mm]" style={{ background: "#ffffff", border: `0.3mm solid ${C.line}` }}>
               <p className="font-display text-[22pt] font-bold leading-none" style={{ color: C.gold }}>{k}</p>
-              <p className="mt-[3mm] text-[11pt] font-bold">{t}</p>
-              <p className="mt-[1.5mm] text-[8.5pt] leading-[1.5]" style={{ opacity: 0.68 }}>{d}</p>
+              <p className="mt-[3mm] text-[12pt] font-bold">{t}</p>
+              <p className="mt-[1.5mm] text-[10pt] leading-[1.5]" style={{ opacity: 0.68 }}>{d}</p>
             </div>
           ))}
         </div>
@@ -112,7 +112,7 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
             <Kicker light>In every tour, at no extra cost</Kicker>
             <ul className="mt-[4mm] space-y-[2.4mm]">
               {(tours?.included ?? []).map((t) => (
-                <li key={t} className="flex gap-[2.5mm] text-[9pt] leading-[1.4]">
+                <li key={t} className="flex gap-[2.5mm] text-[10.5pt] leading-[1.4]">
                   <Check className="mt-[0.6mm] size-[3.6mm] shrink-0" style={{ color: C.sunset }} strokeWidth={2.4} /> {t}
                 </li>
               ))}
@@ -123,7 +123,7 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
             <img src="/media/phone-tour-sm.webp" alt="" className="absolute inset-0 h-full w-full object-cover" loading="eager" />
           </div>
         </div>
-        <p className="mt-[6mm] text-[8pt] leading-[1.5]" style={{ opacity: 0.6 }}>
+        <p className="mt-[6mm] text-[9.5pt] leading-[1.5]" style={{ opacity: 0.6 }}>
           {gst} {TERMS.pricesFinal}
         </p>
       </Inside>
@@ -135,7 +135,7 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
         <h2 className="mt-[4mm] font-display text-[26pt] font-bold leading-[1.04] tracking-[-0.02em]">
           From a café to a <Gold>campus.</Gold>
         </h2>
-        <p className="mt-[3mm] max-w-[160mm] text-[10pt] leading-[1.55]" style={{ opacity: 0.7 }}>
+        <p className="mt-[3mm] max-w-[160mm] text-[11.5pt] leading-[1.55]" style={{ opacity: 0.7 }}>
           {tours?.description}
         </p>
         <div className="mt-[9mm] grid grid-cols-2 gap-[5mm]">
@@ -145,7 +145,7 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
         </div>
         <div className="mt-[8mm] flex items-center gap-[6mm] rounded-[4mm] border p-[5mm]" style={{ borderColor: C.gold, background: "rgba(217,149,63,0.08)" }}>
           <p className="font-display text-[28pt] font-bold leading-none" style={{ color: C.gold }}>+</p>
-          <p className="text-[9.5pt] leading-[1.5]">
+          <p className="text-[11pt] leading-[1.5]">
             <strong>Bigger space?</strong> Add scenes one by one{extraScene ? ` at ${formatINR(extraScene.price)} each` : ""}. Tell us the area, floors and rooms and we work out the exact count — about one scene per 350 sq ft of open space, at least one per room.
           </p>
         </div>
@@ -186,8 +186,8 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
           <div>{grp("tours", "delivery") && <GroupBlock g={grp("tours", "delivery")!} />}</div>
         </div>
         <FillPhoto src="/media/capture-banquet.webp">
-          <p className="text-[7pt] font-semibold uppercase tracking-[0.25em]" style={{ color: C.sunset }}>Good to know</p>
-          <div className="mt-[2.5mm] grid grid-cols-3 gap-[5mm] text-[8pt] leading-[1.45]">
+          <p className="text-[8.5pt] font-semibold uppercase tracking-[0.25em]" style={{ color: C.sunset }}>Good to know</p>
+          <div className="mt-[2.5mm] grid grid-cols-3 gap-[5mm] text-[9.5pt] leading-[1.45]">
             <p><strong style={{ color: C.sand }}>Google Maps is free.</strong> Publishing to Maps and Street View comes with every plan.</p>
             <p><strong style={{ color: C.sand }}>A year of hosting.</strong> Your link and website embed stay live for 12 months, included.</p>
             <p><strong style={{ color: C.sand }}>Travel included</strong> within 25 km of our base; beyond that at actual cost, on the quote.</p>
@@ -209,16 +209,16 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
             </h2>
           </div>
         </div>
-        <p className="text-[9pt] leading-[1.55]" style={{ color: "rgba(249,245,237,0.72)" }}>{sky?.description}</p>
+        <p className="text-[10.5pt] leading-[1.55]" style={{ color: "rgba(249,245,237,0.72)" }}>{sky?.description}</p>
         <div className="mt-[5mm] grid grid-cols-3 gap-[3.5mm]">
           {(sky?.groups.find((g) => g.id === "package")?.options ?? []).map((o) => {
             const [what, ...suits] = (o.detail ?? "").split("·").map((s) => s.trim());
             return (
               <div key={o.id} className="relative rounded-[3.5mm] border p-[4mm]" style={{ borderColor: o.badge ? C.gold : "rgba(249,245,237,0.15)", background: C.night }}>
-                {o.badge && <span className="absolute -top-[2.4mm] left-[4mm] rounded-full px-[2mm] py-[0.4mm] text-[6pt] font-bold uppercase tracking-[0.14em]" style={{ background: C.sunset, color: C.ink }}>{o.badge}</span>}
-                <p className="text-[10.5pt] font-bold" style={{ color: C.cream }}>{o.label.replace("SkyVUE ", "")}</p>
+                {o.badge && <span className="absolute -top-[2.4mm] left-[4mm] rounded-full px-[2mm] py-[0.4mm] text-[7.5pt] font-bold uppercase tracking-[0.14em]" style={{ background: C.sunset, color: C.ink }}>{o.badge}</span>}
+                <p className="text-[12pt] font-bold" style={{ color: C.cream }}>{o.label.replace("SkyVUE ", "")}</p>
                 <p className="mt-[2mm] font-display text-[17pt] font-bold leading-none" style={{ color: C.gold }}>{formatINR(o.price)}</p>
-                <p className="mt-[2.5mm] text-[7.5pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.62)" }}>{[what, ...suits].join(" · ")}</p>
+                <p className="mt-[2.5mm] text-[9pt] leading-[1.45]" style={{ color: "rgba(249,245,237,0.62)" }}>{[what, ...suits].join(" · ")}</p>
               </div>
             );
           })}
@@ -240,14 +240,14 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
           <div>
             <Kicker>After the first free year</Kicker>
             <h2 className="mt-[3mm] font-display text-[18pt] font-bold leading-[1.08]">Hosting &amp; <Gold>care</Gold></h2>
-            <p className="mt-[2mm] text-[8pt] leading-[1.45]" style={{ opacity: 0.62 }}>{hosting?.description}</p>
+            <p className="mt-[2mm] text-[9.5pt] leading-[1.45]" style={{ opacity: 0.62 }}>{hosting?.description}</p>
             <div className="mt-[3mm]">
               {(hosting?.groups[0]?.options ?? []).map((o) => (
                 <Row key={o.id} o={{ ...o, unit: "/month" }} />
               ))}
             </div>
             {rates.socialContracts.length > 0 && (
-              <p className="mt-[3mm] text-[8pt] leading-[1.5]" style={{ opacity: 0.7 }}>
+              <p className="mt-[3mm] text-[9.5pt] leading-[1.5]" style={{ opacity: 0.7 }}>
                 <strong>Pay ahead, pay less:</strong> {rates.socialContracts.filter((c) => c.discountPercent).map((c) => `${c.label} ${c.discountPercent}% off`).join(" · ")}
               </p>
             )}
@@ -256,24 +256,23 @@ export function PricingBooklet({ mode, preparedFor }: { mode: BookletMode; prepa
         {rates.bundleSteps.length > 0 && (
           <div className="mt-[8mm] rounded-[4mm] p-[6mm]" style={{ background: C.ink, color: C.cream }}>
             <Kicker light>Book together, save more</Kicker>
-            <p className="mt-[3mm] text-[9pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.72)" }}>
+            <p className="mt-[3mm] text-[10.5pt] leading-[1.5]" style={{ color: "rgba(249,245,237,0.72)" }}>
               Take a tour with SkyVUE, a floor plan or a virtual showroom, and the one-time work costs less:
             </p>
             <div className="mt-[4mm] flex gap-[4mm]">
               {rates.bundleSteps.map((b, i, all) => (
                 <div key={b.services} className="flex-1 rounded-[3mm] border p-[4mm] text-center" style={{ borderColor: "rgba(245,158,76,0.4)" }}>
                   <p className="font-display text-[22pt] font-bold leading-none" style={{ color: C.sunset }}>{b.discountPercent}%</p>
-                  <p className="mt-[1.5mm] text-[8pt] uppercase tracking-[0.14em]" style={{ color: C.sand }}>{i === all.length - 1 ? `${b.services}+` : b.services} services</p>
+                  <p className="mt-[1.5mm] text-[9.5pt] uppercase tracking-[0.14em]" style={{ color: C.sand }}>{i === all.length - 1 ? `${b.services}+` : b.services} services</p>
                 </div>
               ))}
             </div>
           </div>
         )}
-        <div className="mt-[7mm] grid grid-cols-2 gap-[6mm] text-[7.5pt] leading-[1.5]" style={{ opacity: 0.7 }}>
+        <div className="mt-[7mm] grid grid-cols-2 gap-[6mm] text-[9pt] leading-[1.5]" style={{ opacity: 0.7 }}>
           <p><strong>Payment.</strong> {TERMS.paymentTerms}</p>
           <p><strong>Revisions.</strong> {TERMS.revisionPolicy}</p>
         </div>
-        <FillPhoto src="/media/realestate.webp" min={30} />
       </Inside>
     ),
     // 8 — back cover
