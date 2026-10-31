@@ -204,10 +204,32 @@ export function SettingsForm({ children }: { children?: React.ReactNode }) {
             </div>
             <div className="mt-5 flex items-start justify-between gap-4 rounded-[var(--radius-md)] border border-graphite/15 bg-paper-50 p-4">
               <div>
+                <p className="font-semibold text-graphite">Both partners sign</p>
+                <p className="mt-1 text-sm text-charcoal">
+                  {value.signBoth !== false
+                    ? "On: invoices, receipts, quotes, purchase orders and payslips carry two signatures — the Founder and the Co-Founder, as equal partners."
+                    : "Off: only the signatory named above signs."}
+                </p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={value.signBoth !== false}
+                aria-label="Both partners sign"
+                disabled={locked}
+                onClick={() => set("signBoth", value.signBoth === false)}
+                className={`relative mt-1 h-7 w-12 shrink-0 rounded-full transition-colors disabled:opacity-50 ${value.signBoth !== false ? "bg-lime" : "bg-graphite/25"}`}
+              >
+                <span className={`absolute top-1 size-5 rounded-full bg-white shadow transition-[left] ${value.signBoth !== false ? "left-6" : "left-1"}`} />
+                <span className="sr-only">{value.signBoth !== false ? "On" : "Off"}</span>
+              </button>
+            </div>
+            <div className="mt-3 flex items-start justify-between gap-4 rounded-[var(--radius-md)] border border-graphite/15 bg-paper-50 p-4">
+              <div>
                 <p className="font-semibold text-graphite">Sign documents digitally</p>
                 <p className="mt-1 text-sm text-charcoal">
                   {value.signDigitally !== false
-                    ? "On: the signatory's saved signature prints above their name on invoices, receipts, quotes, purchase orders and payslips."
+                    ? "On: each signatory's saved signature prints above their name on invoices, receipts, quotes, purchase orders and payslips."
                     : "Off: those documents print with a blank space, to sign by hand."}
                 </p>
                 <p className="mt-1 text-xs text-blueprint">

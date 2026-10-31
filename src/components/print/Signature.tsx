@@ -103,3 +103,40 @@ export function SignatureSpace({ name, className, align = "center" }: { name: st
     </div>
   );
 }
+
+/**
+ * Signature spaces for every signatory side by side (360VUE's two partners, or the one signatory in Settings): each
+ * with its own space for the saved signature, a line, the name and the title.
+ */
+export function SignatoryRow({
+  people,
+  height = "h-14",
+  align = "center",
+  lineClass = "border-t border-graphite pt-1",
+  nameClass = "text-[11px] font-bold",
+  titleClass = "text-[9px] text-charcoal",
+  className,
+}: {
+  people: { name: string; title: string }[];
+  height?: string;
+  align?: "center" | "left" | "right";
+  lineClass?: string;
+  nameClass?: string;
+  titleClass?: string;
+  className?: string;
+}) {
+  const text = align === "right" ? "text-right" : align === "left" ? "text-left" : "text-center";
+  return (
+    <div className={cn("grid items-end gap-5", people.length > 1 && "grid-cols-2", className)}>
+      {people.map((p) => (
+        <div key={p.name} className={text}>
+          <SignatureSpace name={p.name} align={align} className={height} />
+          <div className={lineClass}>
+            <p className={nameClass}>{p.name}</p>
+            <p className={titleClass}>{p.title}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

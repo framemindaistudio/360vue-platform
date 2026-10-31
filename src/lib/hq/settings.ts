@@ -36,6 +36,8 @@ export interface CompanySettings {
   signatoryTitle: string;
   /** print the signatory's saved signature on invoices, receipts, quotes, POs and payslips; off: sign by hand */
   signDigitally: boolean;
+  /** both partners sign printed documents (360VUE is a 50/50 partnership); off: only the signatory above */
+  signBoth: boolean;
   invoiceTerms: string;
   baseLocation: string;
   monthlyRevenueTarget: number;
@@ -83,6 +85,7 @@ export const defaultSettings: CompanySettings = {
   signatoryName: "Hrishikesh Kulkarni",
   signatoryTitle: "Founder",
   signDigitally: true,
+  signBoth: true,
   invoiceTerms:
     "Payment as agreed in the quote — 50% advance to confirm the booking and 50% before final handover or activation. Hosting and maintenance are billed separately. Bank transfer / UPI to the account below. Prices in INR.",
   baseLocation: "",

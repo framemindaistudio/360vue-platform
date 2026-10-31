@@ -8,7 +8,8 @@ import { A4Page, Letterhead, PrintFooter, PrintShell } from "@/components/print/
 import type { CompanySettings } from "@/lib/hq/settings";
 import { amountInWords, formatDate, formatINR } from "@/lib/utils";
 import { shootsInMonth, unitsText, monthLabel, payModeLabel, slipTotals, str, type Rec } from "./team";
-import { SignatureSpace } from "@/components/print/Signature";
+import { SignatoryRow } from "@/components/print/Signature";
+import { docSignatories } from "@/lib/hq/signatories";
 
 const BACK = "/hq/team?tab=payroll";
 const inr = (v: number) => formatINR(v, { decimals: true });
@@ -234,13 +235,15 @@ function Ready({ rec, member, shoots, settings }: { rec: Rec; member?: Rec; shoo
                 <p className="text-blueprint">Received by (signature & date)</p>
               </div>
             </div>
-            <div>
-              <SignatureSpace name={settings.signatoryName} align="right" className="h-12" />
-              <div className="border-t border-graphite pt-1.5 text-right">
-                <p className="font-semibold">{settings.signatoryName || "Authorised signatory"}</p>
-                <p className="text-blueprint">{settings.signatoryTitle || "For " + settings.legalName}</p>
-              </div>
-            </div>
+            <SignatoryRow
+              people={docSignatories(settings)}
+              align="right"
+              height="h-12"
+              className="gap-6"
+              lineClass="border-t border-graphite pt-1.5"
+              nameClass="font-semibold"
+              titleClass="text-blueprint"
+            />
           </section>
 
           <p className="mt-6 text-[8px] leading-relaxed text-blueprint">

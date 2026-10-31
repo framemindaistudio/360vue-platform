@@ -14,7 +14,8 @@ import { useCollection, useHq, useRates, useSettings } from "@/components/hq/dat
 import type { QuoteLine, QuoteMoney } from "@/lib/pricebook/math";
 import { str } from "./crm";
 import { extraItemsOf, linesOf, milestonePlan, moneyOf } from "./quote";
-import { SignatureSpace } from "@/components/print/Signature";
+import { SignatoryRow } from "@/components/print/Signature";
+import { docSignatories } from "@/lib/hq/signatories";
 
 const LABEL = "text-[6.5pt] font-semibold uppercase tracking-[0.22em] text-blueprint";
 
@@ -28,6 +29,8 @@ interface Ctx {
   lines: QuoteLine[];
   plan: { label: string; percent: number; amount: number }[];
   signatory: { name: string; title: string };
+  /** who signs for 360VUE: both partners, or the one signatory in Settings */
+  signatories: { name: string; title: string }[];
 }
 
 function RunningHead({ c, section, page }: { c: Ctx; section: string; page: string }) {
@@ -390,11 +393,15 @@ function TermsPage({ c, page }: { c: Ctx; page: string }) {
       <div className="absolute inset-x-[16mm] bottom-[22mm] grid grid-cols-2 gap-[12mm]">
         <div>
           <p className={LABEL}>For 360VUE</p>
-          <SignatureSpace name={c.signatory.name} align="left" className="h-[14mm]" />
-          <div className="border-t border-graphite/60 pt-1.5 text-[8.5pt]">
-            <p className="font-semibold text-graphite">{c.signatory.name}</p>
-            <p className="text-charcoal">{c.signatory.title}</p>
-          </div>
+          <SignatoryRow
+            people={c.signatories}
+            align="left"
+            height="h-[14mm]"
+            className="gap-[5mm]"
+            lineClass="border-t border-graphite/60 pt-1.5 text-[8.5pt]"
+            nameClass="font-semibold text-graphite"
+            titleClass="text-charcoal"
+          />
         </div>
         <div>
           <p className={LABEL}>Accepted by {c.clientName}</p>
@@ -518,6 +525,7 @@ export function ProposalPrint({ id }: { id: string }) {
     lines,
     plan: milestonePlan(quote, money, rates?.terms.milestones ?? TERMS.defaultMilestones),
     signatory: { name: settings.signatoryName || founder.name, title: settings.signatoryTitle || founder.role },
+    signatories: docSignatories(settings),
   };
   const scope = chunk(lines);
   // the services in this quote that have a plain-language pitch (tours, SkyVUE) get a "How it works" page

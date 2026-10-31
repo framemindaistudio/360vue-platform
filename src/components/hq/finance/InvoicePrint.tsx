@@ -9,7 +9,8 @@ import type { CompanySettings } from "@/lib/hq/settings";
 import { amountInWords, cn, formatINR } from "@/lib/utils";
 import { PAY_MODE_LABELS, fmtDate, invoiceMath, effectiveDueDate, num, str, type Rec } from "./finance";
 import { Cap, DocMessage, Stamp, placeLabel, useInvoiceDoc } from "./printParts";
-import { SignatureSpace } from "@/components/print/Signature";
+import { SignatoryRow } from "@/components/print/Signature";
+import { docSignatories } from "@/lib/hq/signatories";
 
 const BACK = "/hq/finance?tab=invoices";
 const inr = (v: number) => formatINR(v, { decimals: true });
@@ -264,7 +265,7 @@ function Ready({ inv, settings }: { inv: Rec; settings: CompanySettings }) {
           )}
 
           {/* terms + signatory */}
-          <section className="mt-6 grid break-inside-avoid grid-cols-[1fr_62mm] items-end gap-6 text-[10px]">
+          <section className="mt-6 grid break-inside-avoid grid-cols-[1fr_auto] items-end gap-6 text-[10px]">
             <div>
               <Cap>Terms &amp; conditions</Cap>
               <p className="whitespace-pre-line leading-relaxed text-charcoal">{settings.invoiceTerms || "Payment due as per the due date above."}</p>
@@ -275,11 +276,7 @@ function Ready({ inv, settings }: { inv: Rec; settings: CompanySettings }) {
               <p className="text-[10px]">
                 For <span className="font-bold">{settings.legalName}</span>
               </p>
-              <SignatureSpace name={settings.signatoryName} className="h-14" />
-              <div className="border-t border-graphite pt-1">
-                <p className="text-[11px] font-bold">{settings.signatoryName || "Authorised signatory"}</p>
-                <p className="text-[9px] text-charcoal">{settings.signatoryTitle || "Authorised signatory"}</p>
-              </div>
+              <SignatoryRow people={docSignatories(settings)} className="w-[96mm]" />
             </div>
           </section>
         </div>
