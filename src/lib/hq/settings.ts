@@ -34,6 +34,8 @@ export interface CompanySettings {
   financialYear: string;
   signatoryName: string;
   signatoryTitle: string;
+  /** print the signatory's saved signature on invoices, receipts, quotes, POs and payslips; off: sign by hand */
+  signDigitally: boolean;
   invoiceTerms: string;
   baseLocation: string;
   monthlyRevenueTarget: number;
@@ -80,6 +82,7 @@ export const defaultSettings: CompanySettings = {
   financialYear: "2026-27",
   signatoryName: "Hrishikesh Kulkarni",
   signatoryTitle: "Founder",
+  signDigitally: true,
   invoiceTerms:
     "Payment as agreed in the quote — 50% advance to confirm the booking and 50% before final handover or activation. Hosting and maintenance are billed separately. Bank transfer / UPI to the account below. Prices in INR.",
   baseLocation: "",
