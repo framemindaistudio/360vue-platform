@@ -1,0 +1,52 @@
+{
+  "360vue-emblem-4k.png": {
+    "w": 4096,
+    "h": 4096,
+    "bytes": 7770133
+  },
+  "360vue-emblem-mono-4k.png": {
+    "w": 4096,
+    "h": 4096,
+    "bytes": 4467445
+  },
+  "360vue-emblem-on-midnight-4k.png": {
+    "w": 4096,
+    "h": 4096,
+    "bytes": 5519027
+  },
+  "360vue-horizontal-dark-4k.png": {
+    "w": 3445,
+    "h": 1280,
+    "bytes": 1105947
+  },
+  "360vue-horizontal-on-dark-transparent-4k.png": {
+    "w": 3193,
+    "h": 1073,
+    "bytes": 1121011
+  },
+  "360vue-horizontal-on-light-transparent-4k.png": {
+    "w": 3193,
+    "h": 1073,
+    "bytes": 1120949
+  },
+  "360vue-logo-dark-4k.png": {
+    "w": 3840,
+    "h": 3840,
+    "bytes": 2682201
+  },
+  "360vue-logo-light-4k.png": {
+    "w": 3840,
+    "h": 3840,
+    "bytes": 2587651
+  },
+  "360vue-logo-mono-4k.png": {
+    "w": 3840,
+    "h": 3840,
+    "bytes": 1559380
+  },
+  "360vue-logo-transparent-4k.png": {
+    "w": 3840,
+    "h": 3840,
+    "bytes": 2623761
+  }
+}

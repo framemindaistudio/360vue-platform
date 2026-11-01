@@ -19,8 +19,8 @@ export function organizationLd() {
     description:
       "360° virtual tours, SkyVUE drone 360° aerial views and Google Maps & Street View publishing for businesses and real estate. Based in South India — Karnataka, Tamil Nadu, Kerala, Telangana, Andhra Pradesh, Puducherry and Goa — and across India on request.",
     url: site.url,
-    logo: `${site.url}/brand/emblem-512.png`,
-    image: `${site.url}/og-image.jpg`,
+    logo: `${site.url}/brand/emblem-512.png?v=2`,
+    image: `${site.url}/og-image.jpg?v=2`,
     telephone: site.contact.phone || undefined,
     email: site.contact.email || undefined,
     priceRange: "₹₹",

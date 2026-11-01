@@ -3,21 +3,33 @@ import Image from "next/image";
 import { Download } from "lucide-react";
 import { requireUser } from "@/lib/hq/auth";
 import { PageHeader, Panel } from "@/components/hq/ui";
+import SIZES from "../../../../../public/brand/kit/sizes.json";
 
 export const metadata: Metadata = { title: "Brand Kit" };
 
-/** The logo kit: rendered in 4K (Higgsfield), the wordmark set in Montserrat. public/brand/kit/ holds the files. */
+/**
+ * The logo kit, built by scripts/brand-assets.py from the 4K icon shared with FrameMind AI Studio (the parent company):
+ * the gold shutter rings with a mind inside. Only the wordmark differs: "360" + gold "VUE", set in Montserrat by the
+ * script. public/brand/kit/ holds the 4K files, kit/preview/ light copies for this page, kit/sizes.json their real sizes.
+ */
 const LOGOS = [
-  { file: "360vue-logo-dark-4k.png", name: "Primary — dark", note: "3840 × 3840 · on Midnight", bg: "bg-[#0e0b08]" },
-  { file: "360vue-logo-light-4k.png", name: "Primary — light", note: "3840 × 3840 · on Cream", bg: "bg-[#f9f5ed]" },
-  { file: "360vue-logo-mono-4k.png", name: "Monochrome", note: "3840 × 3840 · one colour", bg: "bg-[#ecebe6]" },
-  { file: "360vue-logo-transparent-4k.png", name: "Primary — transparent", note: "3840 × 3840 · for dark backgrounds", bg: "bg-[#2a221a]" },
-  { file: "360vue-horizontal-dark-4k.png", name: "Horizontal — dark", note: "Wide lock-up · on Midnight", bg: "bg-[#0e0b08]" },
-  { file: "360vue-horizontal-on-dark-transparent-4k.png", name: "Horizontal — for dark", note: "Transparent · light letters", bg: "bg-[#2a221a]" },
-  { file: "360vue-horizontal-on-light-transparent-4k.png", name: "Horizontal — for light", note: "Transparent · dark letters", bg: "bg-[#f9f5ed]" },
-  { file: "360vue-emblem-4k.png", name: "Emblem", note: "4096 × 4096 · transparent", bg: "bg-[#2a221a]" },
-  { file: "360vue-emblem-mono-4k.png", name: "Emblem — monochrome", note: "4096 × 4096 · transparent", bg: "bg-[#ecebe6]" },
+  { file: "360vue-logo-dark-4k.png", name: "Primary — dark", note: "on Midnight", bg: "bg-[#0e0b08]" },
+  { file: "360vue-logo-light-4k.png", name: "Primary — light", note: "on Cream", bg: "bg-[#f9f5ed]" },
+  { file: "360vue-logo-mono-4k.png", name: "Monochrome", note: "one colour", bg: "bg-[#ecebe6]" },
+  { file: "360vue-logo-transparent-4k.png", name: "Primary — transparent", note: "for dark backgrounds", bg: "bg-[#2a221a]" },
+  { file: "360vue-horizontal-dark-4k.png", name: "Horizontal — dark", note: "wide lock-up on Midnight", bg: "bg-[#0e0b08]" },
+  { file: "360vue-horizontal-on-dark-transparent-4k.png", name: "Horizontal — for dark", note: "transparent · light letters", bg: "bg-[#2a221a]" },
+  { file: "360vue-horizontal-on-light-transparent-4k.png", name: "Horizontal — for light", note: "transparent · dark letters", bg: "bg-[#f9f5ed]" },
+  { file: "360vue-emblem-4k.png", name: "Icon", note: "transparent · shared with FrameMind AI Studio", bg: "bg-[#2a221a]" },
+  { file: "360vue-emblem-on-midnight-4k.png", name: "Icon — on Midnight", note: "with the warm glow · profile pictures, stickers", bg: "bg-[#0e0b08]" },
+  { file: "360vue-emblem-mono-4k.png", name: "Icon — monochrome", note: "transparent · one-colour print", bg: "bg-[#ecebe6]" },
 ];
+
+const fileSize = (bytes: number) => (bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.round(bytes / 1024)} KB`);
+const sizeNote = (file: string) => {
+  const s = (SIZES as Record<string, { w: number; h: number; bytes: number }>)[file];
+  return s ? `${s.w} × ${s.h} px · ${fileSize(s.bytes)}` : "";
+};
 
 const COLOURS = [
   { name: "Midnight", hex: "#0E0B08", use: "Backgrounds, the main identity" },
@@ -40,20 +52,20 @@ export default async function BrandKitPage() {
         eyebrow="Knowledge"
         icon="Gem"
         title="Brand Kit"
-        description="The 360VUE logo in 4K, the colour system, type and the photos and films used on the website. Download any file; use the dark logo on Midnight and the light one on Cream."
+        description="The 360VUE logo in 4K, the colour system, type and the photos and films used on the website. The icon — gold shutter rings with a mind inside — is shared with our parent company, FrameMind AI Studio; only the wordmark differs. Use the dark logo on Midnight and the light one on Cream."
       />
       <div className="space-y-6">
-        <Panel title="Logo" subtitle="Rendered in 4K. The letters are Montserrat Bold; “VUE” is always the gold gradient.">
+        <Panel title="Logo" subtitle="4K files. The icon is the same as FrameMind AI Studio’s; the letters are Montserrat Bold and “VUE” is always the gold gradient. Never recolour or redraw the icon.">
           <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {LOGOS.map((l) => (
               <li key={l.file} className="overflow-hidden rounded-[var(--radius-md)] border border-graphite/12">
                 <div className={`relative grid aspect-[4/3] place-items-center p-6 ${l.bg}`}>
-                  <Image src={`/brand/kit/${l.file}`} alt={l.name} width={600} height={600} unoptimized className="max-h-full w-auto object-contain" />
+                  <Image src={`/brand/kit/preview/${l.file.replace(/\.png$/, ".webp")}`} alt={l.name} width={600} height={600} unoptimized className="max-h-full w-auto object-contain" />
                 </div>
                 <div className="flex items-center justify-between gap-3 bg-paper-50 px-4 py-3">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold">{l.name}</p>
-                    <p className="text-xs text-blueprint">{l.note}</p>
+                    <p className="text-xs text-blueprint">{sizeNote(l.file)} · {l.note}</p>
                   </div>
                   <a href={`/brand/kit/${l.file}`} download className="inline-flex items-center gap-1.5 rounded-full border border-graphite/20 px-3 py-1.5 text-xs font-semibold hover:bg-graphite hover:text-paper">
                     <Download className="size-3.5" /> PNG

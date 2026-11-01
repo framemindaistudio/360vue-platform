@@ -36,10 +36,10 @@ export const metadata: Metadata = {
     siteName: "360VUE",
     title: "360VUE — See Every Angle.",
     description: site.description,
-    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "360VUE — See Every Angle." }],
+    images: [{ url: "/og-image.jpg?v=2", width: 1200, height: 630, alt: "360VUE — See Every Angle." }],
     locale: "en_IN",
   },
-  twitter: { card: "summary_large_image", title: "360VUE — See Every Angle.", description: site.description, images: ["/og-image.jpg"] },
+  twitter: { card: "summary_large_image", title: "360VUE — See Every Angle.", description: site.description, images: ["/og-image.jpg?v=2"] },
 };
 
 export const viewport: Viewport = {

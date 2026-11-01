@@ -12,8 +12,8 @@ import { Bullets } from "./parts/bits";
 import { CopyButton } from "./parts/CopyButton";
 
 /*
- * The 360VUE brand on one page: the logo files cut from the 8K master, the colours and type HQ and the studio
- * website use, sizes and safe zones, file naming and the check before publishing. Source: OPERATIONS/01_BRAND and
+ * The 360VUE brand on one page: the logo files built from the 4K icon (shared with FrameMind AI Studio, the parent
+ * company; only the wordmark differs), the colours and type HQ and the website use, sizes and safe zones, file naming and the check before publishing. Source: OPERATIONS/01_BRAND and
  * 08_SOCIAL_MEDIA. Change a rule there and here together.
  */
 
@@ -42,57 +42,56 @@ interface BrandFile {
 }
 
 const LOGO_FILES: BrandFile[] = [
-  { file: "fm-logo-light.png", name: "Full lock-up", w: 800, h: 761, kind: "PNG, transparent", use: "Covers, title slides and documents on light backgrounds." },
-  { file: "fm-logo-dark.png", name: "Full lock-up, for dark", w: 800, h: 708, kind: "PNG, transparent", use: "Covers and title slides on black, and on photographs with a dark panel.", dark: true },
-  { file: "fm-mark-light.png", name: "Mark", w: 512, h: 512, kind: "PNG, transparent", use: "Small spaces on light backgrounds: the corner of a post, stamps, watermarks." },
-  { file: "fm-mark-dark.png", name: "Mark, for dark", w: 512, h: 512, kind: "PNG, transparent", use: "The same small spaces on black and on photographs.", dark: true },
-  { file: "icon-512.png", name: "App icon", w: 512, h: 512, kind: "PNG", use: "Profile pictures on every platform." },
+  { file: "logo-on-light.png", name: "Horizontal logo", w: 900, h: 302, kind: "PNG, transparent", use: "Documents, slides and posts on light backgrounds: Cream, paper, white." },
+  { file: "logo-on-dark.png", name: "Horizontal logo, for dark", w: 900, h: 302, kind: "PNG, transparent", use: "Posts and slides on Midnight, and on photographs with a dark panel.", dark: true },
+  { file: "emblem-512.png", name: "Icon", w: 512, h: 512, kind: "PNG, transparent", use: "Small spaces: the corner of a post, stamps, watermarks. The same icon as FrameMind AI Studio." },
+  { file: "kit/360vue-logo-dark-4k.png", name: "Full logo, 4K", w: 3840, h: 3840, kind: "PNG, on Midnight", use: "Covers and title slides: the icon over 360VUE and SEE EVERY ANGLE.", dark: true },
+  { file: "icon-512.png", name: "App icon", w: 512, h: 512, kind: "PNG, on Midnight", use: "Profile pictures on every platform." },
 ];
 
 const LOGO_DO = [
-  "Clear space: half the mark's height on all four sides. No text, edge or other logo enters it.",
-  "Smallest on screen: the mark 24 px, the lock-up 120 px wide. In print: 8 mm and 30 mm.",
-  "On a post: the emblem with “360VUE / SEE EVERY ANGLE.” set beside it, as Create draws it. One logo per design.",
+  "Clear space: half the icon's height on all four sides. No text, edge or other logo enters it.",
+  "Smallest on screen: the icon 24 px, the horizontal logo 120 px wide. In print: 8 mm and 30 mm.",
+  "On a post: the icon with “360VUE / SEE EVERY ANGLE.” set beside it, as Create draws it. One logo per design.",
   "On a photograph: the version for dark, with a darkened panel behind it.",
   "With a client's logo: client left, 360VUE right, the same height, a thin rule between. Only with the client's approval.",
 ];
 
 const LOGO_DONT = [
   "Stretch, skew, rotate or outline it.",
-  "Recolour it, or put the lime on a light background where it cannot be read.",
+  "Recolour the icon or the gold “VUE”, or set “360VUE” in anything but Montserrat Bold.",
   "Place it on a busy photograph without a panel behind it.",
   "Re-type “360VUE” in another font, or add shadows, glows or bevels.",
-  "Use a low-resolution copy. Start from the 8K master.",
+  "Use a low-resolution copy. Start from the 4K files in HQ → Brand Kit.",
 ];
 
 /* ───────────────────────────── colour ───────────────────────────── */
 
 const COLOURS: { name: string; hex: string; role: string }[] = [
-  { name: "Ink", hex: C.ink, role: "Primary dark: backgrounds, text, the logo" },
-  { name: "Near-black", hex: C.graphite, role: "Dark panels and cards" },
-  { name: "Charcoal", hex: C.charcoal, role: "Body text on paper" },
+  { name: "Midnight", hex: "#0E0B08", role: "Primary dark: backgrounds, the main identity" },
+  { name: "Bronze", hex: "#9A5A31", role: "Accents on light, labels" },
+  { name: "Sunset", hex: "#F59E4C", role: "The accent: highlights, buttons, one thing per design" },
+  { name: "Sand", hex: "#EBD6B5", role: "The tagline on dark, soft panels" },
+  { name: "Champagne", hex: "#E6BD85", role: "Gold detail, the gradient" },
+  { name: "Cream", hex: "#F9F5ED", role: "Primary light background, text on dark" },
+  { name: "Charcoal", hex: C.charcoal, role: "Body text on Cream" },
   { name: "Grey", hex: C.blueprint, role: "Annotations and secondary text" },
-  { name: "Paper", hex: C.paper, role: "Primary light background" },
-  { name: "Paper 50", hex: C.paper50, role: "Cards on paper" },
-  { name: "Paper 200", hex: C.paper200, role: "Panels and rules on paper" },
-  { name: "Lime", hex: C.accent, role: "The accent: on dark only, one thing per design" },
-  { name: "Violet", hex: C.violet, role: "Second accent: on paper, sparingly" },
 ];
 
 const SHARES = [
-  { name: "Ink", hex: C.ink, share: "45 to 55%", width: 50 },
-  { name: "Paper", hex: C.paper, share: "35 to 45%", width: 40 },
-  { name: "Grey", hex: C.blueprint, share: "about 5%", width: 5 },
-  { name: "Lime", hex: C.accent, share: "3 to 5%", width: 4 },
-  { name: "Violet", hex: C.violet, share: "sparingly", width: 1 },
+  { name: "Midnight", hex: "#0E0B08", share: "45 to 55%", width: 50 },
+  { name: "Cream", hex: "#F9F5ED", share: "35 to 45%", width: 40 },
+  { name: "Sand", hex: "#EBD6B5", share: "about 5%", width: 5 },
+  { name: "Sunset", hex: "#F59E4C", share: "3 to 5%", width: 4 },
+  { name: "Bronze", hex: "#9A5A31", share: "sparingly", width: 1 },
 ];
 
 /* ───────────────────────────── type ───────────────────────────── */
 
 const SCALE: { style: string; font: string; size: string; px: number; line: number; use: string; sample: string; cls: string }[] = [
-  { style: "Display / H1", font: "DM Sans 700", size: "64 / 70", px: 64, line: 70, use: "Hero lines, covers", sample: "Shipped.", cls: "font-bold tracking-[-0.02em]" },
-  { style: "H2", font: "DM Sans 700", size: "44 / 52", px: 44, line: 52, use: "Section titles", sample: "How we work", cls: "font-bold tracking-[-0.015em]" },
-  { style: "H3", font: "DM Sans 600", size: "28 / 36", px: 28, line: 36, use: "Sub-sections", sample: "Scope, then price", cls: "font-semibold tracking-[-0.01em]" },
+  { style: "Display / H1", font: "Montserrat 700", size: "64 / 70", px: 64, line: 70, use: "Hero lines, covers", sample: "Shipped.", cls: "font-display font-bold tracking-[-0.02em]" },
+  { style: "H2", font: "Montserrat 700", size: "44 / 52", px: 44, line: 52, use: "Section titles", sample: "How we work", cls: "font-display font-bold tracking-[-0.015em]" },
+  { style: "H3", font: "Montserrat 600", size: "28 / 36", px: 28, line: 36, use: "Sub-sections", sample: "Scope, then price", cls: "font-display font-semibold tracking-[-0.01em]" },
   { style: "Body", font: "DM Sans 400 / 500", size: "16 / 26", px: 16, line: 26, use: "Paragraphs", sample: "You own everything we build.", cls: "font-normal" },
   { style: "Small", font: "DM Sans 500", size: "14 / 22", px: 14, line: 22, use: "Captions, help text", sample: "Prices ex-GST.", cls: "font-medium" },
   { style: "Label", font: "JetBrains Mono 500, uppercase", size: "11 / 16", px: 11, line: 16, use: "Tags, indices", sample: "Case study · 01", cls: "font-mono font-medium uppercase tracking-[0.12em]" },
@@ -202,13 +201,13 @@ export function BrandKit() {
               ))}
             </ul>
             <p className="mt-4 border-t border-graphite/10 pt-4 text-xs leading-relaxed text-charcoal">
-              For print, start from the 8K master in the brand folder (<span className="font-mono">Brand-Assets/LOGO Versions</span>). It is not edited or renamed.
+              The icon is shared with our parent company, FrameMind AI Studio: the gold shutter rings with a mind inside. Only the wordmark differs. For print, download the 4K files in HQ → Brand Kit; never redraw or recolour the icon.
             </p>
           </Panel>
         </div>
 
         <div id="kit-logo-rules" className="scroll-mt-20">
-          <Panel title="Logo: do and do not" subtitle="The framed head: a mind inside a frame.">
+          <Panel title="Logo: do and do not" subtitle="The gold shutter rings with a mind inside — shared with FrameMind AI Studio.">
             <div className="grid gap-x-8 gap-y-6 lg:grid-cols-2">
               <div>
                 <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-graphite">
@@ -227,7 +226,7 @@ export function BrandKit() {
         </div>
 
         <div id="kit-colour" className="scroll-mt-20">
-          <Panel title="Colours" subtitle="Ink and paper, with lime as the one accent. Press a hex to copy it.">
+          <Panel title="Colours" subtitle="Midnight and Cream, with Sunset as the one accent and the gold gradient on “VUE”. Press a hex to copy it.">
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
               {COLOURS.map((c) => (
                 <li key={c.name} className="overflow-hidden rounded-[var(--radius-sm)] border border-graphite/12 bg-paper-50">
@@ -254,7 +253,7 @@ export function BrandKit() {
                 <Sub>Rules</Sub>
                 <Bullets
                   className="text-xs"
-                  items={["Lime only on ink or near-black, never as text on paper.", "One accent per design: lime, or violet, not both.", "The status colours of HQ (green, amber, red) never appear in a post."]}
+                  items={["Sunset for one highlight per design; never as small text on Cream.", "“VUE” is always the gold gradient (#FAD696 → #E8A854 → #A4622C).", "The icon keeps its own gold and violet; the layout uses only the colours above.", "The status colours of HQ (green, amber, red) never appear in a post."]}
                 />
               </div>
             </div>
