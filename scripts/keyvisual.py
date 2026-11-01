@@ -23,7 +23,7 @@ img = Image.new("RGBA", (W, H), MIDNIGHT + (255,))
 # warm glow behind the icon, and a low one along the floor
 glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 d = ImageDraw.Draw(glow)
-d.ellipse((1050, 150, 2350, 1300), fill=(245, 158, 76, 70))
+d.ellipse((1020, 220, 2220, 1220), fill=(245, 158, 76, 70))
 d.ellipse((600, 1150, 2560, 1700), fill=(217, 149, 63, 40))
 img.alpha_composite(glow.filter(ImageFilter.GaussianBlur(260)))
 
@@ -55,9 +55,10 @@ img.alpha_composite(dust.filter(ImageFilter.GaussianBlur(1.2)))
 # the icon, right of centre, with a soft reflection on the floor
 icon = Image.open(RAW / "emblem-transparent.png").convert("RGBA")
 icon = icon.crop(icon.getbbox())
-ih = 860
+# kept inside the middle band (y 370-1070) so it survives the crop of very wide sections, like the closing band
+ih = 700
 icon = icon.resize((round(icon.width * ih / icon.height), ih), Image.LANCZOS)
-x, y = 1700 - icon.width // 2, 230
+x, y = 1620 - icon.width // 2, (H - ih) // 2
 halo = Image.new("RGBA", (W, H), (0, 0, 0, 0))
 halo.alpha_composite(icon, (x, y))
 img.alpha_composite(Image.eval(halo.filter(ImageFilter.GaussianBlur(60)), lambda v: v).point(lambda v: v * 0.55 if v else 0))
