@@ -20,8 +20,9 @@ const LOGOS = [
   { file: "360vue-horizontal-dark-4k.png", name: "Horizontal — dark", note: "wide lock-up on Midnight", bg: "bg-[#0e0b08]" },
   { file: "360vue-horizontal-on-dark-transparent-4k.png", name: "Horizontal — for dark", note: "transparent · light letters", bg: "bg-[#2a221a]" },
   { file: "360vue-horizontal-on-light-transparent-4k.png", name: "Horizontal — for light", note: "transparent · dark letters", bg: "bg-[#f9f5ed]" },
+  { file: "360vue-logo-profile-dp-4k.png", name: "Profile picture", note: "on Midnight · safe for round crops (Instagram, WhatsApp, LinkedIn)", bg: "bg-[#0e0b08]", round: true },
   { file: "360vue-emblem-4k.png", name: "Icon", note: "transparent · shared with FrameMind AI Studio", bg: "bg-[#2a221a]" },
-  { file: "360vue-emblem-on-midnight-4k.png", name: "Icon — on Midnight", note: "with the warm glow · profile pictures, stickers", bg: "bg-[#0e0b08]" },
+  { file: "360vue-emblem-on-midnight-4k.png", name: "Icon — on Midnight", note: "with the warm glow · stickers, app tiles", bg: "bg-[#0e0b08]" },
   { file: "360vue-emblem-mono-4k.png", name: "Icon — monochrome", note: "transparent · one-colour print", bg: "bg-[#ecebe6]" },
 ];
 
@@ -60,7 +61,7 @@ export default async function BrandKitPage() {
             {LOGOS.map((l) => (
               <li key={l.file} className="overflow-hidden rounded-[var(--radius-md)] border border-graphite/12">
                 <div className={`relative grid aspect-[4/3] place-items-center p-6 ${l.bg}`}>
-                  <Image src={`/brand/kit/preview/${l.file.replace(/\.png$/, ".webp")}`} alt={l.name} width={600} height={600} unoptimized className="max-h-full w-auto object-contain" />
+                  <Image src={`/brand/kit/preview/${l.file.replace(/\.png$/, ".webp")}`} alt={l.name} width={600} height={600} unoptimized className={`max-h-full w-auto object-contain ${"round" in l && l.round ? "rounded-full ring-1 ring-white/15" : ""}`} />
                 </div>
                 <div className="flex items-center justify-between gap-3 bg-paper-50 px-4 py-3">
                   <div className="min-w-0">

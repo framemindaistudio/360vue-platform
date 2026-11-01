@@ -114,6 +114,36 @@ def square_icon(im, side):
     return sq
 
 
+def profile_picture(logo, side=3840, radius=0.43, name="360vue-logo-profile-dp-4k"):
+    """
+    The full logo on Midnight for round profile pictures (Instagram, WhatsApp, LinkedIn crop to a circle).
+    The logo is scaled so every visible pixel sits inside a circle of radius `radius` x side around the centre, so a
+    round crop never cuts the icon or the letters. Returns the farthest visible pixel's distance, as a share of the side.
+    """
+    import numpy as np
+
+    art = logo.crop(logo.getbbox())
+    a = np.asarray(art.getchannel("A"))
+    ys, xs = np.nonzero(a > 8)
+    # centre on the middle of the visible pixels' extent, then find the farthest one from it
+    cx, cy = (xs.min() + xs.max() + 1) / 2, (ys.min() + ys.max() + 1) / 2
+    far = float(np.sqrt(((xs + 0.5 - cx) ** 2 + (ys + 0.5 - cy) ** 2).max()))
+    scale = radius * side / far
+    art = art.resize((max(1, round(art.width * scale)), max(1, round(art.height * scale))), Image.LANCZOS)
+    img = Image.new("RGBA", (side, side), MIDNIGHT + (255,))
+    glow = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    ImageDraw.Draw(glow).ellipse((side * 0.2, side * 0.12, side * 0.8, side * 0.62), fill=(245, 158, 76, 40))
+    img.alpha_composite(glow.filter(ImageFilter.GaussianBlur(side * 0.1)))
+    img.alpha_composite(art, (round(side / 2 - cx * scale), round(side / 2 - cy * scale)))
+    img.convert("RGB").save(KIT / f"{name}.png", optimize=True)
+    # measure the result: the farthest logo pixel from the centre, as a share of the side
+    canvas = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+    canvas.alpha_composite(art, (round(side / 2 - cx * scale), round(side / 2 - cy * scale)))
+    ca = np.asarray(canvas.getchannel("A"))
+    ys, xs = np.nonzero(ca > 8)
+    return float(np.sqrt(((xs + 0.5 - side / 2) ** 2 + (ys + 0.5 - side / 2) ** 2).max())) / side
+
+
 def fit_width(im, width):
     return im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
 
@@ -180,7 +210,12 @@ if __name__ == "__main__":
     lockup(MIDNIGHT, CREAM, SAND, name="360vue-logo-dark-4k")
     lockup(CREAM, INK, (122, 86, 52), name="360vue-logo-light-4k")
     lockup((236, 234, 230), None, (90, 90, 90), kind="mono", mono_text=(38, 38, 38), name="360vue-logo-mono-4k")
-    lockup(None, CREAM, SAND, name="360vue-logo-transparent-4k")
+    logo_clear = lockup(None, CREAM, SAND, name="360vue-logo-transparent-4k")
+
+    # the profile picture: the full logo on Midnight, safe inside a round crop
+    r = profile_picture(logo_clear)
+    print(f"profile picture: farthest logo pixel at {r:.4f} x the side from the centre (limit 0.43)")
+    assert r <= 0.4305, r
     horizontal(MIDNIGHT, CREAM, SAND, "360vue-horizontal-dark-4k")
     hz_on_dark = horizontal(None, CREAM, SAND, "360vue-horizontal-on-dark-transparent-4k")
     hz_on_light = horizontal(None, INK, (122, 86, 52), "360vue-horizontal-on-light-transparent-4k")
