@@ -9,6 +9,7 @@ import { site } from "@/lib/site";
 import { Mark, Sheet, Tile } from "../PrintBits";
 import { csv, str, type Q } from "../util";
 import { usePrintPeople } from "../hooks";
+import { Qr } from "../booklets/Booklet";
 
 interface Contact {
   name: string;
@@ -16,6 +17,8 @@ interface Contact {
   phone: string;
   email: string;
   website: string;
+  /** the full address the QR code opens */
+  url: string;
 }
 
 const bare = (url: string) => url.replace(/^https?:\/\//i, "").replace(/^www\./i, "").replace(/\/+$/, "");
@@ -36,29 +39,6 @@ function Word({ pt, className }: { pt: number; className?: string }) {
     <span className={`font-display font-bold leading-none tracking-[0.01em] ${className ?? ""}`} style={{ fontSize: `${pt}pt`, color: CREAM }}>
       360<span style={{ color: GOLD }}>VUE</span>
     </span>
-  );
-}
-
-/** The gold sweep along the right edge of the front, as on the brand board. */
-function Swoosh() {
-  return (
-    <svg viewBox="0 0 90 54" preserveAspectRatio="none" className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden>
-      <defs>
-        <linearGradient id="vc-gold" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#FAD696" />
-          <stop offset="0.5" stopColor="#E8A854" />
-          <stop offset="1" stopColor="#9A5A31" />
-        </linearGradient>
-        <radialGradient id="vc-glow" cx="0.9" cy="0.85" r="0.6">
-          <stop offset="0" stopColor="#F59E4C" stopOpacity="0.28" />
-          <stop offset="1" stopColor="#F59E4C" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="90" height="54" fill="url(#vc-glow)" />
-      <path d="M90 14 C 84 24, 82.5 38, 85.5 54 L 90 54 Z" fill="url(#vc-gold)" opacity="0.95" />
-      <path d="M90 4 C 81 18, 78.5 36, 81.5 54" fill="none" stroke="url(#vc-gold)" strokeWidth="0.28" opacity="0.75" />
-      <path d="M90 9 C 82.5 21, 80.5 37, 83.5 54" fill="none" stroke="url(#vc-gold)" strokeWidth="0.16" opacity="0.45" />
-    </svg>
   );
 }
 
@@ -90,6 +70,12 @@ const ICON: Record<string, React.ReactNode> = {
   ),
 };
 
+/*
+ * The front: who you are and how to reach you, with the website's QR code. People keep a card front-up, so the code
+ * sits where it is seen and scanned without turning the card over; the back stays the brand side.
+ * Everything that matters stays at least 4 mm inside the cut. The QR is 17 mm with a white quiet zone, so a phone
+ * reads it at arm's length.
+ */
 function Front({ c }: { c: Contact }) {
   const rows: [keyof typeof ICON, string][] = [
     ["phone", c.phone],
@@ -98,34 +84,55 @@ function Front({ c }: { c: Contact }) {
   ];
   return (
     <Tile w={90} h={54} cut className="text-left" style={{ background: MIDNIGHT }}>
-      <Swoosh />
-      {/* hairline frame */}
-      <div className="pointer-events-none absolute inset-[2.6mm] rounded-[1mm] border" style={{ borderColor: "rgba(232,168,84,0.28)", borderWidth: "0.2mm" }} aria-hidden />
-      <div className="absolute left-[7mm] top-[6.2mm] flex items-center gap-[1.6mm]">
-        <Mark mm={6.4} />
-        <Word pt={8.2} />
+      {/* warm light from the lower left, and a thin gold line along the top */}
+      <div className="pointer-events-none absolute inset-0" style={{ background: "radial-gradient(70% 90% at 0% 100%, rgba(245,158,76,0.22), rgba(245,158,76,0) 70%)" }} aria-hidden />
+      <div className="pointer-events-none absolute left-0 right-0 top-0 h-[0.9mm]" style={{ background: "linear-gradient(90deg, #A4622C, #FAD696 45%, #E8A854 70%, #9A5A31)" }} aria-hidden />
+
+      {/* left: the logo, the person, the ways to reach them */}
+      <div className="absolute bottom-[5.4mm] left-[6mm] top-[5.6mm] flex w-[52mm] flex-col">
+        <div className="flex items-center gap-[1.5mm]">
+          <Mark mm={6} />
+          <Word pt={7.6} />
+        </div>
+        <div className="mt-auto">
+          <p className="font-display text-[12.5pt] font-bold leading-[1.05] tracking-[-0.01em]" style={{ color: CREAM }}>
+            {c.name}
+          </p>
+          <p className="mt-[1.1mm] font-display text-[5.4pt] font-semibold uppercase leading-tight tracking-[0.24em]" style={{ color: GOLD }}>
+            {c.title}
+          </p>
+          <span className="my-[2.4mm] block h-[0.3mm] w-[11mm]" style={{ background: `linear-gradient(90deg, ${GOLD}, rgba(232,168,84,0))` }} />
+          <ul className="space-y-[1mm] text-[6.4pt] leading-tight" style={{ color: "rgba(249,245,237,0.9)" }}>
+            {rows
+              .filter(([, v]) => v)
+              .map(([k, v]) => (
+                <li key={k} className="flex items-center gap-[1.7mm]">
+                  <svg viewBox="0 0 20 20" className="shrink-0" style={{ width: "2.5mm", height: "2.5mm" }} fill="none" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    {ICON[k]}
+                  </svg>
+                  <span className="truncate font-medium">{v}</span>
+                </li>
+              ))}
+          </ul>
+        </div>
       </div>
-      <div className="absolute bottom-[6.4mm] left-[7mm] right-[14mm]">
-        <p className="font-display text-[12.5pt] font-bold leading-[1.05] tracking-[-0.01em]" style={{ color: CREAM }}>
-          {c.name}
-        </p>
-        <p className="mt-[1mm] font-display text-[5.6pt] font-semibold uppercase leading-tight tracking-[0.26em]" style={{ color: GOLD }}>
-          {c.title}
-        </p>
-        <span className="my-[2.6mm] block h-[0.3mm] w-[12mm]" style={{ background: `linear-gradient(90deg, ${GOLD}, rgba(232,168,84,0))` }} />
-        <ul className="space-y-[1mm] text-[6.6pt] leading-tight" style={{ color: "rgba(249,245,237,0.88)" }}>
-          {rows
-            .filter(([, v]) => v)
-            .map(([k, v]) => (
-              <li key={k} className="flex items-center gap-[1.8mm]">
-                <svg viewBox="0 0 20 20" className="shrink-0" style={{ width: "2.6mm", height: "2.6mm" }} fill="none" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  {ICON[k]}
-                </svg>
-                <span className="truncate font-medium">{v}</span>
-              </li>
-            ))}
-        </ul>
-      </div>
+
+      {/* a gold hairline between the two halves */}
+      <span className="pointer-events-none absolute bottom-[8mm] top-[8mm] w-[0.2mm]" style={{ left: "62mm", background: "linear-gradient(180deg, rgba(232,168,84,0), rgba(232,168,84,0.55), rgba(232,168,84,0))" }} aria-hidden />
+
+      {/* right: the website QR code */}
+      {c.url && (
+        <div className="absolute flex w-[21mm] flex-col items-center" style={{ left: "64.5mm", top: "9.5mm" }}>
+          <div className="rounded-[1.4mm] bg-white p-[1mm]" style={{ boxShadow: "0 0 0 0.25mm rgba(232,168,84,0.6)" }}>
+            <Qr url={c.url} mm={17} dark={MIDNIGHT} />
+          </div>
+          <p className="mt-[2mm] text-center font-display text-[4.6pt] font-semibold uppercase leading-[1.35] tracking-[0.22em]" style={{ color: SAND }}>
+            Scan to see
+            <br />
+            our work
+          </p>
+        </div>
+      )}
     </Tile>
   );
 }
@@ -166,6 +173,7 @@ export function VisitingCards({ q }: { q: Q }) {
     phone: str(m.phone) || settings.phone || site.contact.phone,
     email: str(m.email) || settings.email || site.contact.email,
     website: bare(site0),
+    url: site0 ? (/^https?:\/\//i.test(site0) ? site0 : `https://${site0}`) : "",
   }));
   const withBack = q.back !== "0";
 
