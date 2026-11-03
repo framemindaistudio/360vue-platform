@@ -130,7 +130,7 @@ function Front({ c, size, bleed }: { c: Contact; size: Size; bleed: number }) {
       }
     >
       {/* left: the logo, the person, the ways to reach them */}
-      <div className="absolute flex flex-col" style={{ left: "6mm", top: small ? "5mm" : "5.6mm", bottom: small ? "4.8mm" : "5.4mm", width: `${size.w - 38}mm` }}>
+      <div className="absolute flex flex-col" style={{ left: "6mm", top: small ? "5mm" : "5.6mm", bottom: 0, width: `${size.w - 38}mm` }}>
         {/* the logo lock-up: icon, 360VUE and the tagline, big enough to hold the top of the card */}
         <div className="flex items-center gap-[2mm]">
           <Mark mm={small ? 9 : 10} />
@@ -141,8 +141,8 @@ function Front({ c, size, bleed }: { c: Contact; size: Size; bleed: number }) {
             </span>
           </div>
         </div>
-        {/* the person and the ways to reach them, along the foot of the card */}
-        <div className="mt-auto">
+        {/* the person and the ways to reach them, centred in the space below the logo: the same gap above as below */}
+        <div className="my-auto">
           <p className="font-display text-[12.5pt] font-bold leading-[1.05] tracking-[-0.01em]" style={{ color: CREAM }}>
             {c.name}
           </p>
