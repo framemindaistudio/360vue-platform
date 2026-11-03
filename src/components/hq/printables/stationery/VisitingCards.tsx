@@ -131,10 +131,17 @@ function Front({ c, size, bleed }: { c: Contact; size: Size; bleed: number }) {
     >
       {/* left: the logo, the person, the ways to reach them */}
       <div className="absolute flex flex-col" style={{ left: "6mm", top: small ? "5mm" : "5.6mm", bottom: small ? "4.8mm" : "5.4mm", width: `${size.w - 38}mm` }}>
-        <div className="flex items-center gap-[1.5mm]">
-          <Mark mm={6} />
-          <Word pt={7.6} />
+        {/* the logo lock-up: icon, 360VUE and the tagline, big enough to hold the top of the card */}
+        <div className="flex items-center gap-[2mm]">
+          <Mark mm={small ? 9 : 10} />
+          <div className="flex flex-col">
+            <Word pt={small ? 10 : 10.8} />
+            <span className="mt-[1mm] font-display text-[3.9pt] font-semibold uppercase tracking-[0.42em]" style={{ color: SAND }}>
+              See every angle.
+            </span>
+          </div>
         </div>
+        {/* the person and the ways to reach them, along the foot of the card */}
         <div className="mt-auto">
           <p className="font-display text-[12.5pt] font-bold leading-[1.05] tracking-[-0.01em]" style={{ color: CREAM }}>
             {c.name}
@@ -231,6 +238,11 @@ export function VisitingCards({ q }: { q: Q }) {
   const withBack = q.back !== "0";
   const pw = size.w + 2 * BLEED;
   const ph = size.h + 2 * BLEED;
+  // Chrome rounds a page up to whole CSS pixels, so the page and a dark backing are both set in whole pixels:
+  // the card (in mm) sits on it, and no hairline of white paper shows at the edge of the bleed
+  const pxW = Math.ceil((pw * 96) / 25.4);
+  const pxH = Math.ceil((ph * 96) / 25.4);
+  const page = { width: `${pxW}px`, height: `${pxH}px`, background: MIDNIGHT, overflow: "hidden" } as const;
 
   const note = single
     ? `${contacts.length} ${contacts.length === 1 ? "person" : "people"} · ${size.label} · one card per page with ${BLEED} mm bleed (${pw} × ${ph} mm)${withBack ? " · front, then back" : ""}`
@@ -239,7 +251,7 @@ export function VisitingCards({ q }: { q: Q }) {
   return (
     <PrintShell title={`Visiting cards (${size.label})`} back="/hq/printables" toolbar={<span className="text-xs text-blueprint">{note}</span>}>
       {/* a page exactly the card plus bleed (the last @page rule wins over the A4 default) */}
-      {single && <style>{`@page { size: ${pw}mm ${ph}mm; margin: 0; }`}</style>}
+      {single && <style>{`@page { size: ${pxW}px ${pxH}px; margin: 0; }`}</style>}
       {loading ? (
         <Loading />
       ) : error ? (
@@ -248,12 +260,12 @@ export function VisitingCards({ q }: { q: Q }) {
         <EmptyState icon="Users" title="No one selected" description="Choose people in Print Studio. The founders are always listed; add others in HQ → Team & Payroll." />
       ) : single ? (
         contacts.flatMap((c, i) => [
-          <div key={`f${i}`} className="print-page shadow-[0_10px_40px_-12px_rgb(0_0_0/0.35)]">
+          <div key={`f${i}`} className="print-page shadow-[0_10px_40px_-12px_rgb(0_0_0/0.35)]" style={page}>
             <Front c={c} size={size} bleed={BLEED} />
           </div>,
           ...(withBack
             ? [
-                <div key={`b${i}`} className="print-page shadow-[0_10px_40px_-12px_rgb(0_0_0/0.35)]">
+                <div key={`b${i}`} className="print-page shadow-[0_10px_40px_-12px_rgb(0_0_0/0.35)]" style={page}>
                   <Back size={size} bleed={BLEED} />
                 </div>,
               ]
