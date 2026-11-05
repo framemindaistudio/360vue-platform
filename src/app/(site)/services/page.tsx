@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description: "360° virtual tours, Google Street View publishing help, interactive floor plans and 3D experiences. Starter, Business and Premium tour packages.",
   alternates: { canonical: "/services" },
 };
-export const revalidate = 600;
+export const revalidate = 86400;
 
 export default async function ServicesPage() {
   const rates = await publicRateCard();

@@ -16,7 +16,7 @@ async function load() {
 /**
  * The campaign the website shows: the newest live one marked "show on the website". Slots left are counted from
  * approved advances, so the counter moves by itself. Cached; HQ expires it whenever a campaign, invoice or project
- * is saved, and it refreshes every 5 minutes anyway. Never fails the page: no campaign is shown instead.
+ * is saved, and it refreshes every hour anyway. Never fails the page: no campaign is shown instead.
  */
 export const liveCampaign = unstable_cache(
   async (): Promise<PublicCampaign | null> => {
@@ -33,7 +33,7 @@ export const liveCampaign = unstable_cache(
     }
   },
   ["live-campaign-v1"],
-  { tags: [CAMPAIGN_TAG], revalidate: 300 },
+  { tags: [CAMPAIGN_TAG], revalidate: 3600 },
 );
 
 /** A campaign's public page by its web address (live or full; drafts and paused ones are not public). */
@@ -49,5 +49,5 @@ export const campaignBySlug = unstable_cache(
     }
   },
   ["campaign-by-slug-v1"],
-  { tags: [CAMPAIGN_TAG], revalidate: 300 },
+  { tags: [CAMPAIGN_TAG], revalidate: 3600 },
 );

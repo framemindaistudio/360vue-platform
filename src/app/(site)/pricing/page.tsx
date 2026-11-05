@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/pricing" },
 };
 
-export const revalidate = 600;
+export const revalidate = 86400;
 
 export default async function PricingPage() {
   const [rates, campaign] = await Promise.all([publicRateCard(), liveCampaign()]);

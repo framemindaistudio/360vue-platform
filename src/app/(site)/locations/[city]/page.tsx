@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 import { ORG_ID, ldScript } from "@/lib/seo";
 import { taxNote } from "@/lib/tax";
 
-export const revalidate = 600;
+export const revalidate = 86400;
 export const dynamicParams = false;
 
 export function generateStaticParams() {

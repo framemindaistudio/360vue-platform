@@ -8,7 +8,7 @@ import { campaignBySlug } from "@/lib/campaign-server";
 import { publicRateCard } from "@/lib/public-rates";
 import { SKYVUE_LAUNCH } from "@/lib/content/catalog";
 
-export const revalidate = 300;
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const c = await campaignBySlug((await params).slug);

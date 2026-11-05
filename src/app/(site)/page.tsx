@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-export const revalidate = 600;
+export const revalidate = 86400;
 
 const REELS = [
   { id: "capture", video: "/media/reel-capture.mp4", poster: "/media/capture-banquet-sm.webp", title: "We capture your space", text: "A planned capture day: every viewpoint at the same height, lit and levelled, private areas skipped." },

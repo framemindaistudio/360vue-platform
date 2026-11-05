@@ -34,7 +34,7 @@ async function gstRegistered() {
 /**
  * The prices the public website shows and the price configurator uses: services, plan lengths, the multi-service
  * discount, GST and how long a quote holds. Read from the private data repository once and cached, so visitors never
- * wait on the GitHub API; saving the rate card in HQ expires it at once, and it refreshes by itself every 10 minutes.
+ * wait on the GitHub API; saving the rate card in HQ expires it at once, and it refreshes by itself once a day.
  * Costs, margins and the business plan are never part of it. When no rate card is saved, or it cannot be read, the
  * site shows the starting prices from the catalogue.
  */
@@ -49,5 +49,5 @@ export const publicRateCard = unstable_cache(
     return pick(startingBook().rates, await gstRegistered());
   },
   ["public-ratecard-v3"],
-  { tags: [RATECARD_TAG], revalidate: 600 },
+  { tags: [RATECARD_TAG], revalidate: 86400 },
 );
